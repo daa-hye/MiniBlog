@@ -18,6 +18,9 @@
     },
     "이메일을 입력해주세요" : {
       "extractionState" : "manual"
+    },
+    "중복 확인" : {
+      "extractionState" : "manual"
     }
   },
   "version" : "1.0"

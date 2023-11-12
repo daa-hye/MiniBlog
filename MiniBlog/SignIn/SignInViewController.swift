@@ -7,25 +7,25 @@
 
 import UIKit
 
-class SignInViewController: BaseViewController {
+final class SignInViewController: BaseViewController {
 
-    let titleLable = {
+    private let titleLable = {
         let label = UILabel()
         label.text = String(localized: "시작해볼까요?")
         return label
     }()
 
-    let idTextField = {
+    private let idTextField = {
         let view = SignTextField(placeholderText: String(localized: "이메일을 입력해주세요"))
         return view
     }()
 
-    let passwordTextField = {
+    private let passwordTextField = {
         let view = SignTextField(placeholderText: String(localized: "비밀번호를 입력해주세요"))
         return view
     }()
 
-    let signInButton = {
+    private let signInButton = {
         let button = SignButton(title: String(localized: "로그인"))
         return button
     }()
