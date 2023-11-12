@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "ko",
+  "strings" : {
+    "dahye@example.com" : {
+      "extractionState" : "manual"
+    },
+    "로그인" : {
+      "extractionState" : "manual"
+    },
+    "비밀번호를 입력해주세요" : {
+      "extractionState" : "manual"
+    },
+    "시작하려면 먼저 이메일을 입력해주세요" : {
+      "extractionState" : "manual"
+    },
+    "시작해볼까요?" : {
+      "extractionState" : "manual"
+    },
+    "이메일을 입력해주세요" : {
+      "extractionState" : "manual"
+    }
+  },
+  "version" : "1.0"
+}

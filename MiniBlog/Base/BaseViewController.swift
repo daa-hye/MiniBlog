@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class BaseViewController: UIViewController {
 
@@ -13,6 +14,12 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .main
+
+        configHierarchy()
+        setLayout()
     }
+
+    func configHierarchy() {}
+    func setLayout() {}
 
 }

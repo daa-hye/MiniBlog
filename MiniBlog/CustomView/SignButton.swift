@@ -1,0 +1,26 @@
+//
+//  SignButton.swift
+//  MiniBlog
+//
+//  Created by 박다혜 on 11/12/23.
+//
+
+import UIKit
+
+class SignButton: UIButton {
+
+    init(title: String) {
+        super.init(frame: .zero)
+
+        setTitle(title, for: .normal)
+        setTitleColor(.darkGray, for: .normal)
+        backgroundColor = .white
+        layer.cornerRadius = 10
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+}

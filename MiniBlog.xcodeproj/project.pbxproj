@@ -13,6 +13,11 @@
 		53C49C602B00E54E00FB9CE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53C49C5F2B00E54E00FB9CE3 /* Assets.xcassets */; };
 		53C49C632B00E54E00FB9CE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53C49C612B00E54E00FB9CE3 /* LaunchScreen.storyboard */; };
 		53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C6D2B00E69D00FB9CE3 /* BaseViewController.swift */; };
+		53C49C702B00E89700FB9CE3 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C6F2B00E89700FB9CE3 /* SignTextField.swift */; };
+		53C49C722B00EB1C00FB9CE3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */; };
+		53C49C752B00F10500FB9CE3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53C49C742B00F10500FB9CE3 /* SnapKit */; };
+		53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C772B00F42000FB9CE3 /* SignButton.swift */; };
+		53C49C7A2B00F9DD00FB9CE3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C792B00F9DD00FB9CE3 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,10 @@
 		53C49C622B00E54E00FB9CE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		53C49C642B00E54E00FB9CE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53C49C6D2B00E69D00FB9CE3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		53C49C6F2B00E89700FB9CE3 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		53C49C772B00F42000FB9CE3 /* SignButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignButton.swift; sourceTree = "<group>"; };
+		53C49C792B00F9DD00FB9CE3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53C49C752B00F10500FB9CE3 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,9 +71,11 @@
 				53C49C6B2B00E5A500FB9CE3 /* SignUp */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
+				53C49C762B00F3A400FB9CE3 /* CustomView */,
 				53C49C5F2B00E54E00FB9CE3 /* Assets.xcassets */,
 				53C49C612B00E54E00FB9CE3 /* LaunchScreen.storyboard */,
 				53C49C642B00E54E00FB9CE3 /* Info.plist */,
+				53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */,
 			);
 			path = MiniBlog;
 			sourceTree = "<group>";
@@ -79,6 +91,7 @@
 		53C49C6B2B00E5A500FB9CE3 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				53C49C792B00F9DD00FB9CE3 /* SignUpViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -89,6 +102,15 @@
 				53C49C6D2B00E69D00FB9CE3 /* BaseViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		53C49C762B00F3A400FB9CE3 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				53C49C6F2B00E89700FB9CE3 /* SignTextField.swift */,
+				53C49C772B00F42000FB9CE3 /* SignButton.swift */,
+			);
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +129,9 @@
 			dependencies = (
 			);
 			name = MiniBlog;
+			packageProductDependencies = (
+				53C49C742B00F10500FB9CE3 /* SnapKit */,
+			);
 			productName = MiniBlog;
 			productReference = 53C49C532B00E54D00FB9CE3 /* MiniBlog.app */;
 			productType = "com.apple.product-type.application";
@@ -128,13 +153,17 @@
 			};
 			buildConfigurationList = 53C49C4E2B00E54D00FB9CE3 /* Build configuration list for PBXProject "MiniBlog" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 53C49C4A2B00E54D00FB9CE3;
+			packageReferences = (
+				53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 53C49C542B00E54D00FB9CE3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -151,6 +180,7 @@
 			files = (
 				53C49C632B00E54E00FB9CE3 /* LaunchScreen.storyboard in Resources */,
 				53C49C602B00E54E00FB9CE3 /* Assets.xcassets in Resources */,
+				53C49C722B00EB1C00FB9CE3 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +192,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */,
+				53C49C7A2B00F9DD00FB9CE3 /* SignUpViewController.swift in Sources */,
+				53C49C702B00E89700FB9CE3 /* SignTextField.swift in Sources */,
+				53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
 				53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
@@ -385,6 +418,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		53C49C742B00F10500FB9CE3 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 53C49C4B2B00E54D00FB9CE3 /* Project object */;
 }
