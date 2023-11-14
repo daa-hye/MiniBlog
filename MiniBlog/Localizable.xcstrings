@@ -4,6 +4,9 @@
     "dahye@example.com" : {
       "extractionState" : "manual"
     },
+    "가입하기" : {
+      "extractionState" : "manual"
+    },
     "로그인" : {
       "extractionState" : "manual"
     },
