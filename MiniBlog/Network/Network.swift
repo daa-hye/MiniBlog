@@ -8,17 +8,13 @@
 import Foundation
 import Moya
 
-enum lslpAPI {
+enum LslpAPI {
     case join(model: Join)
     case email(model: Email)
     case login(model: Login)
 }
 
-enum lslpResponse {
-    
-}
-
-extension lslpAPI: TargetType {
+extension LslpAPI: TargetType {
     var baseURL: URL {
         URL(string: Lslp.url)!
     }

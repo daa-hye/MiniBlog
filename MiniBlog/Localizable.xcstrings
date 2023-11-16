@@ -7,7 +7,16 @@
     "가입하기" : {
       "extractionState" : "manual"
     },
+    "계정을 생성하세요" : {
+
+    },
+    "닉네임" : {
+      "extractionState" : "manual"
+    },
     "로그인" : {
+      "extractionState" : "manual"
+    },
+    "비밀번호" : {
       "extractionState" : "manual"
     },
     "비밀번호를 입력해주세요" : {
@@ -17,6 +26,9 @@
       "extractionState" : "manual"
     },
     "시작해볼까요?" : {
+      "extractionState" : "manual"
+    },
+    "이메일" : {
       "extractionState" : "manual"
     },
     "이메일을 입력해주세요" : {

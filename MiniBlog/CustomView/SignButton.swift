@@ -13,8 +13,8 @@ class SignButton: UIButton {
         super.init(frame: .zero)
 
         setTitle(title, for: .normal)
-        setTitleColor(.darkGray, for: .normal)
-        backgroundColor = .white
+        setTitleColor(.white, for: .normal)
+        backgroundColor = .main
         layer.cornerRadius = 10
     }
 

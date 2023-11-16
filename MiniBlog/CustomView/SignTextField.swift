@@ -18,8 +18,8 @@ class SignTextField: UITextField {
         textAlignment = .center
         borderStyle = .none
         layer.cornerRadius = 10
-        layer.borderWidth = 3
-        layer.borderColor = UIColor.second.cgColor
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.main.cgColor
     }
     
     @available(*, unavailable)

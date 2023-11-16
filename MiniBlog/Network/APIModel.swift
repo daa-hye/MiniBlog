@@ -27,4 +27,7 @@ struct JoinResponse: Decodable {
     let nick :String
 }
 
+struct MessageResponse: Decodable {
+    let message: String
+}
 
