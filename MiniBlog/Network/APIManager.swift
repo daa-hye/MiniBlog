@@ -20,25 +20,34 @@ class APIManager {
         return Observable.just(1)
     }
 
-    func checkEmailValidation(_ email: String) -> Observable<String> {
+    struct EmailValidation {
+        let message: String
+        let isValid: Bool
+    }
+
+    func checkEmailValidation(_ email: String) -> Single<EmailValidation> {
         let data = Email(email: email)
-        return Observable.create { [weak self] observer in
+        return Single.create { [weak self] observer in
             let request = self?.provider.request(.email(model: data)) { result in
                 switch result {
                 case.success(let value):
-
                     do {
-                        if let value = try? JSONDecoder()
+                        if let message = try? JSONDecoder()
                             .decode(MessageResponse.self, from: value.data)
                             .message {
-                            observer.onNext(value)
-                            observer.onCompleted()
+                            if value.statusCode == 200 {
+                                observer(.success(EmailValidation(message: message, isValid: true)))
+                            } else {
+                                observer(.success(EmailValidation(message: message, isValid: false)))
+                            }
+                        } else {
+//                            observer(.faliure())
                         }
                     }
 
                 case.failure(let error):
                     print(error.localizedDescription)
-                    observer.onError(error)
+                    observer(.failure(error))
                 }
             }
 
