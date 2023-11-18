@@ -87,7 +87,7 @@ final class SignUpViewController: BaseViewController {
             .orEmpty
             .bind(to: viewModel.input.id)
             .disposed(by: disposeBag)
-        
+
         validationButton.rx.tap
             .bind(to: viewModel.input.validationButtonTap)
             .disposed(by: disposeBag)
@@ -100,6 +100,10 @@ final class SignUpViewController: BaseViewController {
             .subscribe(with: self) { owner, value in
                 print(value)
             }
+            .disposed(by: disposeBag)
+
+        viewModel.output.signUpValidation
+            .subscribe(signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
     }
