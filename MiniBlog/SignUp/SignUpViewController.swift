@@ -88,6 +88,16 @@ final class SignUpViewController: BaseViewController {
             .bind(to: viewModel.input.id)
             .disposed(by: disposeBag)
 
+        passwordTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.password)
+            .disposed(by: disposeBag)
+
+        nicknameTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.nickname)
+            .disposed(by: disposeBag)
+
         validationButton.rx.tap
             .bind(to: viewModel.input.validationButtonTap)
             .disposed(by: disposeBag)
@@ -102,8 +112,25 @@ final class SignUpViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
-        viewModel.output.signUpValidation
-            .subscribe(signUpButton.rx.isEnabled)
+//        viewModel.output.signUpValidation
+//            .bind(with: self, onNext: { owner, value in
+//                owner.signUpButton.rx.isEnabled.onNext(value)
+//
+//                let color = value ? UIColor.main : UIColor.lightGray
+//                owner.signUpButton.rx.backgroundColor.onNext(color)
+//            })
+//            .disposed(by: disposeBag)
+
+        viewModel.output.signUpResultAlertTitle
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.signUpResult
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
             .disposed(by: disposeBag)
 
     }

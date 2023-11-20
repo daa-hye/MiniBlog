@@ -30,4 +30,3 @@ struct JoinResponse: Decodable {
 struct MessageResponse: Decodable {
     let message: String
 }
-

@@ -57,23 +57,26 @@ class APIManager {
         }
     }
 
-    func join(email: String, password: String, nick: String) -> Observable<String> {
+    struct JoinResult {
+        let message: String
+        let isSuccess: Bool
+    }
+
+    func join(email: String, password: String, nick: String) -> Single<JoinResult> {
         let data = Join(email: email, password: password, nick: nick)
-        return Observable.create { [weak self] observer in
+        return Single.create { [weak self] observer in
             let request = self?.provider.request(.join(model: data)) { result in
                 switch result {
                 case .success(let value):
                     switch value.statusCode {
                     case 200:
-                        observer.onNext("가입 완료")
-                        observer.onCompleted()
+                        observer(.success(JoinResult(message: "", isSuccess: true)))
                     default:
                         do {
-                            if let value = try? JSONDecoder()
+                            if let message = try? JSONDecoder()
                                 .decode(MessageResponse.self, from: value.data)
                                 .message {
-                                observer.onNext(value)
-                                observer.onCompleted()
+                                observer(.success(JoinResult(message: message, isSuccess: false)))
                             }
                         }
                     }

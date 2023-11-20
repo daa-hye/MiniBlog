@@ -18,7 +18,7 @@ class SignUpViewModel: ViewModelType {
     private let nickname = PublishSubject<String>()
 
     private let validationButtonTap = PublishSubject<Void>()
-    private let signUPButtonTap = PublishSubject<Void>()
+    private let signUpButtonTap = PublishSubject<Void>()
 
     private let mailFormatValidation = BehaviorSubject(value: false)
     private let idValidation = BehaviorSubject(value: false)
@@ -26,6 +26,8 @@ class SignUpViewModel: ViewModelType {
     private let passwordFormatValidation = BehaviorSubject(value: false)
     private let nicknameFormatValidation = BehaviorSubject(value: false)
     private let signUpValidation = BehaviorSubject(value: false)
+    private let signUpResult = BehaviorSubject(value: false)
+    private let signUpResultAlertTitle = BehaviorSubject(value: "")
 
     struct Input {
         let id: AnyObserver<String>
@@ -40,6 +42,8 @@ class SignUpViewModel: ViewModelType {
         let idValidation: Observable<Bool>
         let idValidationAlertTitle: Observable<String>
         let signUpValidation: Observable<Bool>
+        let signUpResult: Observable<Bool>
+        let signUpResultAlertTitle: Observable<String>
     }
 
     var disposeBag = DisposeBag()
@@ -55,16 +59,17 @@ class SignUpViewModel: ViewModelType {
             password: password.asObserver(),
             nickname: nickname.asObserver(),
             validationButtonTap: validationButtonTap.asObserver(),
-            signUpButtonTap: signUPButtonTap.asObserver()
+            signUpButtonTap: signUpButtonTap.asObserver()
         )
 
         output = .init(
             mailFormatValidation: mailFormatValidation.asObservable(),
             idValidation: idValidation.asObservable(),
             idValidationAlertTitle: idValidationAlertTitle.asObservable(),
-            signUpValidation: signUpValidation.asObservable()
+            signUpValidation: signUpValidation.asObservable(),
+            signUpResult: signUpResult.asObservable(),
+            signUpResultAlertTitle: signUpResultAlertTitle.asObservable()
         )
-
 
         validationButtonTap
             .withLatestFrom(id)
@@ -79,6 +84,18 @@ class SignUpViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
 
+        signUpButtonTap
+            .withLatestFrom(Observable.combineLatest(id, password, nickname))
+            .flatMapLatest { id, password, nickname in
+                APIManager.shared.join(email: id, password: password, nick: nickname)
+                    .catchAndReturn(APIManager.JoinResult(message: "실패", isSuccess: false))
+            }
+            .subscribe(with: self) { owner, result in
+                self.signUpResult.onNext(result.isSuccess)
+                self.signUpResultAlertTitle.onNext(result.message)
+            }
+            .disposed(by: disposeBag)
+
         id
             .withUnretained(self)
             .map { `self`, text -> Bool in
@@ -87,10 +104,10 @@ class SignUpViewModel: ViewModelType {
             .subscribe(mailFormatValidation)
             .disposed(by: disposeBag)
 
-        id
-            .subscribe(with: self) { owner, _ in
-                owner.idValidation.onNext(false)
-            }.disposed(by: disposeBag)
+//        id
+//            .subscribe(with: self) { owner, _ in
+//                owner.idValidation.onNext(false)
+//            }.disposed(by: disposeBag)
 
         password
                 .map { $0.count > 5 }
