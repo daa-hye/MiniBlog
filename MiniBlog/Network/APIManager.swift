@@ -101,7 +101,10 @@ class APIManager {
                         do {
                             if let token = try? JSONDecoder()
                                 .decode(LoginResponse.self, from: value.data) {
-                                //UserDefaults에 토큰 저장해주는 작업
+                                LoginInfo.email = email
+                                LoginInfo.password = password
+                                LoginInfo.token = token.token
+                                LoginInfo.refreshToken = token.refreshToken
                                 observer(.success(Result(message: "로그인 성공", isSuccess: true)))
                             } else {
 

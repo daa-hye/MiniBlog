@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
+		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		53C49C532B00E54D00FB9CE3 /* MiniBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 		53C49C6C2B00E68A00FB9CE3 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */,
 				53C49C6D2B00E69D00FB9CE3 /* BaseViewController.swift */,
 				53C49CB42B023D3400FB9CE3 /* ViewModelType.swift */,
 			);
@@ -144,6 +149,7 @@
 				53C49C832B01A2FB00FB9CE3 /* APIManager.swift */,
 				53C49CA82B01E60E00FB9CE3 /* APIModel.swift */,
 				53C49CB22B01F1DB00FB9CE3 /* Lslp.swift */,
+				5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -241,7 +247,9 @@
 				53C49CAB2B01EB1D00FB9CE3 /* Network.swift in Sources */,
 				53C49C702B00E89700FB9CE3 /* SignTextField.swift in Sources */,
 				53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */,
+				5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
+				5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */,
 				53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
