@@ -27,6 +27,11 @@ struct JoinResponse: Decodable {
     let nick :String
 }
 
+struct LoginResponse: Decodable {
+    let token: String
+    let refreshToken: String
+}
+
 struct MessageResponse: Decodable {
     let message: String
 }
