@@ -132,4 +132,35 @@ class APIManager {
             }
         }
     }
+
+    func refreshToken() -> Single<Result> {
+        return Single.create { [weak self] observer in
+            let request = self?.provider.request(.refreshToken) { result in
+                switch result {
+                case.success(let value):
+                    switch value.statusCode {
+                    case 200, 409:
+                        observer(.success(Result(message: "성공", isSuccess: true)))
+                    default:
+                        do {
+                            if let message = try? JSONDecoder()
+                                .decode(MessageResponse.self, from: value.data)
+                                .message {
+                                observer(.success(Result(message: message, isSuccess: false)))
+                            } else {
+
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+
+            return Disposables.create {
+                request?.cancel()
+            }
+            
+        }
+    }
 }
