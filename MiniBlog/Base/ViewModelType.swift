@@ -10,12 +10,12 @@ import RxSwift
 
 protocol ViewModelType {
 
-    associatedtype AA
-    associatedtype BB
+    associatedtype Input
+    associatedtype Output
 
     var disposeBag: DisposeBag { get set }
 
-    var input: AA { get }
-    var output: BB { get }
+    var input: Input { get }
+    var output: Output { get }
 
 }

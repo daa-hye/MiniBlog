@@ -13,6 +13,7 @@ enum LslpAPI {
     case email(model: Email)
     case login(model: Login)
     case refreshToken
+    case withdraw
 }
 
 extension LslpAPI: TargetType {
@@ -30,6 +31,8 @@ extension LslpAPI: TargetType {
             return "login"
         case .refreshToken:
             return "refresh"
+        case .withdraw:
+            return "withdraw"
         }
     }
     
@@ -37,7 +40,7 @@ extension LslpAPI: TargetType {
         switch self {
         case .join, .email, .login:
             return .post
-        case .refreshToken:
+        case .refreshToken, .withdraw:
             return .get
         }
     }
@@ -56,7 +59,7 @@ extension LslpAPI: TargetType {
             let data = Login(email: data.email, password: data.password)
             return .requestJSONEncodable(data)
 
-        case .refreshToken:
+        case .refreshToken, .withdraw:
             return .requestPlain
 
         }
@@ -73,6 +76,10 @@ extension LslpAPI: TargetType {
                      "SesacKey" : "\(Lslp.key)",
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
+        case .withdraw:
+            return [ "Authorization" : "\(LoginInfo.token)",
+                            "SesacKey" : "\(Lslp.key)"
+                    ]
         }
     }
 

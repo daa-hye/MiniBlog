@@ -133,22 +133,22 @@ class APIManager {
         }
     }
 
-    func refreshToken() -> Single<Result> {
+    func refreshToken() -> Single<Bool> {
         return Single.create { [weak self] observer in
             let request = self?.provider.request(.refreshToken) { result in
                 switch result {
                 case.success(let value):
                     switch value.statusCode {
                     case 200, 409:
-                        observer(.success(Result(message: "성공", isSuccess: true)))
+                        observer(.success(true))
                     default:
                         do {
                             if let message = try? JSONDecoder()
                                 .decode(MessageResponse.self, from: value.data)
                                 .message {
-                                observer(.success(Result(message: message, isSuccess: false)))
+                                observer(.success(false))
                             } else {
-
+//                                observer(.failure())
                             }
                         }
                     }
@@ -160,7 +160,38 @@ class APIManager {
             return Disposables.create {
                 request?.cancel()
             }
-            
+
+        }
+    }
+
+    func withdraw() -> Single<Bool> {
+        return Single.create { [weak self] observer in
+            let request = self?.provider.request(.withdraw) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        return observer(.success(true))
+                    case 419:
+                        self?.refreshToken().subscribe { refresh in
+                            if refresh {
+                                self?.withdraw().subscribe(observer).dispose()
+                            } else {
+                                observer(.success(false))
+                            }
+                        }.dispose()
+                    default:
+                        observer(.success(false))
+                    }
+                case.failure(let error):
+                    print(error.localizedDescription)
+                }
+
+            }
+
+            return Disposables.create {
+                request?.cancel()
+            }
         }
     }
 }

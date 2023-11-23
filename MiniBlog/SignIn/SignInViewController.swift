@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class SignInViewController: BaseViewController {
+
+    private let viewModel = SignInViewModel()
+
+    private let disposeBag = DisposeBag()
 
     private let titleLable = {
         let label = UILabel()
@@ -32,7 +38,7 @@ final class SignInViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        bind()
     }
 
     override func configHierarchy() {
@@ -66,6 +72,30 @@ final class SignInViewController: BaseViewController {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
+    }
+
+    func bind() {
+
+        idTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.id)
+            .disposed(by: disposeBag)
+
+        passwordTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.password)
+            .disposed(by: disposeBag)
+
+        signInButton.rx.tap
+            .bind(to: viewModel.input.signInButtonTap)
+            .disposed(by: disposeBag)
+
+        viewModel.output.signInResult
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
     }
 
 }

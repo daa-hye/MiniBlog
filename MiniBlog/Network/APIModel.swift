@@ -22,6 +22,13 @@ struct Login: Encodable {
     let password: String
 }
 
+struct Post: Decodable {
+    let title: String
+    let content: String
+    let file: String
+    let productId: String
+}
+
 struct JoinResponse: Decodable {
     let email: String
     let nick :String

@@ -75,11 +75,11 @@ class SignUpViewModel: ViewModelType {
             .withLatestFrom(id)
             .flatMap { text in
                 APIManager.shared.checkEmailValidation(text)
-                    .catchAndReturn(APIManager.EmailValidation(message: "실패", isValid: false))
+                    .catchAndReturn(APIManager.Result(message: "실패", isSuccess: false))
             }
             .withUnretained(self)
             .subscribe(onNext: { `self`, result in
-                self.idValidation.onNext(result.isValid)
+                self.idValidation.onNext(result.isSuccess)
                 self.idValidationAlertTitle.onNext(result.message)
             })
             .disposed(by: disposeBag)
@@ -88,11 +88,11 @@ class SignUpViewModel: ViewModelType {
             .withLatestFrom(Observable.combineLatest(id, password, nickname))
             .flatMapLatest { id, password, nickname in
                 APIManager.shared.join(email: id, password: password, nick: nickname)
-                    .catchAndReturn(APIManager.JoinResult(message: "실패", isSuccess: false))
+                    .catchAndReturn(APIManager.Result(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in
-                self.signUpResult.onNext(result.isSuccess)
-                self.signUpResultAlertTitle.onNext(result.message)
+                owner.signUpResult.onNext(result.isSuccess)
+                owner.signUpResultAlertTitle.onNext(result.message)
             }
             .disposed(by: disposeBag)
 
