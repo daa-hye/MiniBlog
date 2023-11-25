@@ -50,8 +50,8 @@ class SignInViewModel: ViewModelType {
         signInButtonTap
             .withLatestFrom(Observable.combineLatest(id, password))
             .flatMapLatest { id, password in
-                APIManager.shared.login(email: id, password: password)
-                    .catchAndReturn(APIManager.Result(message: "실패", isSuccess: false))
+                APIManager.shared.login(Login(email: id, password: password))
+                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in
                 owner.signInResult.onNext(result.isSuccess)

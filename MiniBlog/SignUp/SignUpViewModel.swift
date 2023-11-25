@@ -74,8 +74,8 @@ class SignUpViewModel: ViewModelType {
         validationButtonTap
             .withLatestFrom(id)
             .flatMap { text in
-                APIManager.shared.checkEmailValidation(text)
-                    .catchAndReturn(APIManager.Result(message: "실패", isSuccess: false))
+                APIManager.shared.checkEmailValidation(Email(email: text))
+                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
             }
             .withUnretained(self)
             .subscribe(onNext: { `self`, result in
@@ -87,8 +87,8 @@ class SignUpViewModel: ViewModelType {
         signUpButtonTap
             .withLatestFrom(Observable.combineLatest(id, password, nickname))
             .flatMapLatest { id, password, nickname in
-                APIManager.shared.join(email: id, password: password, nick: nickname)
-                    .catchAndReturn(APIManager.Result(message: "실패", isSuccess: false))
+                APIManager.shared.join(Join(email: id, password: password, nick: nickname))
+                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in
                 owner.signUpResult.onNext(result.isSuccess)

@@ -14,6 +14,7 @@ enum LslpAPI {
     case login(model: Login)
     case refreshToken
     case withdraw
+    case post(model: Post)
 }
 
 extension LslpAPI: TargetType {
@@ -33,12 +34,14 @@ extension LslpAPI: TargetType {
             return "refresh"
         case .withdraw:
             return "withdraw"
+        case .post:
+            return "post"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .join, .email, .login:
+        case .join, .email, .login, .post:
             return .post
         case .refreshToken, .withdraw:
             return .get
@@ -62,6 +65,9 @@ extension LslpAPI: TargetType {
         case .refreshToken, .withdraw:
             return .requestPlain
 
+        case .post(let data):
+            let data = Post(title: data.title, content: data.content, file: data.file, productId: data.productId)
+            return .requestJSONEncodable(data)
         }
     }
     
@@ -80,6 +86,12 @@ extension LslpAPI: TargetType {
             return [ "Authorization" : "\(LoginInfo.token)",
                             "SesacKey" : "\(Lslp.key)"
                     ]
+
+        case .post:
+            return [ "Authorization" : "\(LoginInfo.token)",
+                     "Content-Type" : "multipart/form-data",
+                     "SesacKey" : "\(Lslp.key)"
+             ]
         }
     }
 

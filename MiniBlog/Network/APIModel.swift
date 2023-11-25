@@ -22,10 +22,10 @@ struct Login: Encodable {
     let password: String
 }
 
-struct Post: Decodable {
+struct Post: Encodable {
     let title: String
     let content: String
-    let file: String
+    let file: [Data]
     let productId: String
 }
 

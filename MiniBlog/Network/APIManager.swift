@@ -16,19 +16,15 @@ class APIManager {
 
     let provider = MoyaProvider<LslpAPI>()
 
-    func makeObservable() -> Observable<Int> {
-        return Observable.just(1)
-    }
-
     struct Response {
         let message: String
         let isSuccess: Bool
     }
 
-    func checkEmailValidation(_ email: String) -> Single<Response> {
-        let data = Email(email: email)
-        return Single.create { [weak self] single in
-            let request = self?.provider.request(.email(model: data)) { result in
+    func checkEmailValidation(_ data: Email) -> Single<Response> {
+        let data = data
+        return Single.create { observer in
+            let request = self.provider.request(.email(model: data)) { result in
                 switch result {
                 case.success(let value):
                     do {
@@ -36,42 +32,42 @@ class APIManager {
                             .decode(MessageResponse.self, from: value.data)
                             .message {
                             if value.statusCode == 200 {
-                                single(.success(Response(message: message, isSuccess: true)))
+                                observer(.success(Response(message: message, isSuccess: true)))
                             } else {
-                                single(.success(Response(message: message, isSuccess: false)))
+                                observer(.success(Response(message: message, isSuccess: false)))
                             }
                         } else {
-//                            single(.faliure())
+//                            observer(.faliure())
                         }
                     }
 
                 case.failure(let error):
                     print(error.localizedDescription)
-                    single(.failure(error))
+                    observer(.failure(error))
                 }
             }
 
             return Disposables.create {
-                request?.cancel()
+                request.cancel()
             }
         }
     }
 
-    func join(email: String, password: String, nick: String) -> Single<Response> {
-        let data = Join(email: email, password: password, nick: nick)
-        return Single.create { [weak self] single in
-            let request = self?.provider.request(.join(model: data)) { result in
+    func join(_ data: Join) -> Single<Response> {
+        let data = data
+        return Single.create { observer in
+            let request = self.provider.request(.join(model: data)) { result in
                 switch result {
                 case .success(let value):
                     switch value.statusCode {
                     case 200:
-                        single(.success(Response(message: "\(nick)님, 가입을 환영해요🎉", isSuccess: true)))
+                        observer(.success(Response(message: "\(data.nick)님, 가입을 환영해요🎉", isSuccess: true)))
                     default:
                         do {
                             if let message = try? JSONDecoder()
                                 .decode(MessageResponse.self, from: value.data)
                                 .message {
-                                single(.success(Response(message: message, isSuccess: false)))
+                                observer(.success(Response(message: message, isSuccess: false)))
                             } else {
 
                             }
@@ -80,21 +76,21 @@ class APIManager {
 
                 case.failure(let error):
                     print(error.localizedDescription)
-                    single(.failure(error))
+                    observer(.failure(error))
                 }
             }
 
             return Disposables.create {
-                request?.cancel()
+                request.cancel()
             }
 
         }
     }
 
-    func login(email: String, password: String) -> Single<Response> {
-        let data = Login(email: email, password: password)
-        return Single.create { [weak self] single in
-            let request = self?.provider.request(.login(model: data)) { result in
+    func login(_ data: Login) -> Single<Response> {
+        let data = data
+        return Single.create { observer in
+            let request = self.provider.request(.login(model: data)) { result in
                 switch result {
                 case .success(let value):
                     switch value.statusCode {
@@ -102,13 +98,13 @@ class APIManager {
                         do {
                             if let token = try? JSONDecoder()
                                 .decode(LoginResponse.self, from: value.data) {
-                                LoginInfo.email = email
-                                LoginInfo.password = password
+                                LoginInfo.email = data.email
+                                LoginInfo.password = data.password
                                 LoginInfo.token = token.token
                                 LoginInfo.refreshToken = token.refreshToken
-                                single(.success(Response(message: "로그인 성공", isSuccess: true)))
+                                observer(.success(Response(message: "로그인 성공", isSuccess: true)))
                             } else {
-                                single(.success(Response(message: "로그인 실패", isSuccess: false)))
+                                observer(.success(Response(message: "로그인 실패", isSuccess: false)))
                             }
                         }
                     default:
@@ -116,7 +112,7 @@ class APIManager {
                             if let message = try? JSONDecoder()
                                 .decode(MessageResponse.self, from: value.data)
                                 .message {
-                                single(.success(Response(message: message, isSuccess: false)))
+                                observer(.success(Response(message: message, isSuccess: false)))
                             } else {
 
                             }
@@ -125,30 +121,30 @@ class APIManager {
 
                 case .failure(let error):
                     print(error.localizedDescription)
-                    single(.failure(error))
+                    observer(.failure(error))
                 }
             }
             
             return Disposables.create {
-                request?.cancel()
+                request.cancel()
             }
         }
     }
 
     func refreshToken() -> Single<Bool> {
-        return Single.create { [weak self] single in
-            let request = self?.provider.request(.refreshToken) { result in
+        return Single.create { observer in
+            let request = self.provider.request(.refreshToken) { result in
                 switch result {
                 case.success(let value):
                     switch value.statusCode {
                     case 200, 409:
-                        single(.success(true))
+                        observer(.success(true))
                     default:
                         do {
                             if let message = try? JSONDecoder()
                                 .decode(MessageResponse.self, from: value.data)
                                 .message {
-                                single(.success(false))
+                                observer(.success(false))
                             } else {
 //                                observer(.failure())
                             }
@@ -160,14 +156,14 @@ class APIManager {
             }
 
             return Disposables.create {
-                request?.cancel()
+                request.cancel()
             }
 
         }
     }
 
     func withdraw() -> Single<Bool> {
-        return Single.create { [self] single in
+        return Single.create { observer in
             let disposeBag = DisposeBag()
 
             let request = self.provider.request(.withdraw) { result in
@@ -175,24 +171,24 @@ class APIManager {
                 case .success(let value):
                     switch value.statusCode {
                     case 200:
-                        return single(.success(true))
+                        return observer(.success(true))
                     case 419:
-                        self.refreshToken().subscribe { [self] refresh in
+                        self.refreshToken().subscribe { refresh in
                             if refresh {
                                 self.withdraw()
-                                    .subscribe(single)
+                                    .subscribe(observer)
                                     .disposed(by: disposeBag)
                             } else {
-                                single(.success(false))
+                                observer(.success(false))
                             }
                         }
                         .disposed(by: disposeBag)
                     default:
-                        single(.success(false))
+                        observer(.success(false))
                     }
                 case.failure(let error):
                     print(error.localizedDescription)
-                    single(.failure(error))
+                    observer(.failure(error))
                 }
 
             }
@@ -202,4 +198,51 @@ class APIManager {
             }
         }
     }
+
+    func post(_ data: Post) -> Single<Response> {
+        let disposeBag = DisposeBag()
+
+        let data = data
+        return Single.create { observer in
+            let request = self.provider.request(.post(model: data)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        observer(.success(Response(message: "성공", isSuccess: true)))
+                    case 419:
+                        self.refreshToken()
+                            .subscribe(with: self) { owner, refresh in
+                                if refresh {
+                                    self.post(data)
+                                        .subscribe(observer)
+                                        .disposed(by: disposeBag)
+                                } else {
+                                    observer(.success(Response(message: "실패", isSuccess: false)))
+                                }
+                            }
+                            .disposed(by: disposeBag)
+                    default:
+                        do {
+                            if let message = try? JSONDecoder()
+                                .decode(MessageResponse.self, from: value.data)
+                                .message {
+                                observer(.success(Response(message: message, isSuccess: false)))
+                            } else {
+//                                observer(.failure())
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    observer(.failure(error))
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
 }
