@@ -18,7 +18,7 @@ class SignInViewModel: ViewModelType {
     
     private let signInButtonTap = PublishSubject<Void>()
     private let signInValidation = BehaviorSubject(value: false)
-    private let signInResult = BehaviorSubject(value: false)
+    private let signInResult = PublishSubject<Response>()
 
 
     struct Input {
@@ -29,7 +29,7 @@ class SignInViewModel: ViewModelType {
 
     struct Output {
         let signInValidation: Observable<Bool>
-        let signInResult: Observable<Bool>
+        let signInResult: Observable<Response>
     }
 
     var disposeBag = DisposeBag()
@@ -51,10 +51,10 @@ class SignInViewModel: ViewModelType {
             .withLatestFrom(Observable.combineLatest(id, password))
             .flatMapLatest { id, password in
                 APIManager.shared.login(Login(email: id, password: password))
-                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
+                    .catchAndReturn(Response(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in
-                owner.signInResult.onNext(result.isSuccess)
+                owner.signInResult.onNext(result)
             }
             .disposed(by: disposeBag)
 

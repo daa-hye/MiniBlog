@@ -15,29 +15,16 @@ final class SignInViewController: BaseViewController {
 
     private let disposeBag = DisposeBag()
 
-    private let titleLable = {
-        let label = UILabel()
-        label.text = String(localized: "시작해볼까요?")
-        return label
-    }()
+    private let titleLable = UILabel()
+    private let idTextField = SignTextField(placeholderText: String(localized: "이메일을 입력해주세요"))
+    private let passwordTextField = SignTextField(placeholderText: String(localized: "비밀번호를 입력해주세요"))
+    private let signInButton = SignButton(title: String(localized: "로그인"))
 
-    private let idTextField = {
-        let view = SignTextField(placeholderText: String(localized: "이메일을 입력해주세요"))
-        return view
-    }()
-
-    private let passwordTextField = {
-        let view = SignTextField(placeholderText: String(localized: "비밀번호를 입력해주세요"))
-        return view
-    }()
-
-    private let signInButton = {
-        let button = SignButton(title: String(localized: "로그인"))
-        return button
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configure()
         bind()
     }
 
@@ -74,7 +61,7 @@ final class SignInViewController: BaseViewController {
         }
     }
 
-    func bind() {
+    private func bind() {
 
         idTextField.rx.text
             .orEmpty
@@ -91,11 +78,30 @@ final class SignInViewController: BaseViewController {
             .disposed(by: disposeBag)
 
         viewModel.output.signInResult
+            .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, value in
-                print(value)
+                if value.isSuccess {
+                    let vc = HomeViewController()
+                    
+                    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                    guard let sceneDelegate else {
+                        self.showMessage("알 수 없는 오류")
+                        return
+                    }
+
+                    sceneDelegate.window?.rootViewController = vc
+
+                } else {
+                    owner.showMessage(value.message)
+                }
             }
             .disposed(by: disposeBag)
 
+    }
+
+    private func configure() {
+        titleLable.text = String(localized: "시작해볼까요?")
+        titleLable.font = UIFont.boldSystemFont(ofSize: 30)
     }
 
 }

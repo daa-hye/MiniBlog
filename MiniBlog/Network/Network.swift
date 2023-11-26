@@ -15,6 +15,7 @@ enum LslpAPI {
     case refreshToken
     case withdraw
     case post(model: Post)
+    case read(model: Read)
 }
 
 extension LslpAPI: TargetType {
@@ -34,7 +35,7 @@ extension LslpAPI: TargetType {
             return "refresh"
         case .withdraw:
             return "withdraw"
-        case .post:
+        case .post, .read:
             return "post"
         }
     }
@@ -43,7 +44,7 @@ extension LslpAPI: TargetType {
         switch self {
         case .join, .email, .login, .post:
             return .post
-        case .refreshToken, .withdraw:
+        case .refreshToken, .withdraw, .read:
             return .get
         }
     }
@@ -68,7 +69,12 @@ extension LslpAPI: TargetType {
         case .post(let data):
             let data = Post(title: data.title, content: data.content, file: data.file, productId: data.productId)
             return .requestJSONEncodable(data)
+
+        case .read(let data):
+            let data = Read(next: data.next, productId: data.productId)
+            return .requestJSONEncodable(data)
         }
+
     }
     
     var headers: [String : String]? {
@@ -90,6 +96,11 @@ extension LslpAPI: TargetType {
         case .post:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "Content-Type" : "multipart/form-data",
+                     "SesacKey" : "\(Lslp.key)"
+             ]
+
+        case .read:
+            return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
              ]
         }

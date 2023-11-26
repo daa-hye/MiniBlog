@@ -27,8 +27,8 @@ final class SignUpViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        bind()
         congigure()
+        bind()
     }
 
     override func configHierarchy() {
@@ -106,6 +106,18 @@ final class SignUpViewController: BaseViewController {
             .bind(to: viewModel.input.signUpButtonTap)
             .disposed(by: disposeBag)
 
+        viewModel.output.mailFormatValidation
+            .bind(with: self) { owner, value in
+
+                owner.validationButton.isEnabled = value
+
+                let color = value ? UIColor.black : UIColor.lightGray
+                
+                owner.validationButton.setTitleColor(color, for: .normal)
+                owner.validationButton.layer.borderColor = color.cgColor
+            }
+            .disposed(by: disposeBag)
+
         viewModel.output.idValidationAlertTitle
             .subscribe(with: self) { owner, value in
                 print(value)
@@ -137,10 +149,10 @@ final class SignUpViewController: BaseViewController {
 
     private func congigure() {
         validationButton.setTitle(String(localized: "중복 확인"), for: .normal)
-        validationButton.setTitleColor(.darkGray, for: .normal)
+        validationButton.setTitleColor(.black, for: .normal)
         validationButton.backgroundColor = .white
         validationButton.layer.cornerRadius = 10
-        validationButton.layer.borderColor = UIColor.darkGray.cgColor
+        validationButton.layer.borderColor = UIColor.black.cgColor
         validationButton.layer.borderWidth = 1
 
         titleLable.text = String(localized: "계정을 생성하세요")

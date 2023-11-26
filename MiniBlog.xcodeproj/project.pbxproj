@@ -10,6 +10,8 @@
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
 		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
+		5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */; };
+		5375C8C72B12E3380039DB75 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8C62B12E3380039DB75 /* HomeViewController.swift */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -37,6 +39,8 @@
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		5375C8C62B12E3380039DB75 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		53C49C532B00E54D00FB9CE3 /* MiniBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +77,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5375C8C32B12E1D60039DB75 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5375C8C62B12E3380039DB75 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		53C49C4A2B00E54D00FB9CE3 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +108,7 @@
 				53C49C6C2B00E68A00FB9CE3 /* Base */,
 				53C49C6A2B00E58E00FB9CE3 /* SignIn */,
 				53C49C6B2B00E5A500FB9CE3 /* SignUp */,
+				5375C8C32B12E1D60039DB75 /* Home */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
 				53C49C762B00F3A400FB9CE3 /* CustomView */,
@@ -104,6 +117,7 @@
 				53C49C642B00E54E00FB9CE3 /* Info.plist */,
 				53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */,
 				53C49CAE2B01F16200FB9CE3 /* .gitignore */,
+				5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */,
 			);
 			path = MiniBlog;
 			sourceTree = "<group>";
@@ -246,6 +260,7 @@
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
 				53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */,
 				5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */,
+				5375C8C72B12E3380039DB75 /* HomeViewController.swift in Sources */,
 				53C49CB32B01F1DB00FB9CE3 /* Lslp.swift in Sources */,
 				53C49CA92B01E60E00FB9CE3 /* APIModel.swift in Sources */,
 				53C49CAB2B01EB1D00FB9CE3 /* Network.swift in Sources */,
@@ -255,6 +270,7 @@
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
 				5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */,
 				53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */,
+				5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
 			);

@@ -16,11 +16,6 @@ class APIManager {
 
     let provider = MoyaProvider<LslpAPI>()
 
-    struct Response {
-        let message: String
-        let isSuccess: Bool
-    }
-
     func checkEmailValidation(_ data: Email) -> Single<Response> {
         let data = data
         return Single.create { observer in
@@ -244,5 +239,7 @@ class APIManager {
             }
         }
     }
+
+    func read() {}
 
 }

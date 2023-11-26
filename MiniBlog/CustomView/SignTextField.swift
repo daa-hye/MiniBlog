@@ -20,6 +20,7 @@ class SignTextField: UITextField {
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = UIColor.main.cgColor
+        autocapitalizationType = .none
     }
     
     @available(*, unavailable)

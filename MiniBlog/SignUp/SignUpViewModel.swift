@@ -13,9 +13,9 @@ class SignUpViewModel: ViewModelType {
     let input: Input
     let output: Output
 
-    private let id = PublishSubject<String>()
-    private let password = PublishSubject<String>()
-    private let nickname = PublishSubject<String>()
+    private let id = BehaviorSubject(value: "")
+    private let password = BehaviorSubject(value: "")
+    private let nickname = BehaviorSubject(value: "")
 
     private let validationButtonTap = PublishSubject<Void>()
     private let signUpButtonTap = PublishSubject<Void>()
@@ -75,7 +75,7 @@ class SignUpViewModel: ViewModelType {
             .withLatestFrom(id)
             .flatMap { text in
                 APIManager.shared.checkEmailValidation(Email(email: text))
-                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
+                    .catchAndReturn(Response(message: "실패", isSuccess: false))
             }
             .withUnretained(self)
             .subscribe(onNext: { `self`, result in
@@ -88,7 +88,7 @@ class SignUpViewModel: ViewModelType {
             .withLatestFrom(Observable.combineLatest(id, password, nickname))
             .flatMapLatest { id, password, nickname in
                 APIManager.shared.join(Join(email: id, password: password, nick: nickname))
-                    .catchAndReturn(APIManager.Response(message: "실패", isSuccess: false))
+                    .catchAndReturn(Response(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in
                 owner.signUpResult.onNext(result.isSuccess)
