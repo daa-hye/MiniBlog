@@ -15,7 +15,7 @@ enum LslpAPI {
     case refreshToken
     case withdraw
     case post(model: Post)
-    case read(model: Read)
+    case read
 }
 
 extension LslpAPI: TargetType {
@@ -70,13 +70,15 @@ extension LslpAPI: TargetType {
             let data = Post(title: data.title, content: data.content, file: data.file, productId: data.productId)
             return .requestJSONEncodable(data)
 
-        case .read(let data):
-            let data = Read(next: data.next, productId: data.productId)
-            return .requestJSONEncodable(data)
+        case .read:
+            return .requestParameters(
+                parameters: ["next": LoginInfo.cursor],
+                encoding: URLEncoding.queryString
+            )
         }
 
     }
-    
+
     var headers: [String : String]? {
         switch self {
         case .join, .email, .login:

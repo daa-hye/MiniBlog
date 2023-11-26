@@ -36,14 +36,9 @@ struct Post: Encodable {
     }
 }
 
-struct Read: Encodable {
+struct Read {
     let next: String?
     let productId: String
-
-    enum CodingKeys: String, CodingKey {
-        case next
-        case productId = "product_id"
-    }
 }
 
 struct JoinResponse: Decodable {
@@ -72,9 +67,9 @@ struct ReadData: Decodable {
     //let hashTags: [String]
     let creator: Creator
     let time: String
-    let title: String
-    let content: String
-    let productId: String
+    let title: String?
+    let content: String?
+    let productId: String?
 
     enum CodingKeys: String, CodingKey {
         case likes
@@ -89,7 +84,7 @@ struct ReadData: Decodable {
 
 struct Creator: Decodable {
     let nick: String
-    let profile: String
+//    let profile: String
 }
 
 struct MessageResponse: Decodable {
