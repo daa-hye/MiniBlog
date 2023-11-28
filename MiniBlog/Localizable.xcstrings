@@ -5,22 +5,49 @@
       "extractionState" : "manual"
     },
     "가입하기" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign Up"
+          }
+        }
+      }
     },
     "계정을 생성하세요" : {
 
     },
     "닉네임" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nikname"
+          }
+        }
+      }
     },
     "로그인" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login"
+          }
+        }
+      }
     },
     "비밀번호" : {
       "extractionState" : "manual"
     },
     "비밀번호를 입력해주세요" : {
       "extractionState" : "manual"
+    },
+    "사진에 대해 설명해보세요" : {
+
     },
     "시작하려면 먼저 이메일을 입력해주세요" : {
       "extractionState" : "manual"

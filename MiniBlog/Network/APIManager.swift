@@ -17,7 +17,6 @@ class APIManager {
     let provider = MoyaProvider<LslpAPI>()
 
     func checkEmailValidation(_ data: Email) -> Single<Response> {
-        let data = data
         return Single.create { observer in
             let request = self.provider.request(.email(model: data)) { result in
                 switch result {
@@ -49,7 +48,6 @@ class APIManager {
     }
 
     func join(_ data: Join) -> Single<Response> {
-        let data = data
         return Single.create { observer in
             let request = self.provider.request(.join(model: data)) { result in
                 switch result {
@@ -83,7 +81,6 @@ class APIManager {
     }
 
     func login(_ data: Login) -> Single<Response> {
-        let data = data
         return Single.create { observer in
             let request = self.provider.request(.login(model: data)) { result in
                 switch result {
@@ -135,15 +132,7 @@ class APIManager {
                     case 200, 409:
                         observer(.success(true))
                     default:
-                        do {
-                            if let message = try? JSONDecoder()
-                                .decode(MessageResponse.self, from: value.data)
-                                .message {
-                                observer(.success(false))
-                            } else {
-//                                observer(.failure())
-                            }
-                        }
+                        observer(.success(false))
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -197,7 +186,6 @@ class APIManager {
     func post(_ data: Post) -> Single<Response> {
         let disposeBag = DisposeBag()
 
-        let data = data
         return Single.create { observer in
             let request = self.provider.request(.post(model: data)) { result in
                 switch result {

@@ -18,9 +18,4 @@ class HomeViewController: BaseViewController {
 
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        LoginInfo.cursor = ""
-    }
-
-
 }

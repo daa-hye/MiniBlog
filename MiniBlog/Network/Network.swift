@@ -67,7 +67,8 @@ extension LslpAPI: TargetType {
             return .requestPlain
 
         case .post(let data):
-            let data = Post(title: data.title, content: data.content, file: data.file, productId: data.productId)
+//            let data = Post(title: data.title, file: data.file, productId: data.productId)
+            let data = Post(title: data.title)
             return .requestJSONEncodable(data)
 
         case .read:
@@ -92,7 +93,7 @@ extension LslpAPI: TargetType {
                    ]
         case .withdraw:
             return [ "Authorization" : "\(LoginInfo.token)",
-                            "SesacKey" : "\(Lslp.key)"
+                     "SesacKey" : "\(Lslp.key)"
                     ]
 
         case .post:

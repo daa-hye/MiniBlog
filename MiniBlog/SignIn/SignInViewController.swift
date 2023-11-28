@@ -81,7 +81,7 @@ final class SignInViewController: BaseViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, value in
                 if value.isSuccess {
-                    let vc = HomeViewController()
+                    let vc = TabBarController()
                     
                     let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
                     guard let sceneDelegate else {

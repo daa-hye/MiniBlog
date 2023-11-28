@@ -12,6 +12,9 @@
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
 		5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */; };
 		5375C8C72B12E3380039DB75 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8C62B12E3380039DB75 /* HomeViewController.swift */; };
+		5375C8D72B1460920039DB75 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8D62B1460920039DB75 /* TabBarController.swift */; };
+		5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8D92B147CA40039DB75 /* PostViewController.swift */; };
+		5375C8E12B15825B0039DB75 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8E02B15825B0039DB75 /* PermissionManager.swift */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -41,6 +44,9 @@
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		5375C8C62B12E3380039DB75 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		5375C8D62B1460920039DB75 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5375C8D92B147CA40039DB75 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		5375C8E02B15825B0039DB75 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		53C49C532B00E54D00FB9CE3 /* MiniBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,9 +86,28 @@
 		5375C8C32B12E1D60039DB75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				5375C8D62B1460920039DB75 /* TabBarController.swift */,
 				5375C8C62B12E3380039DB75 /* HomeViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		5375C8D82B147C7D0039DB75 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				5375C8D92B147CA40039DB75 /* PostViewController.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		5375C8DF2B15822D0039DB75 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */,
+				5375C8E02B15825B0039DB75 /* PermissionManager.swift */,
+				5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		53C49C4A2B00E54D00FB9CE3 = {
@@ -104,20 +129,21 @@
 		53C49C552B00E54D00FB9CE3 /* MiniBlog */ = {
 			isa = PBXGroup;
 			children = (
+				5375C8DF2B15822D0039DB75 /* Utility */,
 				53C49C822B01A2A800FB9CE3 /* Network */,
 				53C49C6C2B00E68A00FB9CE3 /* Base */,
 				53C49C6A2B00E58E00FB9CE3 /* SignIn */,
 				53C49C6B2B00E5A500FB9CE3 /* SignUp */,
+				5375C8D82B147C7D0039DB75 /* Post */,
 				5375C8C32B12E1D60039DB75 /* Home */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
 				53C49C762B00F3A400FB9CE3 /* CustomView */,
 				53C49C5F2B00E54E00FB9CE3 /* Assets.xcassets */,
+				53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */,
 				53C49C612B00E54E00FB9CE3 /* LaunchScreen.storyboard */,
 				53C49C642B00E54E00FB9CE3 /* Info.plist */,
-				53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */,
 				53C49CAE2B01F16200FB9CE3 /* .gitignore */,
-				5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */,
 			);
 			path = MiniBlog;
 			sourceTree = "<group>";
@@ -143,7 +169,6 @@
 		53C49C6C2B00E68A00FB9CE3 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */,
 				53C49C6D2B00E69D00FB9CE3 /* BaseViewController.swift */,
 				53C49CB42B023D3400FB9CE3 /* ViewModelType.swift */,
 			);
@@ -259,12 +284,15 @@
 				53C49C7A2B00F9DD00FB9CE3 /* SignUpViewController.swift in Sources */,
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
 				53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */,
+				5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */,
 				5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */,
 				5375C8C72B12E3380039DB75 /* HomeViewController.swift in Sources */,
 				53C49CB32B01F1DB00FB9CE3 /* Lslp.swift in Sources */,
 				53C49CA92B01E60E00FB9CE3 /* APIModel.swift in Sources */,
 				53C49CAB2B01EB1D00FB9CE3 /* Network.swift in Sources */,
 				53C49C702B00E89700FB9CE3 /* SignTextField.swift in Sources */,
+				5375C8E12B15825B0039DB75 /* PermissionManager.swift in Sources */,
+				5375C8D72B1460920039DB75 /* TabBarController.swift in Sources */,
 				53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */,
 				5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
