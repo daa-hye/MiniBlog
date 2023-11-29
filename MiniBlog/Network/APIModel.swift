@@ -24,13 +24,13 @@ struct Login: Encodable {
 
 struct Post: Encodable {
     let title: String
-    //let file: Data
-    //let productId: String
+    let file: Data
+    let productId: String
 
     enum CodingKeys: String, CodingKey {
         case title
-        //case file
-        //case productId = "product_id"
+        case file
+        case productId = "product_id"
     }
 }
 

@@ -59,15 +59,13 @@ extension PostViewController: PHPickerViewControllerDelegate {
         if let itemProvider, itemProvider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
             itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier, completionHandler: { data, error in
                 guard let data,
-                      let compressedData = UIImage(data: data)?
-                                                .jpegData(compressionQuality: 0.5) else { return }
-                DispatchQueue.main.async {
-                    APIManager.shared.post(Post(title: "testtest"))
-                        .subscribe(with: self) { owner, value in
-                            print(value.message)
-                        }
-                        .disposed(by: self.disposeBag)
-                }
+                      let jpegData = UIImage(data: data)?
+                    .jpegData(compressionQuality: 0.1) else { return }
+                APIManager.shared.post(Post(title: "test", file: jpegData, productId: "dahye"))
+                    .subscribe(with: self) { owner, value in
+                        print(value.message)
+                    }
+                    .disposed(by: self.disposeBag)
             })
         }
     }
