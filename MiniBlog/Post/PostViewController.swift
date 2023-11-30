@@ -10,29 +10,72 @@ import PhotosUI
 import RxSwift
 import RxCocoa
 
-class PostViewController: BaseViewController {
+final class PostViewController: BaseViewController {
 
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-    let titleTextField = SignTextField(placeholderText: String(localized: "사진에 대해 설명해보세요"))
+    private let imageView = UIImageView()
+    private let titleTextField = SignTextField(placeholderText: String(localized: "사진에 대해 설명해보세요"))
+    private let addButton = SignButton(title: String(localized: "추가"))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkPermission()
+    }
 
-        PermissionManager.checkPhotoLibraryPermission { value in
-            if value {
-                self.presentPickerView()
-            } else {
-               
-            }
+    override func configHierarchy() {
+        view.addSubview(imageView)
+        view.addSubview(titleTextField)
+        view.addSubview(addButton)
+    }
+
+    override func setLayout() {
+
+        imageView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.height.equalToSuperview().multipliedBy(0.6)
         }
+
+        titleTextField.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(10)
+            $0.height.equalTo(40)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
+
+        addButton.snp.makeConstraints {
+            $0.bottom.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.width.equalTo(70)
+            $0.height.equalTo(30)
+        }
+
+    }
+
+    private func configure() {
+        imageView.layer.borderColor = UIColor.main.cgColor
+        imageView.layer.borderWidth = 2
+        imageView.layer.cornerRadius = 10
+        imageView.contentMode = .scaleAspectFit
+    }
+
+    private func bind() {
+        
     }
 
 }
 
 extension PostViewController {
 
-    func presentPickerView() {
+    private func checkPermission() {
+        PermissionManager.checkPhotoLibraryPermission { value in
+            if value {
+                self.presentPickerView()
+            } else {
+
+            }
+        }
+    }
+
+    private func presentPickerView() {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 1
 
@@ -57,15 +100,17 @@ extension PostViewController: PHPickerViewControllerDelegate {
 
         let itemProvider = results.first?.itemProvider
         if let itemProvider, itemProvider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
-            itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier, completionHandler: { data, error in
-                guard let data,
-                      let jpegData = UIImage(data: data)?
-                    .jpegData(compressionQuality: 0.1) else { return }
-                APIManager.shared.post(Post(title: "test", file: jpegData, productId: "dahye"))
-                    .subscribe(with: self) { owner, value in
-                        print(value.message)
-                    }
-                    .disposed(by: self.disposeBag)
+            itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier, completionHandler: { [weak self] data, error in
+                guard let data, let image = UIImage(data: data) else {
+                    self?.showMessage(error?.localizedDescription ?? String(localized: "사진을 불러오지 못했습니다"))
+                    self?.dismiss(animated: true)
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self?.imageView.image = image
+                }
+
             })
         }
     }

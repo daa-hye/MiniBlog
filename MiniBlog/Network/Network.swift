@@ -67,15 +67,11 @@ extension LslpAPI: TargetType {
             return .requestPlain
 
         case .post(let data):
-//            let data = Post(title: data.title, file: data.file, productId: data.productId)
             let imageData = MultipartFormData(provider: .data(data.file), name: "file", fileName: "a.jpeg", mimeType: "image/jpeg")
-//            let title = MultipartFormData(provider: .data(Data(data.title.utf8)), name: "title")
-//            let productId = MultipartFormData(provider: .data(Data(data.productId.utf8)), name: "product_id")
-//            return .uploadMultipart([imageData])
-            return .uploadCompositeMultipart([imageData], urlParameters: [
-                "title": data.title,
-                "product_id": data.productId
-            ])
+            let title = MultipartFormData(provider: .data(Data(data.title.utf8)), name: "title")
+            let productId = MultipartFormData(provider: .data(Data(data.productId.utf8)), name: "product_id")
+
+            return .uploadMultipart([imageData, title, productId])
 
         case .read:
             return .requestParameters(

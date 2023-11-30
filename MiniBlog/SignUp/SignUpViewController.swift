@@ -31,6 +31,73 @@ final class SignUpViewController: BaseViewController {
         bind()
     }
 
+    func bind() {
+
+        idTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.id)
+            .disposed(by: disposeBag)
+
+        passwordTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.password)
+            .disposed(by: disposeBag)
+
+        nicknameTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.input.nickname)
+            .disposed(by: disposeBag)
+
+        validationButton.rx.tap
+            .bind(to: viewModel.input.validationButtonTap)
+            .disposed(by: disposeBag)
+
+        signUpButton.rx.tap
+            .bind(to: viewModel.input.signUpButtonTap)
+            .disposed(by: disposeBag)
+
+        viewModel.output.mailFormatValidation
+            .bind(with: self) { owner, value in
+
+                owner.validationButton.isEnabled = value
+
+                let color = value ? UIColor.black : UIColor.lightGray
+
+                owner.validationButton.setTitleColor(color, for: .normal)
+                owner.validationButton.layer.borderColor = color.cgColor
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.idValidationAlertTitle
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
+//        viewModel.output.signUpValidation
+//            .bind(with: self, onNext: { owner, value in
+//                owner.signUpButton.rx.isEnabled.onNext(value)
+//
+//                let color = value ? UIColor.main : UIColor.lightGray
+//                owner.signUpButton.rx.backgroundColor.onNext(color)
+//            })
+//            .disposed(by: disposeBag)
+
+        viewModel.output.signUpResultAlertTitle
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.signUpResult
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
+    }
+
+
     override func configHierarchy() {
         view.addSubview(titleLable)
         view.addSubview(idTextField)
@@ -81,72 +148,6 @@ final class SignUpViewController: BaseViewController {
 
     }
 
-    func bind() {
-
-        idTextField.rx.text
-            .orEmpty
-            .bind(to: viewModel.input.id)
-            .disposed(by: disposeBag)
-
-        passwordTextField.rx.text
-            .orEmpty
-            .bind(to: viewModel.input.password)
-            .disposed(by: disposeBag)
-
-        nicknameTextField.rx.text
-            .orEmpty
-            .bind(to: viewModel.input.nickname)
-            .disposed(by: disposeBag)
-
-        validationButton.rx.tap
-            .bind(to: viewModel.input.validationButtonTap)
-            .disposed(by: disposeBag)
-
-        signUpButton.rx.tap
-            .bind(to: viewModel.input.signUpButtonTap)
-            .disposed(by: disposeBag)
-
-        viewModel.output.mailFormatValidation
-            .bind(with: self) { owner, value in
-
-                owner.validationButton.isEnabled = value
-
-                let color = value ? UIColor.black : UIColor.lightGray
-                
-                owner.validationButton.setTitleColor(color, for: .normal)
-                owner.validationButton.layer.borderColor = color.cgColor
-            }
-            .disposed(by: disposeBag)
-
-        viewModel.output.idValidationAlertTitle
-            .subscribe(with: self) { owner, value in
-                print(value)
-            }
-            .disposed(by: disposeBag)
-
-//        viewModel.output.signUpValidation
-//            .bind(with: self, onNext: { owner, value in
-//                owner.signUpButton.rx.isEnabled.onNext(value)
-//
-//                let color = value ? UIColor.main : UIColor.lightGray
-//                owner.signUpButton.rx.backgroundColor.onNext(color)
-//            })
-//            .disposed(by: disposeBag)
-
-        viewModel.output.signUpResultAlertTitle
-            .subscribe(with: self) { owner, value in
-                print(value)
-            }
-            .disposed(by: disposeBag)
-
-        viewModel.output.signUpResult
-            .subscribe(with: self) { owner, value in
-                print(value)
-            }
-            .disposed(by: disposeBag)
-
-    }
-
     private func congigure() {
         validationButton.setTitle(String(localized: "중복 확인"), for: .normal)
         validationButton.setTitleColor(.black, for: .normal)
@@ -158,6 +159,5 @@ final class SignUpViewController: BaseViewController {
         titleLable.text = String(localized: "계정을 생성하세요")
         titleLable.font = UIFont.boldSystemFont(ofSize: 30)
     }
-
 
 }

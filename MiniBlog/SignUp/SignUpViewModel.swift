@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class SignUpViewModel: ViewModelType {
+final class SignUpViewModel: ViewModelType {
 
     let input: Input
     let output: Output
