@@ -20,7 +20,7 @@ final class PostViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkPermission()
+
     }
 
     override func configHierarchy() {
@@ -64,32 +64,7 @@ final class PostViewController: BaseViewController {
 }
 
 extension PostViewController {
-
-    private func checkPermission() {
-        PermissionManager.checkPhotoLibraryPermission { value in
-            if value {
-                self.presentPickerView()
-            } else {
-
-            }
-        }
-    }
-
-    private func presentPickerView() {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-
-        if #available(iOS 16.0, *) {
-            configuration.filter = .any(of: [.images, .depthEffectPhotos, .livePhotos])
-        } else {
-            configuration.filter = .images
-        }
-
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-
-        present(picker, animated: true)
-    }
+    
 
 }
 

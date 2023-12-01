@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Photos
+import PhotosUI
 
 final class TabBarController: UITabBarController {
 
@@ -36,13 +38,52 @@ final class TabBarController: UITabBarController {
 
 }
 
+extension TabBarController {
+
+    private func presentPickerView() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+
+        if #available(iOS 16.0, *) {
+            configuration.filter = .any(of: [.images, .depthEffectPhotos, .livePhotos])
+        } else {
+            configuration.filter = .images
+        }
+
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+
+        present(picker, animated: true)
+    }
+
+    private func checkPermission() {
+        PermissionManager.checkPhotoLibraryPermission { value in
+            if value {
+                self.presentPickerView()
+            } else {
+
+            }
+        }
+    }
+
+}
+
+extension TabBarController: PHPickerViewControllerDelegate {
+
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if let result = results.first {
+            let view = PostViewController()
+            view.modalPresentationStyle = .fullScreen
+            present(view, animated: true)
+        }
+    }
+}
+
 extension TabBarController: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is PostViewController {
-            let view = PostViewController()
-            view.modalPresentationStyle = .fullScreen
-            present(view, animated: true)
+            checkPermission()
             return false
         }
         return true
