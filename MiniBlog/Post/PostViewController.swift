@@ -17,10 +17,21 @@ final class PostViewController: BaseViewController {
     private let imageView = UIImageView()
     private let titleTextField = SignTextField(placeholderText: String(localized: "사진에 대해 설명해보세요"))
     private let addButton = SignButton(title: String(localized: "추가"))
+    private let viewModel: PostViewModel
 
+    init(viewModel: PostViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        configure()
+        bind()
     }
 
     override func configHierarchy() {
@@ -45,7 +56,7 @@ final class PostViewController: BaseViewController {
         addButton.snp.makeConstraints {
             $0.bottom.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.width.equalTo(70)
-            $0.height.equalTo(30)
+            $0.height.equalTo(50)
         }
 
     }
@@ -58,13 +69,29 @@ final class PostViewController: BaseViewController {
     }
 
     private func bind() {
+        titleTextField.rx.text.orEmpty
+            .bind(to: viewModel.input.title)
+            .disposed(by: disposeBag)
+
+        addButton.rx.tap
+            .bind(to: viewModel.input.addButtonTap)
+            .disposed(by: disposeBag)
+
+        viewModel.output.picture
+            .debug()
+            .subscribe(with: self) { owner, data in
+                owner.imageView.image = UIImage(data: data)
+            }
+            .disposed(by: disposeBag)
         
+        viewModel.output.postResult
+            .subscribe(with: self) { owner, value in
+                if value {
+                    owner.dismiss(animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
-
-}
-
-extension PostViewController {
-    
 
 }
 

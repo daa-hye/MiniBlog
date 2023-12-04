@@ -16,6 +16,7 @@
 		5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8D92B147CA40039DB75 /* PostViewController.swift */; };
 		5375C8E12B15825B0039DB75 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8E02B15825B0039DB75 /* PermissionManager.swift */; };
 		5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C9212B184DD90039DB75 /* PostViewModel.swift */; };
+		539C724D2B1DC0A500B58103 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -49,6 +50,7 @@
 		5375C8D92B147CA40039DB75 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		5375C8E02B15825B0039DB75 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		5375C9212B184DD90039DB75 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		53C49C532B00E54D00FB9CE3 /* MiniBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				5375C8C12B12B7830039DB75 /* UIViewController + Extension.swift */,
 				5375C8E02B15825B0039DB75 /* PermissionManager.swift */,
 				5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */,
+				539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				5375C8D72B1460920039DB75 /* TabBarController.swift in Sources */,
 				53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */,
 				5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */,
+				539C724D2B1DC0A500B58103 /* UIImage + Extension.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
 				5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */,
 				53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */,

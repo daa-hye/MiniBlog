@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Photos
 import PhotosUI
 
 final class TabBarController: UITabBarController {
@@ -26,7 +25,7 @@ final class TabBarController: UITabBarController {
         }()
 
         let postView = {
-            let view = PostViewController()
+            let view = PostViewController(viewModel: PostViewModel(data: Data()))
             view.tabBarItem.image = UIImage(systemName: "plus.circle.fill")
             return view
         }()
@@ -51,6 +50,7 @@ extension TabBarController {
         }
 
         let picker = PHPickerViewController(configuration: configuration)
+        picker.modalPresentationStyle = .fullScreen
         picker.delegate = self
 
         present(picker, animated: true)
@@ -61,7 +61,7 @@ extension TabBarController {
             if value {
                 self.presentPickerView()
             } else {
-
+                self.present(PermissionManager.showRequestPhotoLibraryAlert(), animated: true)
             }
         }
     }
@@ -71,10 +71,28 @@ extension TabBarController {
 extension TabBarController: PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        if let result = results.first {
-            let view = PostViewController()
-            view.modalPresentationStyle = .fullScreen
-            present(view, animated: true)
+        let itemProvider = results.first?.itemProvider
+        if let itemProvider,
+           itemProvider
+            .hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+            itemProvider
+                .loadDataRepresentation(
+                    forTypeIdentifier: UTType.image.identifier,
+                    completionHandler: { [weak self] data, error in
+                        guard let data,
+                              let jpegData = UIImage(data: data)?.compressImage()
+                        else { return }
+
+                        DispatchQueue.main.async {
+                            let vc = PostViewController(viewModel: .init(data: jpegData))
+                            let view = UINavigationController(rootViewController: vc)
+                            view.modalPresentationStyle = .fullScreen
+
+                            picker.dismiss(animated: true) {
+                                self?.present(view, animated: true)
+                            }
+                        }
+                    })
         }
     }
 }
