@@ -27,19 +27,21 @@ struct Post: Encodable {
     let file: Data
 }
 
-struct Read {
-    let next: String?
-    let productId: String
-}
-
 struct JoinResponse: Decodable {
     let email: String
     let nick :String
 }
 
 struct LoginResponse: Decodable {
+    let id: String
     let token: String
     let refreshToken: String
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case token
+        case refreshToken
+    }
 }
 
 struct ReadResponse: Decodable {
@@ -53,6 +55,7 @@ struct ReadResponse: Decodable {
 }
 
 struct ReadData: Decodable {
+
     let likes: [String]
     let image: [String]
     //let hashTags: [String]
@@ -61,6 +64,7 @@ struct ReadData: Decodable {
     let title: String?
     let content: String?
     let productId: String?
+    let id: String
 
     enum CodingKeys: String, CodingKey {
         case likes
@@ -70,7 +74,9 @@ struct ReadData: Decodable {
         case title
         case content
         case productId = "product_id"
+        case id = "_id"
     }
+    
 }
 
 struct Creator: Decodable {

@@ -30,7 +30,13 @@ final class TabBarController: UITabBarController {
             return view
         }()
 
-        setViewControllers([homeView, postView], animated: true)
+        let likeView = {
+            let view = LikeViewController()
+            view.tabBarItem.image = UIImage(systemName: "heart")
+            return view
+        }()
+
+        setViewControllers([homeView, postView, likeView], animated: true)
 
 
     }

@@ -10,6 +10,7 @@ import Foundation
 enum LoginInfo {
 
     enum Key: String {
+        case id
         case email
         case password
         case nickname
@@ -17,6 +18,9 @@ enum LoginInfo {
         case refreshToken
         case cursor
     }
+
+    @UserDafaultsManager(key: Key.id.rawValue, defaultValue: "?")
+    static var id
 
     @UserDafaultsManager(key: Key.email.rawValue, defaultValue: "?")
     static var email

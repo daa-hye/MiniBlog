@@ -75,9 +75,11 @@ extension LslpAPI: TargetType {
 
         case .read:
             return .requestParameters(
-                parameters: ["next": LoginInfo.cursor],
+                parameters: ["next": LoginInfo.cursor,
+                             "product_id" : "dahye"],
                 encoding: URLEncoding.queryString
             )
+
         }
 
     }
@@ -93,7 +95,7 @@ extension LslpAPI: TargetType {
                      "SesacKey" : "\(Lslp.key)",
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
-        case .withdraw:
+        case .withdraw, .read:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]
@@ -103,13 +105,7 @@ extension LslpAPI: TargetType {
                      "Content-Type" : "multipart/form-data",
                      "SesacKey" : "\(Lslp.key)"
              ]
-
-        case .read:
-            return [ "Authorization" : "\(LoginInfo.token)",
-                     "SesacKey" : "\(Lslp.key)"
-             ]
         }
     }
-
     
 }

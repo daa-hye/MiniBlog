@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5320B02C2B1F04EC00B25680 /* HomeViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5320B02B2B1F04EC00B25680 /* HomeViewLayout.swift */; };
+		5320B02F2B1F142200B25680 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5320B02E2B1F142200B25680 /* Kingfisher */; };
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
 		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
@@ -17,6 +19,7 @@
 		5375C8E12B15825B0039DB75 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8E02B15825B0039DB75 /* PermissionManager.swift */; };
 		5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C9212B184DD90039DB75 /* PostViewModel.swift */; };
 		539C724D2B1DC0A500B58103 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */; };
+		539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539C724F2B1EC89300B58103 /* LikeViewController.swift */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -41,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5320B02B2B1F04EC00B25680 /* HomeViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewLayout.swift; sourceTree = "<group>"; };
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 		5375C8E02B15825B0039DB75 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		5375C9212B184DD90039DB75 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
+		539C724F2B1EC89300B58103 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		53C49C532B00E54D00FB9CE3 /* MiniBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +86,7 @@
 				53C49C7D2B010A5500FB9CE3 /* RxCocoa in Frameworks */,
 				53C49C872B01A32800FB9CE3 /* Moya in Frameworks */,
 				53C49C752B00F10500FB9CE3 /* SnapKit in Frameworks */,
+				5320B02F2B1F142200B25680 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +122,14 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		539C724E2B1EC88000B58103 /* Like */ = {
+			isa = PBXGroup;
+			children = (
+				539C724F2B1EC89300B58103 /* LikeViewController.swift */,
+			);
+			path = Like;
+			sourceTree = "<group>";
+		};
 		53C49C4A2B00E54D00FB9CE3 = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +156,7 @@
 				53C49C6B2B00E5A500FB9CE3 /* SignUp */,
 				5375C8D82B147C7D0039DB75 /* Post */,
 				5375C8C32B12E1D60039DB75 /* Home */,
+				539C724E2B1EC88000B58103 /* Like */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
 				53C49C762B00F3A400FB9CE3 /* CustomView */,
@@ -186,6 +201,7 @@
 			children = (
 				53C49C6F2B00E89700FB9CE3 /* SignTextField.swift */,
 				53C49C772B00F42000FB9CE3 /* SignButton.swift */,
+				5320B02B2B1F04EC00B25680 /* HomeViewLayout.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -223,6 +239,7 @@
 				53C49C7C2B010A5500FB9CE3 /* RxCocoa */,
 				53C49C7E2B010A5500FB9CE3 /* RxSwift */,
 				53C49C862B01A32800FB9CE3 /* Moya */,
+				5320B02E2B1F142200B25680 /* Kingfisher */,
 			);
 			productName = MiniBlog;
 			productReference = 53C49C532B00E54D00FB9CE3 /* MiniBlog.app */;
@@ -257,6 +274,7 @@
 				53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				53C49C7B2B010A5500FB9CE3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				53C49C852B01A32800FB9CE3 /* XCRemoteSwiftPackageReference "Moya" */,
+				5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 53C49C542B00E54D00FB9CE3 /* Products */;
 			projectDirPath = "";
@@ -291,6 +309,7 @@
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
 				53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */,
 				5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */,
+				5320B02C2B1F04EC00B25680 /* HomeViewLayout.swift in Sources */,
 				5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */,
 				5375C8C72B12E3380039DB75 /* HomeViewController.swift in Sources */,
 				53C49CB32B01F1DB00FB9CE3 /* Lslp.swift in Sources */,
@@ -309,6 +328,7 @@
 				5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
+				539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +551,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
 		53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -558,6 +586,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5320B02E2B1F142200B25680 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		53C49C742B00F10500FB9CE3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */;

@@ -6,8 +6,10 @@
 //
 
 import Foundation
+
 import Moya
 import RxSwift
+import Kingfisher
 
 class APIManager {
 
@@ -88,12 +90,13 @@ class APIManager {
                     switch value.statusCode {
                     case 200:
                         do {
-                            if let token = try? JSONDecoder()
+                            if let responseData = try? JSONDecoder()
                                 .decode(LoginResponse.self, from: value.data) {
+                                LoginInfo.id = responseData.id
                                 LoginInfo.email = data.email
                                 LoginInfo.password = data.password
-                                LoginInfo.token = token.token
-                                LoginInfo.refreshToken = token.refreshToken
+                                LoginInfo.token = responseData.token
+                                LoginInfo.refreshToken = responseData.refreshToken
                                 observer(.success(Response(message: "로그인 성공", isSuccess: true)))
                             } else {
                                 observer(.success(Response(message: "로그인 실패", isSuccess: false)))
@@ -271,6 +274,13 @@ class APIManager {
                 request.cancel()
             }
         }
+    }
+
+    let imageDownloadRequest = AnyModifier { request in
+        var requestBody = request
+        requestBody.setValue(LoginInfo.token, forHTTPHeaderField: "Authorization")
+        requestBody.setValue(Lslp.key, forHTTPHeaderField: "SesacKey")
+        return requestBody
     }
 
 }
