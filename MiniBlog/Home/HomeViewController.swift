@@ -13,46 +13,63 @@ final class HomeViewController: BaseViewController {
 
     let disposeBag = DisposeBag()
 
+    let viewModel = HomeViewModel()
+
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureTagLayout())
 
-    //var dataSource: UICollectionViewDiffableDataSource<Int, Data>
-
-    let image = {
-        let view = UIImageView()
-        view.backgroundColor = .black
-        return view
-    }()
+    var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        APIManager.shared.read()
-            .subscribe(with: self) { owner, response in
-                for i in response.data {
-                    print(i.image)
-                }
-                if let url = URL(string: Lslp.url + response.data[0].image[0]) {
-                    DispatchQueue.main.async {
-                        owner.image.kf.setImage(with: url, options: [.requestModifier(APIManager.shared.imageDownloadRequest)])
-                    }
-                }
-            }
-            .disposed(by: disposeBag)
+        configureDataSource()
+        bind()
     }
 
     override func configHierarchy() {
-        view.addSubview(image)
+        view.addSubview(collectionView)
     }
 
     override func setLayout() {
-        image.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10)
+        collectionView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+
+    func bind() {
+        let viewDidLoadObservable = Observable<Void>.just(())
+
+        viewDidLoadObservable
+            .bind(to: viewModel.input.viewDidLoad)
+            .disposed(by: disposeBag)
+
+        viewModel.output.data
+            .subscribe(with: self) { owner, data in
+                var snapshot = NSDiffableDataSourceSnapshot<Int,ReadData>()
+                snapshot.appendSections([0])
+                snapshot.appendItems(data, toSection: 0)
+                owner.dataSource?.apply(snapshot, animatingDifferences: true)
+            }
+            .disposed(by: disposeBag)
     }
 
 }
 
 extension HomeViewController {
+
+    func configureDataSource() {
+        let cellRegistration = UICollectionView
+            .CellRegistration<HomeCollectionViewCell, ReadData> { cell, indexPath, itemIdentifier in
+                cell.imageView.kf.setImage(with: itemIdentifier.image, options: [.requestModifier(APIManager.shared.imageDownloadRequest)])
+        }
+
+        dataSource = UICollectionViewDiffableDataSource(
+            collectionView: collectionView,
+            cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+            return cell
+        })
+    }
 
     func configureTagLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .estimated(150))
@@ -77,5 +94,7 @@ extension HomeViewController {
 
         return layout
     }
+
+
 
 }

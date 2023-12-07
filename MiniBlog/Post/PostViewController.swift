@@ -102,7 +102,9 @@ extension PostViewController: PHPickerViewControllerDelegate {
 
         let itemProvider = results.first?.itemProvider
         if let itemProvider, itemProvider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
-            itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier, completionHandler: { [weak self] data, error in
+            itemProvider.loadDataRepresentation(
+                forTypeIdentifier: UTType.image.identifier,
+                completionHandler: { [weak self] data, error in
                 guard let data, let image = UIImage(data: data) else {
                     self?.showMessage(error?.localizedDescription ?? String(localized: "사진을 불러오지 못했습니다"))
                     self?.dismiss(animated: true)
@@ -112,7 +114,6 @@ extension PostViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     self?.imageView.image = image
                 }
-
             })
         }
     }

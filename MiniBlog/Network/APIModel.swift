@@ -54,10 +54,9 @@ struct ReadResponse: Decodable {
     }
 }
 
-struct ReadData: Decodable {
-
+struct ReadData: Decodable, Hashable {
     let likes: [String]
-    let image: [String]
+    let image: URL
     //let hashTags: [String]
     let creator: Creator
     let time: String
@@ -76,10 +75,28 @@ struct ReadData: Decodable {
         case productId = "product_id"
         case id = "_id"
     }
-    
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.likes = try container.decode([String].self, forKey: .likes)
+        self.creator = try container.decode(Creator.self, forKey: .creator)
+        self.time = try container.decode(String.self, forKey: .time)
+        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.content = try container.decodeIfPresent(String.self, forKey: .content)
+        self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
+        self.id = try container.decode(String.self, forKey: .id)
+
+        let imagePath = try container.decode([String].self, forKey: .image).first
+        if let imagePath = imagePath, let url = URL(string: "\(Lslp.url)\(imagePath)") {
+            self.image = url
+        } else {
+            throw DecodingError.valueNotFound(URL.self, .init(codingPath: decoder.codingPath, debugDescription: "value not found"))
+        }
+    }
 }
 
-struct Creator: Decodable {
+struct Creator: Decodable, Hashable {
     let nick: String
 //    let profile: String
 }

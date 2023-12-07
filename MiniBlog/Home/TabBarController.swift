@@ -86,7 +86,8 @@ extension TabBarController: PHPickerViewControllerDelegate {
                     forTypeIdentifier: UTType.image.identifier,
                     completionHandler: { [weak self] data, error in
                         guard let data,
-                              let jpegData = UIImage(data: data)?.compressImage()
+                              let jpegData = UIImage(data: data)?.jpegData(compressionQuality: 0.1)
+                            //.compressImage()
                         else { return }
 
                         DispatchQueue.main.async {
