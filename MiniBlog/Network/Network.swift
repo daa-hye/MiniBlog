@@ -69,14 +69,17 @@ extension LslpAPI: TargetType {
         case .post(let data):
             let imageData = MultipartFormData(provider: .data(data.file), name: "file", fileName: "\(Date()).jpeg", mimeType: "image/jpeg")
             let title = MultipartFormData(provider: .data(Data(data.title.utf8)), name: "title")
-            let productId = MultipartFormData(provider: .data(Data("dahye".utf8)), name: "product_id")
+            let productId = MultipartFormData(provider: .data(Data("dahye2".utf8)), name: "product_id")
+            let width = MultipartFormData(provider: .data(Data(data.width.utf8)), name: "content1")
+            let height = MultipartFormData(provider: .data(Data(data.height.utf8)), name: "content2")
 
-            return .uploadMultipart([imageData, title, productId])
+            return .uploadMultipart([imageData, title, productId, width, height])
 
         case .read:
             return .requestParameters(
-                parameters: ["next": LoginInfo.cursor,
-                             "product_id" : "dahye"],
+                parameters: ["next" : LoginInfo.cursor,
+                             "limit" : 15,
+                             "product_id" : "dahye2"],
                 encoding: URLEncoding.queryString
             )
 

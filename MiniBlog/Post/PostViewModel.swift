@@ -18,6 +18,8 @@ final class PostViewModel: ViewModelType {
     private let addButtonTap = PublishSubject<Void>()
     private let title = PublishSubject<String>()
     private let picture: BehaviorSubject<Data>
+    private let width: BehaviorSubject<CGFloat>
+    private let height: BehaviorSubject<CGFloat>
 
     private let postResult = BehaviorSubject(value: false)
 
@@ -32,8 +34,10 @@ final class PostViewModel: ViewModelType {
         let postResult: Observable<Bool>
     }
 
-    init(data: Data) {
+    init(data: Data, size: CGSize) {
         self.picture = .init(value: data)
+        self.width = .init(value: size.width)
+        self.height = .init(value: size.height)
 
         input = .init(
             addButtonTap: addButtonTap.asObserver(),
@@ -47,9 +51,9 @@ final class PostViewModel: ViewModelType {
         )
 
         addButtonTap
-            .withLatestFrom(Observable.combineLatest(title, picture))
-            .flatMapLatest { title, picture in
-                APIManager.shared.post(Post(title: title, file: picture))
+            .withLatestFrom(Observable.combineLatest(title, picture, width, height))
+            .flatMapLatest { title, picture, width, height in
+                APIManager.shared.post(Post(title: title, file: picture, width: "\(width)", height: "\(height)"))
                     .catchAndReturn(Response(message: "실패", isSuccess: false))
             }
             .subscribe(with: self) { owner, result in

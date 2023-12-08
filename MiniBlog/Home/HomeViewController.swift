@@ -26,6 +26,19 @@ final class HomeViewController: BaseViewController {
         bind()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let viewWillAppearObservable = Observable<Void>.create { observer in
+            observer.onNext(())
+            return Disposables.create()
+        }
+
+        viewWillAppearObservable
+            .bind(to: viewModel.input.viewWillAppear)
+            .disposed(by: disposeBag)
+    }
+
     override func configHierarchy() {
         view.addSubview(collectionView)
     }
@@ -37,14 +50,15 @@ final class HomeViewController: BaseViewController {
     }
 
     func bind() {
-        let viewDidLoadObservable = Observable<Void>.just(())
-
-        viewDidLoadObservable
-            .bind(to: viewModel.input.viewDidLoad)
-            .disposed(by: disposeBag)
-
         viewModel.output.data
             .subscribe(with: self) { owner, data in
+
+                let ratios = data.map{ Ratio(ratio: CGFloat(($0.width! as NSString).floatValue)/CGFloat(($0.height! as NSString).floatValue)) }
+
+                let layout = HomeViewLayout(columnsCount: 2, itemRatios: ratios, spacing: 10, contentWidth: owner.view.frame.width)
+
+                owner.collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: layout.section)
+
                 var snapshot = NSDiffableDataSourceSnapshot<Int,ReadData>()
                 snapshot.appendSections([0])
                 snapshot.appendItems(data, toSection: 0)

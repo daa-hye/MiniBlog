@@ -25,7 +25,7 @@ final class TabBarController: UITabBarController {
         }()
 
         let postView = {
-            let view = PostViewController(viewModel: PostViewModel(data: Data()))
+            let view = PostViewController(viewModel: PostViewModel(data: Data(), size: CGSize()))
             view.tabBarItem.image = UIImage(systemName: "plus.circle.fill")
             return view
         }()
@@ -86,12 +86,13 @@ extension TabBarController: PHPickerViewControllerDelegate {
                     forTypeIdentifier: UTType.image.identifier,
                     completionHandler: { [weak self] data, error in
                         guard let data,
-                              let jpegData = UIImage(data: data)?.jpegData(compressionQuality: 0.1)
+                              let image = UIImage(data: data),
+                              let jpegData = image.jpegData(compressionQuality: 0.1)
                             //.compressImage()
                         else { return }
 
                         DispatchQueue.main.async {
-                            let vc = PostViewController(viewModel: .init(data: jpegData))
+                            let vc = PostViewController(viewModel: .init(data: jpegData, size: image.size))
                             let view = UINavigationController(rootViewController: vc)
                             view.modalPresentationStyle = .fullScreen
 

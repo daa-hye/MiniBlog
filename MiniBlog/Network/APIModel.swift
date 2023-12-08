@@ -25,6 +25,8 @@ struct Login: Encodable {
 struct Post: Encodable {
     let title: String
     let file: Data
+    let width: String
+    let height: String
 }
 
 struct JoinResponse: Decodable {
@@ -61,7 +63,8 @@ struct ReadData: Decodable, Hashable {
     let creator: Creator
     let time: String
     let title: String?
-    let content: String?
+    let width: String?
+    let height: String?
     let productId: String?
     let id: String
 
@@ -71,7 +74,8 @@ struct ReadData: Decodable, Hashable {
         case creator
         case time
         case title
-        case content
+        case width = "content1"
+        case height = "content2"
         case productId = "product_id"
         case id = "_id"
     }
@@ -83,7 +87,8 @@ struct ReadData: Decodable, Hashable {
         self.creator = try container.decode(Creator.self, forKey: .creator)
         self.time = try container.decode(String.self, forKey: .time)
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
-        self.content = try container.decodeIfPresent(String.self, forKey: .content)
+        self.width = try container.decodeIfPresent(String.self, forKey: .width)
+        self.height = try container.decodeIfPresent(String.self, forKey: .height)
         self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
         self.id = try container.decode(String.self, forKey: .id)
 

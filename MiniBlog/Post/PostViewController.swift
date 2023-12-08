@@ -78,7 +78,6 @@ final class PostViewController: BaseViewController {
             .disposed(by: disposeBag)
 
         viewModel.output.picture
-            .debug()
             .subscribe(with: self) { owner, data in
                 owner.imageView.image = UIImage(data: data)
             }

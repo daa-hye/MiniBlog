@@ -15,11 +15,11 @@ final class HomeViewModel: ViewModelType {
     let input: Input
     let output: Output
 
-    private let viewDidLoad = PublishSubject<Void>()
+    private let viewWillAppear = PublishSubject<Void>()
     private let data: BehaviorSubject<[ReadData]> = BehaviorSubject(value: [])
 
     struct Input {
-        let viewDidLoad: AnyObserver<Void>
+        let viewWillAppear: AnyObserver<Void>
     }
 
     struct Output {
@@ -28,14 +28,15 @@ final class HomeViewModel: ViewModelType {
 
     init() {
         input = .init(
-            viewDidLoad: viewDidLoad.asObserver()
+            viewWillAppear: viewWillAppear.asObserver()
         )
 
         output = .init(
             data: data.asObservable()
         )
 
-        viewDidLoad
+        viewWillAppear
+            .debug()
             .bind(with: self) { owner, _ in
                 DispatchQueue.main.async {
                     APIManager.shared.read()
