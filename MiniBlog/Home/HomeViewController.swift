@@ -50,6 +50,16 @@ final class HomeViewController: BaseViewController {
     }
 
     func bind() {
+
+        collectionView.rx.itemSelected
+            .subscribe(with: self) { owner, indexPath in
+                if let data = owner.dataSource?.itemIdentifier(for: indexPath) {
+                    let vc = DetailViewController(viewModel: .init(data: data))
+                    owner.present(vc, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
+
         viewModel.output.data
             .subscribe(with: self) { owner, data in
 
@@ -109,6 +119,8 @@ extension HomeViewController {
         return layout
     }
 
+}
 
+extension HomeViewController: UICollectionViewDelegate {
 
 }

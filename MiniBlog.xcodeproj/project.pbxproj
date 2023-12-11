@@ -11,6 +11,8 @@
 		5320B02F2B1F142200B25680 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5320B02E2B1F142200B25680 /* Kingfisher */; };
 		5320B0312B20441000B25680 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5320B0302B20441000B25680 /* HomeCollectionViewCell.swift */; };
 		5320B0332B215A1700B25680 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5320B0322B215A1700B25680 /* HomeViewModel.swift */; };
+		534CFACD2B26D1C200619EF2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACC2B26D1C200619EF2 /* DetailViewController.swift */; };
+		534CFACF2B26D8FD00619EF2 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */; };
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
 		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
@@ -49,6 +51,8 @@
 		5320B02B2B1F04EC00B25680 /* HomeViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewLayout.swift; sourceTree = "<group>"; };
 		5320B0302B20441000B25680 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		5320B0322B215A1700B25680 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		534CFACC2B26D1C200619EF2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -97,9 +101,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		534CFACB2B26D1AF00619EF2 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				534CFACC2B26D1C200619EF2 /* DetailViewController.swift */,
+				534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		5375C8C32B12E1D60039DB75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				534CFACB2B26D1AF00619EF2 /* Detail */,
 				5375C8D62B1460920039DB75 /* TabBarController.swift */,
 				5375C8C62B12E3380039DB75 /* HomeViewController.swift */,
 				5320B0302B20441000B25680 /* HomeCollectionViewCell.swift */,
@@ -312,6 +326,7 @@
 			files = (
 				53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */,
 				53C49C7A2B00F9DD00FB9CE3 /* SignUpViewController.swift in Sources */,
+				534CFACF2B26D8FD00619EF2 /* DetailViewModel.swift in Sources */,
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
 				53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */,
 				5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */,
@@ -337,6 +352,7 @@
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
 				539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */,
+				534CFACD2B26D1C200619EF2 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

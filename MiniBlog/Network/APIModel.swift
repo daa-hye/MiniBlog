@@ -62,7 +62,7 @@ struct ReadData: Decodable, Hashable {
     //let hashTags: [String]
     let creator: Creator
     let time: String
-    let title: String?
+    let title: String
     let width: String?
     let height: String?
     let productId: String?
@@ -86,7 +86,7 @@ struct ReadData: Decodable, Hashable {
         self.likes = try container.decode([String].self, forKey: .likes)
         self.creator = try container.decode(Creator.self, forKey: .creator)
         self.time = try container.decode(String.self, forKey: .time)
-        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.title = try container.decode(String.self, forKey: .title)
         self.width = try container.decodeIfPresent(String.self, forKey: .width)
         self.height = try container.decodeIfPresent(String.self, forKey: .height)
         self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
