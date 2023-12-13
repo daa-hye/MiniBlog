@@ -16,6 +16,8 @@ enum LslpAPI {
     case withdraw
     case post(model: Post)
     case read
+    case readDetail(id: String)
+    case comment(id: String, model: Comment)
 }
 
 extension LslpAPI: TargetType {
@@ -37,14 +39,18 @@ extension LslpAPI: TargetType {
             return "withdraw"
         case .post, .read:
             return "post"
+        case .readDetail(let id):
+            return "post/\(id)"
+        case .comment(let id, _):
+            return "post/\(id)/comment"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .join, .email, .login, .post:
+        case .join, .email, .login, .post, .comment:
             return .post
-        case .refreshToken, .withdraw, .read:
+        case .refreshToken, .withdraw, .read, .readDetail:
             return .get
         }
     }
@@ -63,7 +69,7 @@ extension LslpAPI: TargetType {
             let data = Login(email: data.email, password: data.password)
             return .requestJSONEncodable(data)
 
-        case .refreshToken, .withdraw:
+        case .refreshToken, .withdraw, .readDetail:
             return .requestPlain
 
         case .post(let data):
@@ -83,6 +89,9 @@ extension LslpAPI: TargetType {
                 encoding: URLEncoding.queryString
             )
 
+        case .comment(_, let data):
+            let data = Comment(content: data.content)
+            return .requestJSONEncodable(data)
         }
 
     }
@@ -98,7 +107,7 @@ extension LslpAPI: TargetType {
                      "SesacKey" : "\(Lslp.key)",
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
-        case .withdraw, .read:
+        case .withdraw, .read, .readDetail:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]
@@ -106,6 +115,11 @@ extension LslpAPI: TargetType {
         case .post:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "Content-Type" : "multipart/form-data",
+                     "SesacKey" : "\(Lslp.key)"
+             ]
+        case .comment:
+            return [ "Authorization" : "\(LoginInfo.token)",
+                     "Content-Type" : "application/json",
                      "SesacKey" : "\(Lslp.key)"
              ]
         }

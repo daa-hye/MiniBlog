@@ -36,7 +36,6 @@ final class HomeViewModel: ViewModelType {
         )
 
         viewWillAppear
-            .debug()
             .bind(with: self) { owner, _ in
                 DispatchQueue.main.async {
                     APIManager.shared.read()

@@ -15,33 +15,40 @@ class DetailViewModel: ViewModelType {
 
     var disposeBag = DisposeBag()
 
-    private let data: BehaviorSubject<ReadData>
+    private let viewDidLoad = PublishSubject<Void>()
 
-    private let title: BehaviorSubject<String>
-    private let photo: BehaviorSubject<URL>
+    private let data = PublishSubject<ReadDetail>()
 
     struct Input {
-
+        let viewDidLoad: AnyObserver<Void>
     }
 
     struct Output {
-        let title: Observable<String>
-        let photo: Observable<URL>
+        let data: Observable<ReadDetail>
     }
 
-    init(data: ReadData) {
-        self.data = .init(value: data)
-        self.title = .init(value: data.title)
-        self.photo = .init(value: data.image)
+    init(id: String) {
 
-        input = .init()
-
-        output = .init(
-            title: title,
-            photo: photo
+        input = .init(
+            viewDidLoad: viewDidLoad.asObserver()
         )
 
-    }
+        output = .init(
+            data: data.asObservable()
+        )
 
+        viewDidLoad
+            .bind(with: self) { owner, _ in
+                DispatchQueue.main.async {
+                    APIManager.shared.read(id: id)
+                        .catchAndReturn(ReadDetail())
+                        .subscribe(with: self) { owner, data in
+                            owner.data.onNext(data)
+                        }
+                        .disposed(by: owner.disposeBag)
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 
 }

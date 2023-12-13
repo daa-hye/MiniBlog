@@ -29,6 +29,10 @@ struct Post: Encodable {
     let height: String
 }
 
+struct Comment: Encodable {
+    let content: String
+}
+
 struct JoinResponse: Decodable {
     let email: String
     let nick :String
@@ -57,15 +61,43 @@ struct ReadResponse: Decodable {
 }
 
 struct ReadData: Decodable, Hashable {
-    let likes: [String]
     let image: URL
+    let id: String
+    let width: String?
+    let height: String?
+
+    enum CodingKeys: String, CodingKey {
+        case image
+        case width = "content1"
+        case height = "content2"
+        case id = "_id"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.width = try container.decodeIfPresent(String.self, forKey: .width)
+        self.height = try container.decodeIfPresent(String.self, forKey: .height)
+        self.id = try container.decode(String.self, forKey: .id)
+
+        let imagePath = try container.decode([String].self, forKey: .image).first
+        if let imagePath = imagePath, let url = URL(string: "\(Lslp.url)\(imagePath)") {
+            self.image = url
+        } else {
+            throw DecodingError.valueNotFound(URL.self, .init(codingPath: decoder.codingPath, debugDescription: "value not found"))
+        }
+    }
+
+}
+
+struct ReadDetail: Decodable, Hashable {
+    let likes: [String]
+    let image: URL?
     //let hashTags: [String]
-    let creator: Creator
+    let creator: Creator?
     let time: String
     let title: String
     let width: String?
     let height: String?
-    let productId: String?
     let id: String
 
     enum CodingKeys: String, CodingKey {
@@ -76,7 +108,6 @@ struct ReadData: Decodable, Hashable {
         case title
         case width = "content1"
         case height = "content2"
-        case productId = "product_id"
         case id = "_id"
     }
 
@@ -89,7 +120,6 @@ struct ReadData: Decodable, Hashable {
         self.title = try container.decode(String.self, forKey: .title)
         self.width = try container.decodeIfPresent(String.self, forKey: .width)
         self.height = try container.decodeIfPresent(String.self, forKey: .height)
-        self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
         self.id = try container.decode(String.self, forKey: .id)
 
         let imagePath = try container.decode([String].self, forKey: .image).first
@@ -99,11 +129,46 @@ struct ReadData: Decodable, Hashable {
             throw DecodingError.valueNotFound(URL.self, .init(codingPath: decoder.codingPath, debugDescription: "value not found"))
         }
     }
+
+    init() {
+        self.likes = []
+        self.image = nil
+        self.creator = nil
+        self.time = ""
+        self.title = ""
+        self.width = nil
+        self.height = nil
+        self.id = ""
+    }
+
+
+
 }
 
 struct Creator: Decodable, Hashable {
+    let id: String
     let nick: String
-//    let profile: String
+    let profile: URL?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case nick
+        case profile
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.nick = try container.decode(String.self, forKey: .nick)
+
+        let profilePath = try container.decodeIfPresent(String.self, forKey: .profile)
+        if let profilePath = profilePath, let url = URL(string: "\(Lslp.url)\(profilePath)") {
+            self.profile = url
+        } else {
+            self.profile = nil
+        }
+    }
+
 }
 
 struct MessageResponse: Decodable {

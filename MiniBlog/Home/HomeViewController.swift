@@ -54,7 +54,7 @@ final class HomeViewController: BaseViewController {
         collectionView.rx.itemSelected
             .subscribe(with: self) { owner, indexPath in
                 if let data = owner.dataSource?.itemIdentifier(for: indexPath) {
-                    let vc = DetailViewController(viewModel: .init(data: data))
+                    let vc = DetailViewController(viewModel: .init(id: data.id))
                     owner.present(vc, animated: true)
                 }
             }

@@ -26,10 +26,19 @@ class DetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+
+        let viewDidLoadObservable = Observable<Void>.create { observer in
+            observer.onNext(())
+            return Disposables.create()
+        }
+
+        viewDidLoadObservable
+            .bind(to: viewModel.input.viewDidLoad)
+            .disposed(by: disposeBag)
     }
 
     override func configHierarchy() {
@@ -53,11 +62,13 @@ class DetailViewController: BaseViewController {
 
     func bind() {
 
-        viewModel.output.title
+        viewModel.output.data
+            .map {$0.title}
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
 
-        viewModel.output.photo
+        viewModel.output.data
+            .map { $0.image }
             .bind(with: self) { owner, url in
                 owner.imageView.kf.setImage(with: url, options: [.requestModifier(APIManager.shared.imageDownloadRequest)])
             }

@@ -33,7 +33,7 @@ class APIManager {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             }
                         } else {
-//                            observer(.faliure())
+                            //                            observer(.faliure())
                         }
                     }
 
@@ -119,7 +119,7 @@ class APIManager {
                     observer(.failure(error))
                 }
             }
-            
+
             return Disposables.create {
                 request.cancel()
             }
@@ -202,8 +202,8 @@ class APIManager {
                             .subscribe { refresh in
                                 if refresh {
                                     self.post(data)
-                                    .subscribe(observer)
-                                    .disposed(by: disposeBag)
+                                        .subscribe(observer)
+                                        .disposed(by: disposeBag)
                                 } else {
                                     observer(.success(Response(message: "실패", isSuccess: false)))
                                 }
@@ -216,7 +216,7 @@ class APIManager {
                                 .message {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             } else {
-//                                observer(.failure())
+                                //                                observer(.failure())
                             }
                         }
                     }
@@ -252,19 +252,51 @@ class APIManager {
                     case 419:
                         self.refreshToken()
                             .subscribe { refresh in
-                            if refresh {
-                                self.read()
-                                    .subscribe(observer)
-                                    .disposed(by: disposeBag)
-                            } else {
-                                observer(.success(ReadResponse(data: [], nextCursor: "")))
+                                if refresh {
+                                    self.read()
+                                        .subscribe(observer)
+                                        .disposed(by: disposeBag)
+                                } else {
+                                    observer(.success(ReadResponse(data: [], nextCursor: "")))
+                                }
                             }
-                        }
-                        .disposed(by: disposeBag)
+                            .disposed(by: disposeBag)
                     default:
                         observer(.success(ReadResponse(data: [], nextCursor: "")))
                     }
                 case .failure(let error):
+                    print(error.localizedDescription)
+                    observer(.failure(error))
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
+    func read(id: String) -> Single<ReadDetail> {
+        return Single.create { observer in
+            let disposeBag = DisposeBag()
+
+            let request = self.provider.request(.readDetail(id: id)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(ReadDetail.self, from: value.data)
+                            observer(.success(data))
+                        } catch {
+                            print(error)
+                            observer(.success(ReadDetail()))
+                        }
+                    default:
+                        observer(.success(ReadDetail()))
+                    }
+                case.failure(let error):
                     print(error.localizedDescription)
                     observer(.failure(error))
                 }
