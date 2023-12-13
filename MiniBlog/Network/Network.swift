@@ -18,6 +18,7 @@ enum LslpAPI {
     case read
     case readDetail(id: String)
     case comment(id: String, model: Comment)
+    case like(id: String)
 }
 
 extension LslpAPI: TargetType {
@@ -43,12 +44,14 @@ extension LslpAPI: TargetType {
             return "post/\(id)"
         case .comment(let id, _):
             return "post/\(id)/comment"
+        case .like(let id):
+            return "post/like/\(id)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .join, .email, .login, .post, .comment:
+        case .join, .email, .login, .post, .comment, .like:
             return .post
         case .refreshToken, .withdraw, .read, .readDetail:
             return .get
@@ -69,7 +72,7 @@ extension LslpAPI: TargetType {
             let data = Login(email: data.email, password: data.password)
             return .requestJSONEncodable(data)
 
-        case .refreshToken, .withdraw, .readDetail:
+        case .refreshToken, .withdraw, .readDetail, .like:
             return .requestPlain
 
         case .post(let data):
@@ -107,7 +110,7 @@ extension LslpAPI: TargetType {
                      "SesacKey" : "\(Lslp.key)",
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
-        case .withdraw, .read, .readDetail:
+        case .withdraw, .read, .readDetail, .like:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]

@@ -33,7 +33,7 @@ class APIManager {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             }
                         } else {
-                            //                            observer(.faliure())
+                            //observer(.faliure())
                         }
                     }
 
@@ -126,18 +126,19 @@ class APIManager {
         }
     }
 
-    func refreshToken() -> Single<Bool> {
+    func refreshToken() -> Single<Void> {
         return Single.create { observer in
             let request = self.provider.request(.refreshToken) { result in
                 switch result {
                 case.success(let value):
                     switch value.statusCode {
                     case 200, 409:
-                        observer(.success(true))
+                        observer(.success(()))
                     default:
-                        observer(.success(false))
+                        observer(.failure(MoyaError.statusCode(value)))
                     }
                 case .failure(let error):
+                    observer(.failure(error))
                     print(error.localizedDescription)
                 }
             }
@@ -160,16 +161,13 @@ class APIManager {
                     case 200:
                         return observer(.success(true))
                     case 419:
-                        self.refreshToken().subscribe { refresh in
-                            if refresh {
+                        self.refreshToken()
+                            .catch { _ in .error(MoyaError.statusCode(value))  }
+                            .flatMap { _ in
                                 self.withdraw()
-                                    .subscribe(observer)
-                                    .disposed(by: disposeBag)
-                            } else {
-                                observer(.success(false))
                             }
-                        }
-                        .disposed(by: disposeBag)
+                            .subscribe(observer)
+                            .disposed(by: disposeBag)
                     default:
                         observer(.success(false))
                     }
@@ -199,15 +197,11 @@ class APIManager {
                         observer(.success(Response(message: "성공", isSuccess: true)))
                     case 419:
                         self.refreshToken()
-                            .subscribe { refresh in
-                                if refresh {
-                                    self.post(data)
-                                        .subscribe(observer)
-                                        .disposed(by: disposeBag)
-                                } else {
-                                    observer(.success(Response(message: "실패", isSuccess: false)))
-                                }
+                            .catch { _ in .error(MoyaError.statusCode(value))  }
+                            .flatMap { _ in
+                                self.post(data)
                             }
+                            .subscribe(observer)
                             .disposed(by: disposeBag)
                     default:
                         do {
@@ -216,7 +210,7 @@ class APIManager {
                                 .message {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             } else {
-                                //                                observer(.failure())
+                                //observer(.failure())
                             }
                         }
                     }
@@ -247,22 +241,18 @@ class APIManager {
                             observer(.success(data))
                         } catch {
                             print(error)
-                            observer(.success(ReadResponse(data: [], nextCursor: "")))
+                            observer(.failure(MoyaError.statusCode(value)))
                         }
                     case 419:
                         self.refreshToken()
-                            .subscribe { refresh in
-                                if refresh {
-                                    self.read()
-                                        .subscribe(observer)
-                                        .disposed(by: disposeBag)
-                                } else {
-                                    observer(.success(ReadResponse(data: [], nextCursor: "")))
-                                }
+                            .catch { _ in .error(MoyaError.statusCode(value))  }
+                            .flatMap { _ in
+                                self.read()
                             }
+                            .subscribe(observer)
                             .disposed(by: disposeBag)
                     default:
-                        observer(.success(ReadResponse(data: [], nextCursor: "")))
+                        observer(.failure(MoyaError.statusCode(value)))
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -288,17 +278,50 @@ class APIManager {
                         do {
                             let data = try JSONDecoder()
                                 .decode(ReadDetail.self, from: value.data)
+
                             observer(.success(data))
                         } catch {
                             print(error)
-                            observer(.success(ReadDetail()))
+                            observer(.failure(error))
                         }
+                    case 419:
+                        self.refreshToken()
+                            .catch { _ in .error(MoyaError.statusCode(value))  }
+                            .flatMap { _ in
+                                self.read(id: id)
+                            }
+                            .subscribe(observer)
+                            .disposed(by: disposeBag)
                     default:
-                        observer(.success(ReadDetail()))
+                        observer(.failure(MoyaError.statusCode(value)))
                     }
                 case.failure(let error):
                     print(error.localizedDescription)
                     observer(.failure(error))
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
+    func like(id: String) -> Single<Bool> {
+        return Single.create { observer in
+            let request = self.provider.request(.like(id: id)) { result in
+                switch result {
+                case .success(let value):
+                    do {
+                        let data = try JSONDecoder()
+                            .decode(LikeResponse.self, from: value.data)
+                        observer(.success(data.isLiked))
+                    } catch {
+                        print(error)
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
 

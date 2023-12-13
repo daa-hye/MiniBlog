@@ -35,6 +35,7 @@ final class HomeViewModel: ViewModelType {
             data: data.asObservable()
         )
 
+        // TODO: 수정
         viewWillAppear
             .bind(with: self) { owner, _ in
                 DispatchQueue.main.async {

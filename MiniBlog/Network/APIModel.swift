@@ -91,9 +91,9 @@ struct ReadData: Decodable, Hashable {
 
 struct ReadDetail: Decodable, Hashable {
     let likes: [String]
-    let image: URL?
+    let image: URL
     //let hashTags: [String]
-    let creator: Creator?
+    let creator: Creator
     let time: String
     let title: String
     let width: String?
@@ -129,20 +129,7 @@ struct ReadDetail: Decodable, Hashable {
             throw DecodingError.valueNotFound(URL.self, .init(codingPath: decoder.codingPath, debugDescription: "value not found"))
         }
     }
-
-    init() {
-        self.likes = []
-        self.image = nil
-        self.creator = nil
-        self.time = ""
-        self.title = ""
-        self.width = nil
-        self.height = nil
-        self.id = ""
-    }
-
-
-
+    
 }
 
 struct Creator: Decodable, Hashable {
@@ -164,11 +151,21 @@ struct Creator: Decodable, Hashable {
         let profilePath = try container.decodeIfPresent(String.self, forKey: .profile)
         if let profilePath = profilePath, let url = URL(string: "\(Lslp.url)\(profilePath)") {
             self.profile = url
+        } else if let url = URL(string: "\(Lslp.profile)") {
+            self.profile = url
         } else {
             self.profile = nil
         }
     }
 
+}
+
+struct LikeResponse: Decodable {
+    let isLiked: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case isLiked = "like_status"
+    }
 }
 
 struct MessageResponse: Decodable {
