@@ -55,7 +55,10 @@ final class HomeViewController: BaseViewController {
             .subscribe(with: self) { owner, indexPath in
                 if let data = owner.dataSource?.itemIdentifier(for: indexPath) {
                     let vc = DetailViewController(viewModel: .init(id: data.id))
-                    owner.present(vc, animated: true)
+                    let nav = UINavigationController(rootViewController: vc)
+                    nav.modalPresentationStyle = .fullScreen
+                    nav.modalTransitionStyle = .flipHorizontal
+                    owner.present(nav, animated: true)
                 }
             }
             .disposed(by: disposeBag)
@@ -118,9 +121,5 @@ extension HomeViewController {
 
         return layout
     }
-
-}
-
-extension HomeViewController: UICollectionViewDelegate {
 
 }

@@ -22,6 +22,7 @@ final class DetailViewController: BaseViewController {
     private let titleLabel = UILabel()
     private let likedButton = UIImageView(image: UIImage(systemName: "heart.fill"))
     private let likeLabel = UILabel()
+    private let commentLabel = UILabel()
 
     private let likeButtonTap = UITapGestureRecognizer()
 
@@ -59,18 +60,20 @@ final class DetailViewController: BaseViewController {
         view.addSubview(imageView)
         view.addSubview(likedButton)
         view.addSubview(likeLabel)
+        view.addSubview(commentLabel)
     }
 
     override func setLayout() {
 
         profileStackView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview().inset(20)
+            $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().inset(8)
         }
 
         imageView.snp.makeConstraints {
             $0.top.equalTo(profileStackView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.6)
+            $0.height.equalToSuperview().multipliedBy(0.4)
         }
 
         likedButton.snp.makeConstraints {
@@ -85,12 +88,17 @@ final class DetailViewController: BaseViewController {
         }
 
         titleLabel.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.top.equalTo(likedButton.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(8)
+            $0.top.equalTo(likedButton.snp.bottom).offset(10)
         }
 
         profileImageView.snp.makeConstraints {
             $0.size.equalTo(40)
+        }
+
+        commentLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(8)
         }
 
     }
@@ -135,11 +143,15 @@ final class DetailViewController: BaseViewController {
                 value ? owner.likeButtonColor.onNext(.systemPink) : owner.likeButtonColor.onNext(.main)
             }
             .disposed(by: disposeBag)
+
+        viewModel.output.commentCount
+            .bind(to: commentLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 
     private func configure() {
         profileStackView.axis = .horizontal
-        profileStackView.alignment = .leading
+        profileStackView.alignment = .center
         profileStackView.distribution = .fill
         profileStackView.spacing = 16
         profileImageView.layer.cornerRadius = 20
@@ -147,6 +159,16 @@ final class DetailViewController: BaseViewController {
         profileImageView.layer.borderColor = UIColor.main.cgColor
         likedButton.isUserInteractionEnabled = true
         likedButton.addGestureRecognizer(likeButtonTap)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
+        commentLabel.textColor = .gray
+
+        let backBarButton = UIBarButtonItem(image: UIImage(systemName: "multiply"), style: .plain, target: self, action: #selector(close))
+        self.navigationItem.leftBarButtonItem = backBarButton
+    }
+
+    @objc
+    private func close() {
+        dismiss(animated: true)
     }
 
 }

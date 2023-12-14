@@ -35,6 +35,7 @@ class DetailViewModel: ViewModelType {
         let profile: Observable<URL?>
         let liked: Observable<Bool>
         let likeCount: Observable<String>
+        let commentCount: Observable<String>
     }
 
     init(id: String) {
@@ -47,36 +48,39 @@ class DetailViewModel: ViewModelType {
         )
 
         output = .init(
-            title: data.map { $0.title },
-            nickname: data.map { $0.creator.nick},
-            image: data.map { $0.image },
-            profile: data.map { $0.creator.profile },
-            liked: liked.asObservable(),
+            title: data.map { $0.title }.observe(on: MainScheduler.instance),
+            nickname: data.map { $0.creator.nick}.observe(on: MainScheduler.instance),
+            image: data.map { $0.image }.observe(on: MainScheduler.instance),
+            profile: data.map { $0.creator.profile }.observe(on: MainScheduler.instance),
+            liked: liked.observe(on: MainScheduler.instance).asObservable(),
             likeCount: data.map {
                 if $0.likes.count > 0 {
                     "좋아요 \($0.likes.count)개"
                 } else {
                     ""
                 }
+            }.observe(on: MainScheduler.instance),
+            commentCount: data.map {
+                if $0.commetns.count > 0 {
+                    "댓글 \($0.commetns.count)개 더보기"
+                } else {
+                    "댓글이 아직 없습니다"
+                }
             }
         )
 
-
-        // TODO: 수정
         viewDidLoad
-            .bind(with: self) { owner, _ in
+            .flatMap { _ in
                 APIManager.shared.read(id: id)
-                //error
-                    .subscribe(with: self) { owner, data in
-                        owner.data.onNext(data)
-                        owner.liked.onNext(data.likes.contains(LoginInfo.id))
-                    }
-                    .disposed(by: owner.disposeBag)
+            }
+            .subscribe(with: self) { owner, data in
+                owner.data.onNext(data)
+                owner.liked.onNext(data.likes.contains(LoginInfo.id))
             }
             .disposed(by: disposeBag)
 
         likeButtonTap
-            .flatMap { _ in
+            .flatMapLatest { _ in
                 APIManager.shared.like(id: id)
                     .catchAndReturn(false)
             }

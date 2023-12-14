@@ -32,21 +32,17 @@ final class HomeViewModel: ViewModelType {
         )
 
         output = .init(
-            data: data.asObservable()
+            data: data.observe(on: MainScheduler.instance).asObservable()
         )
 
-        // TODO: 수정
         viewWillAppear
-            .bind(with: self) { owner, _ in
-                DispatchQueue.main.async {
-                    APIManager.shared.read()
-                        .catchAndReturn(ReadResponse(data: [], nextCursor: "0"))
-                        .map { $0.data }
-                        .subscribe(with: self) { owner, data in
-                            owner.data.onNext(data)
-                        }
-                        .disposed(by: owner.disposeBag)
-                }
+            .flatMap { _ in
+                APIManager.shared.read()
+                .catchAndReturn(ReadResponse(data: [], nextCursor: "0"))
+                .map { $0.data }
+            }
+            .subscribe(with: self) { owner, data in
+                owner.data.onNext(data)
             }
             .disposed(by: disposeBag)
 
