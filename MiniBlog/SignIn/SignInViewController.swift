@@ -102,6 +102,7 @@ final class SignInViewController: BaseViewController {
     private func configure() {
         titleLable.text = String(localized: "시작해볼까요?")
         titleLable.font = UIFont.boldSystemFont(ofSize: 30)
+        passwordTextField.isSecureTextEntry = true
     }
 
 }

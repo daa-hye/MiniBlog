@@ -16,7 +16,7 @@ enum LoginInfo {
         case nickname
         case token
         case refreshToken
-        case cursor
+        case profile
     }
 
     @UserDafaultsManager(key: Key.id.rawValue, defaultValue: "?")
@@ -37,7 +37,7 @@ enum LoginInfo {
     @UserDafaultsManager(key: Key.refreshToken.rawValue, defaultValue: "0")
     static var refreshToken
 
-    @UserDafaultsManager(key: Key.cursor.rawValue, defaultValue: "")
-    static var cursor
+    @UserDafaultsManager(key: Key.profile.rawValue, defaultValue: Lslp.profile)
+    static var profile
 
 }

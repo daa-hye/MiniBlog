@@ -15,7 +15,7 @@ enum LslpAPI {
     case refreshToken
     case withdraw
     case post(model: Post)
-    case read
+    case read(cursor: String)
     case readDetail(id: String)
     case comment(id: String, model: Comment)
     case like(id: String)
@@ -84,9 +84,9 @@ extension LslpAPI: TargetType {
 
             return .uploadMultipart([imageData, title, productId, width, height])
 
-        case .read:
+        case .read(let cursor):
             return .requestParameters(
-                parameters: ["next" : LoginInfo.cursor,
+                parameters: ["next" : cursor,
                              "limit" : 15,
                              "product_id" : "dahye2"],
                 encoding: URLEncoding.queryString

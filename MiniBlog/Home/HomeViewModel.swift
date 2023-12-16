@@ -17,6 +17,7 @@ final class HomeViewModel: ViewModelType {
 
     private let viewWillAppear = PublishSubject<Void>()
     private let data: BehaviorSubject<[ReadData]> = BehaviorSubject(value: [])
+    private let cursor = BehaviorSubject(value: "")
 
     struct Input {
         let viewWillAppear: AnyObserver<Void>
@@ -24,6 +25,7 @@ final class HomeViewModel: ViewModelType {
 
     struct Output {
         let data: Observable<[ReadData]>
+        let cursor: Observable<String>
     }
 
     init() {
@@ -32,17 +34,18 @@ final class HomeViewModel: ViewModelType {
         )
 
         output = .init(
-            data: data.observe(on: MainScheduler.instance).asObservable()
+            data: data.observe(on: MainScheduler.instance).asObservable(),
+            cursor: cursor.observe(on: MainScheduler.instance).asObservable()
         )
 
         viewWillAppear
             .flatMap { _ in
-                APIManager.shared.read()
+                APIManager.shared.read(cursor: "")
                 .catchAndReturn(ReadResponse(data: [], nextCursor: "0"))
-                .map { $0.data }
             }
-            .subscribe(with: self) { owner, data in
-                owner.data.onNext(data)
+            .subscribe(with: self) { owner, response in
+                owner.data.onNext(response.data)
+                owner.cursor.onNext(response.nextCursor)
             }
             .disposed(by: disposeBag)
 

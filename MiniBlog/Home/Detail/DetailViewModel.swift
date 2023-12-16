@@ -16,16 +16,16 @@ class DetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
 
     private let viewDidLoad = PublishSubject<Void>()
-    private let likeButtonTap = PublishSubject<Void>()
+    private let likeButtonDidTap = PublishSubject<Void>()
 
     private let data = PublishSubject<ReadDetail>()
-    private let id: String
+    let id: String
 
     private let liked = PublishSubject<Bool>()
 
     struct Input {
         let viewDidLoad: AnyObserver<Void>
-        let likeButtonTap: AnyObserver<Void>
+        let likeButtonDidTap: AnyObserver<Void>
     }
 
     struct Output {
@@ -44,7 +44,7 @@ class DetailViewModel: ViewModelType {
 
         input = .init(
             viewDidLoad: viewDidLoad.asObserver(), 
-            likeButtonTap: likeButtonTap.asObserver()
+            likeButtonDidTap: likeButtonDidTap.asObserver()
         )
 
         output = .init(
@@ -61,12 +61,12 @@ class DetailViewModel: ViewModelType {
                 }
             }.observe(on: MainScheduler.instance),
             commentCount: data.map {
-                if $0.commetns.count > 0 {
-                    "댓글 \($0.commetns.count)개 더보기"
+                if $0.comments.count > 0 {
+                    "댓글 \($0.comments.count)개 모두 보기"
                 } else {
                     "댓글이 아직 없습니다"
                 }
-            }
+            }.observe(on: MainScheduler.instance)
         )
 
         viewDidLoad
@@ -79,7 +79,7 @@ class DetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
 
-        likeButtonTap
+        likeButtonDidTap
             .flatMapLatest { _ in
                 APIManager.shared.like(id: id)
                     .catchAndReturn(false)
@@ -88,7 +88,6 @@ class DetailViewModel: ViewModelType {
                 owner.liked.onNext(value)
             }
             .disposed(by: disposeBag)
-
     }
 
 }

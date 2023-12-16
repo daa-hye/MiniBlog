@@ -64,7 +64,7 @@ class APIManager {
                                 .message {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             } else {
-
+                                observer(.failure(MoyaError.statusCode(value)))
                             }
                         }
                     }
@@ -109,7 +109,7 @@ class APIManager {
                                 .message {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             } else {
-
+                                observer(.failure(MoyaError.statusCode(value)))
                             }
                         }
                     }
@@ -210,7 +210,7 @@ class APIManager {
                                 .message {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             } else {
-                                //observer(.failure())
+                                observer(.failure(MoyaError.statusCode(value)))
                             }
                         }
                     }
@@ -226,11 +226,11 @@ class APIManager {
         }
     }
 
-    func read() -> Single<ReadResponse> {
+    func read(cursor: String) -> Single<ReadResponse> {
         return Single.create { observer in
             let disposeBag = DisposeBag()
 
-            let request = self.provider.request(.read) { result in
+            let request = self.provider.request(.read(cursor: cursor)) { result in
                 switch result {
                 case .success(let value):
                     switch value.statusCode {
@@ -247,7 +247,7 @@ class APIManager {
                         self.refreshToken()
                             .catch { _ in .error(MoyaError.statusCode(value))  }
                             .flatMap { _ in
-                                self.read()
+                                self.read(cursor: cursor)
                             }
                             .subscribe(observer)
                             .disposed(by: disposeBag)
@@ -329,6 +329,43 @@ class APIManager {
                 request.cancel()
             }
         }
+    }
+
+    func comment(id: String, model: Comment) -> Single<Response> {
+        Single.create { observer in
+            let request = self.provider.request(.comment(id: id, model: model)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        observer(.success(Response(message: "성공", isSuccess: true)))
+                    default:
+                        do {
+                            if let message = try? JSONDecoder()
+                                .decode(MessageResponse.self, from: value.data)
+                                .message {
+                                observer(.success(Response(message: message, isSuccess: false)))
+                            } else {
+                                observer(.failure(MoyaError.statusCode(value)))
+                            }
+                        }
+
+                    }
+
+                case.failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
+    func getComments(_ id: String) -> Single<[Comments]> {
+        self.read(id: id)
+            .map { $0.comments }
     }
 
     let imageDownloadRequest = AnyModifier { request in

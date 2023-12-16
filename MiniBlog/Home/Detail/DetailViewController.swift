@@ -24,7 +24,8 @@ final class DetailViewController: BaseViewController {
     private let likeLabel = UILabel()
     private let commentLabel = UILabel()
 
-    private let likeButtonTap = UITapGestureRecognizer()
+    private let likeButtonDidTap = UITapGestureRecognizer()
+    private let commentDidTap = UITapGestureRecognizer()
 
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
@@ -73,7 +74,7 @@ final class DetailViewController: BaseViewController {
         imageView.snp.makeConstraints {
             $0.top.equalTo(profileStackView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.4)
+            $0.height.equalToSuperview().multipliedBy(0.6)
         }
 
         likedButton.snp.makeConstraints {
@@ -109,9 +110,21 @@ final class DetailViewController: BaseViewController {
             .bind(to: likedButton.rx.tintColor)
             .disposed(by: disposeBag)
 
-        likeButtonTap.rx.event
+        likeButtonDidTap.rx.event
             .map { _ in () }
-            .bind(to: viewModel.input.likeButtonTap)
+            .bind(to: viewModel.input.likeButtonDidTap)
+            .disposed(by: disposeBag)
+
+        commentDidTap.rx.event
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                let vc = CommentViewController(viewModel: .init(id: owner.viewModel.id))
+                vc.modalPresentationStyle = .pageSheet
+                vc.sheetPresentationController?.detents = [.medium(), .large()]
+                vc.sheetPresentationController?.prefersGrabberVisible = true
+
+                owner.present(vc, animated: true)
+            }
             .disposed(by: disposeBag)
 
         viewModel.output.title
@@ -157,13 +170,18 @@ final class DetailViewController: BaseViewController {
         profileImageView.layer.cornerRadius = 20
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor.main.cgColor
+        imageView.contentMode = .scaleAspectFit
         likedButton.isUserInteractionEnabled = true
-        likedButton.addGestureRecognizer(likeButtonTap)
+        likedButton.addGestureRecognizer(likeButtonDidTap)
         titleLabel.font = .boldSystemFont(ofSize: 17)
         commentLabel.textColor = .gray
+        commentLabel.isUserInteractionEnabled = true
+        commentLabel.addGestureRecognizer(commentDidTap)
 
         let backBarButton = UIBarButtonItem(image: UIImage(systemName: "multiply"), style: .plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backBarButton
+
+        navigationController?.navigationBar.tintColor = .main
     }
 
     @objc
