@@ -31,7 +31,7 @@ class DetailViewModel: ViewModelType {
         let viewWillAppear: AnyObserver<Void>
         let likeButtonDidTap: AnyObserver<Void>
     }
-
+    
     struct Output {
         let title: Observable<String>
         let nickname: Observable<String>

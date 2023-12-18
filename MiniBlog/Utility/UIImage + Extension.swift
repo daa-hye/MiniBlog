@@ -9,6 +9,12 @@ import UIKit
 
 extension UIImage {
 
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
+
     func compressImage() -> Data? {
         var newSize = CGSize(width: size.width, height: size.height)
         var newData = self.jpegData(compressionQuality: 1.0) ?? Data()

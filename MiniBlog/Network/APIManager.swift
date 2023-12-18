@@ -321,6 +321,7 @@ class APIManager {
                         observer(.failure(MoyaError.statusCode(value)))
                     }
                 case .failure(let error):
+                    observer(.failure(MoyaError.underlying(error, nil)))
                     print(error.localizedDescription)
                 }
             }
@@ -353,6 +354,7 @@ class APIManager {
                     }
 
                 case.failure(let error):
+                    observer(.failure(error))
                     print(error.localizedDescription)
                 }
             }
@@ -371,6 +373,52 @@ class APIManager {
     func getLikes(_ id: String) -> Single<Int> {
         self.read(id: id)
             .map { $0.likes.count }
+    }
+
+    func profile() -> Single<Profile> {
+        Single.create { observer in
+            let disposeBag = DisposeBag()
+
+            let request = self.provider.request(.profile) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(Profile.self, from: value.data)
+                            LoginInfo.profile = data.profile?.absoluteString ?? Lslp.profile
+                            observer(.success(data))
+                        } catch {
+                            print(error)
+                            observer(.failure(error))
+                        }
+
+                    case 419:
+                        self.refreshToken()
+                            .catch{ error in
+                                .error(error)
+                            }
+                            .flatMap({ _ in
+                                self.profile()
+                            })
+                            .subscribe(observer)
+                            .disposed(by: disposeBag)
+
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+
+                case .failure(let error):
+                    observer(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
     }
 
     let imageDownloadRequest = AnyModifier { request in

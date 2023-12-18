@@ -48,6 +48,8 @@
 		53C49CAF2B01F16200FB9CE3 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53C49CAE2B01F16200FB9CE3 /* .gitignore */; };
 		53C49CB32B01F1DB00FB9CE3 /* Lslp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49CB22B01F1DB00FB9CE3 /* Lslp.swift */; };
 		53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49CB42B023D3400FB9CE3 /* ViewModelType.swift */; };
+		53C87EDE2B3073A900886E22 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C87EDD2B3073A900886E22 /* ProfileViewController.swift */; };
+		53C87EE02B3073B300886E22 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C87EDF2B3073B300886E22 /* ProfileViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +91,8 @@
 		53C49CAE2B01F16200FB9CE3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		53C49CB22B01F1DB00FB9CE3 /* Lslp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lslp.swift; sourceTree = "<group>"; };
 		53C49CB42B023D3400FB9CE3 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		53C87EDD2B3073A900886E22 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		53C87EDF2B3073B300886E22 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +196,7 @@
 				53C49C6A2B00E58E00FB9CE3 /* SignIn */,
 				53C49C6B2B00E5A500FB9CE3 /* SignUp */,
 				5375C8D82B147C7D0039DB75 /* Post */,
+				53C87EDC2B30739200886E22 /* Profile */,
 				5375C8C32B12E1D60039DB75 /* Home */,
 				539C724E2B1EC88000B58103 /* Like */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
@@ -253,6 +258,15 @@
 				5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		53C87EDC2B30739200886E22 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				53C87EDD2B3073A900886E22 /* ProfileViewController.swift */,
+				53C87EDF2B3073B300886E22 /* ProfileViewModel.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +361,7 @@
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
 				53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */,
 				5375C8DA2B147CA40039DB75 /* PostViewController.swift in Sources */,
+				53C87EDE2B3073A900886E22 /* ProfileViewController.swift in Sources */,
 				5320B0312B20441000B25680 /* HomeCollectionViewCell.swift in Sources */,
 				5320B02C2B1F04EC00B25680 /* HomeViewLayout.swift in Sources */,
 				5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */,
@@ -370,6 +385,7 @@
 				5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */,
 				5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
+				53C87EE02B3073B300886E22 /* ProfileViewModel.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
 				539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */,
 				534CFACD2B26D1C200619EF2 /* DetailViewController.swift in Sources */,

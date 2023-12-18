@@ -19,6 +19,7 @@ enum LslpAPI {
     case readDetail(id: String)
     case comment(id: String, model: Comment)
     case like(id: String)
+    case profile
 }
 
 extension LslpAPI: TargetType {
@@ -46,6 +47,8 @@ extension LslpAPI: TargetType {
             return "post/\(id)/comment"
         case .like(let id):
             return "post/like/\(id)"
+        case .profile:
+            return "profile/me"
         }
     }
     
@@ -53,7 +56,7 @@ extension LslpAPI: TargetType {
         switch self {
         case .join, .email, .login, .post, .comment, .like:
             return .post
-        case .refreshToken, .withdraw, .read, .readDetail:
+        case .refreshToken, .withdraw, .read, .readDetail, .profile:
             return .get
         }
     }
@@ -72,7 +75,7 @@ extension LslpAPI: TargetType {
             let data = Login(email: data.email, password: data.password)
             return .requestJSONEncodable(data)
 
-        case .refreshToken, .withdraw, .readDetail, .like:
+        case .refreshToken, .withdraw, .readDetail, .like, .profile:
             return .requestPlain
 
         case .post(let data):
@@ -105,12 +108,14 @@ extension LslpAPI: TargetType {
             return [ "Content-Type" : "application/json",
                      "SesacKey" : "\(Lslp.key)"
                    ]
+
         case .refreshToken:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)",
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
-        case .withdraw, .read, .readDetail, .like:
+
+        case .withdraw, .read, .readDetail, .like, .profile:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]
@@ -120,11 +125,13 @@ extension LslpAPI: TargetType {
                      "Content-Type" : "multipart/form-data",
                      "SesacKey" : "\(Lslp.key)"
              ]
+
         case .comment:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "Content-Type" : "application/json",
                      "SesacKey" : "\(Lslp.key)"
              ]
+            
         }
     }
     

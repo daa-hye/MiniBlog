@@ -52,9 +52,13 @@ final class SignInViewModel: ViewModelType {
             .flatMapLatest { id, password in
                 APIManager.shared.login(Login(email: id, password: password))
                     .catchAndReturn(Response(message: "실패", isSuccess: false))
+                    .flatMap { response in
+                        APIManager.shared.profile()
+                            .map { (response, $0) }
+                    }
             }
-            .subscribe(with: self) { owner, result in
-                owner.signInResult.onNext(result)
+            .subscribe { [weak self] result, _ in
+                self?.signInResult.onNext(result)
             }
             .disposed(by: disposeBag)
 

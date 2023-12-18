@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Kingfisher
 
 final class TabBarController: UITabBarController {
 
@@ -36,14 +37,32 @@ final class TabBarController: UITabBarController {
             return view
         }()
 
-        setViewControllers([homeView, postView, likeView], animated: true)
+        let profileView = {
+            let view = ProfileViewController()
+            getProfile { image in
+                view.tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
+            }
+            return view
+        }()
 
+        setViewControllers([homeView, postView, likeView, profileView], animated: true)
 
     }
 
 }
 
 extension TabBarController {
+
+    private func getProfile(completion: @escaping (UIImage) -> Void ) {
+        KingfisherManager.shared.retrieveImage(with: URL(string: LoginInfo.profile)!, options: [.requestModifier(APIManager.shared.imageDownloadRequest)]) { result in
+            switch result {
+            case .success(let result):
+                completion(result.image.resized(to: CGSize(width: 25, height: 25)))
+            case .failure(_):
+                completion(UIImage(systemName: "person.fill")!)
+            }
+        }
+    }
 
     private func presentPickerView() {
         var configuration = PHPickerConfiguration()

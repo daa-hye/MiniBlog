@@ -177,6 +177,51 @@ struct Creator: Decodable, Hashable {
 
 }
 
+struct Profile: Decodable {
+    let posts: [String]
+    let followers: [Creator]
+    let following: [Creator]
+    let id: String
+    let email: String
+    let nick: String
+    let phoneNum: String?
+    let birthDay: String?
+    let profile: URL?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case posts
+        case followers
+        case following
+        case email
+        case nick
+        case phoneNum
+        case birthDay
+        case profile
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.posts = try container.decode([String].self, forKey: .posts)
+        self.followers = try container.decode([Creator].self, forKey: .followers)
+        self.following = try container.decode([Creator].self, forKey: .following)
+        self.email = try container.decode(String.self, forKey: .email)
+        self.nick = try container.decode(String.self, forKey: .nick)
+        self.phoneNum = try container.decodeIfPresent(String.self, forKey: .phoneNum)
+        self.birthDay = try container.decodeIfPresent(String.self, forKey: .birthDay)
+
+        let profilePath = try container.decodeIfPresent(String.self, forKey: .profile)
+        if let profilePath = profilePath, let url = URL(string: "\(Lslp.url)\(profilePath)") {
+            self.profile = url
+        } else if let url = URL(string: "\(Lslp.profile)") {
+            self.profile = url
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
 struct LikeResponse: Decodable {
     let isLiked: Bool
 
