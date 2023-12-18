@@ -16,15 +16,19 @@ class DetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
 
     private let viewDidLoad = PublishSubject<Void>()
+    private let viewWillAppear = PublishSubject<Void>()
     private let likeButtonDidTap = PublishSubject<Void>()
 
     private let data = PublishSubject<ReadDetail>()
     let id: String
 
     private let liked = PublishSubject<Bool>()
+    private let likeCount = PublishSubject<Int>()
+    private let commentCount = PublishSubject<Int>()
 
     struct Input {
         let viewDidLoad: AnyObserver<Void>
+        let viewWillAppear: AnyObserver<Void>
         let likeButtonDidTap: AnyObserver<Void>
     }
 
@@ -43,7 +47,8 @@ class DetailViewModel: ViewModelType {
         self.id = id
 
         input = .init(
-            viewDidLoad: viewDidLoad.asObserver(), 
+            viewDidLoad: viewDidLoad.asObserver(),
+            viewWillAppear: viewWillAppear.asObserver(),
             likeButtonDidTap: likeButtonDidTap.asObserver()
         )
 
@@ -53,16 +58,16 @@ class DetailViewModel: ViewModelType {
             image: data.map { $0.image }.observe(on: MainScheduler.instance),
             profile: data.map { $0.creator.profile }.observe(on: MainScheduler.instance),
             liked: liked.observe(on: MainScheduler.instance).asObservable(),
-            likeCount: data.map {
-                if $0.likes.count > 0 {
-                    "좋아요 \($0.likes.count)개"
+            likeCount: likeCount.map {
+                if $0 > 0 {
+                    "좋아요 \($0)개"
                 } else {
                     ""
                 }
             }.observe(on: MainScheduler.instance),
-            commentCount: data.map {
-                if $0.comments.count > 0 {
-                    "댓글 \($0.comments.count)개 모두 보기"
+            commentCount: commentCount.map {
+                if $0 > 0 {
+                    "댓글 \($0)개 모두 보기"
                 } else {
                     "댓글이 아직 없습니다"
                 }
@@ -76,17 +81,33 @@ class DetailViewModel: ViewModelType {
             .subscribe(with: self) { owner, data in
                 owner.data.onNext(data)
                 owner.liked.onNext(data.likes.contains(LoginInfo.id))
+                owner.likeCount.onNext(data.likes.count)
+                owner.commentCount.onNext(data.comments.count)
             }
+            .disposed(by: disposeBag)
+
+        viewWillAppear
+            .flatMap { _ in
+                APIManager.shared.getComments(id)
+            }
+            .map { $0.count }
+            .bind(to: commentCount)
             .disposed(by: disposeBag)
 
         likeButtonDidTap
             .flatMapLatest { _ in
                 APIManager.shared.like(id: id)
-                    .catchAndReturn(false)
+                .catchAndReturn(false)
+                .flatMap { liked in
+                    APIManager.shared.getLikes(id)
+                        .catchAndReturn(0)
+                        .map { (liked, $0) }
+                }
             }
-            .subscribe(with: self) { owner, value in
-                owner.liked.onNext(value)
-            }
+            .subscribe(onNext: { [weak self] liked, likeCount in
+                self?.liked.onNext(liked)
+                self?.likeCount.onNext(likeCount)
+            })
             .disposed(by: disposeBag)
     }
 

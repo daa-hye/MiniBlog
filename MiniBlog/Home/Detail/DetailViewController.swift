@@ -118,7 +118,7 @@ final class DetailViewController: BaseViewController {
         commentDidTap.rx.event
             .asDriver()
             .drive(with: self) { owner, _ in
-                let vc = CommentViewController(viewModel: .init(id: owner.viewModel.id))
+                let vc = CommentViewController(viewModel: .init(id: owner.viewModel.id), delegate: self)
                 vc.modalPresentationStyle = .pageSheet
                 vc.sheetPresentationController?.detents = [.medium(), .large()]
                 vc.sheetPresentationController?.prefersGrabberVisible = true
@@ -189,4 +189,21 @@ final class DetailViewController: BaseViewController {
         dismiss(animated: true)
     }
 
+}
+
+extension DetailViewController: CommentViewDismissDelegate {
+    func viewDismissed() {
+        let viewWillAppearObservable = Observable<Void>.create { observer in
+            observer.onNext(())
+            return Disposables.create()
+        }
+
+        viewWillAppearObservable
+            .bind(to: viewModel.input.viewWillAppear)
+            .disposed(by: disposeBag)
+    }
+}
+
+protocol CommentViewDismissDelegate: AnyObject {
+    func viewDismissed()
 }

@@ -15,6 +15,8 @@ final class CommentViewController: BaseViewController {
 
     let viewModel: CommentViewModel
 
+    private weak var delegate: CommentViewDismissDelegate?
+
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCommentLayout())
 
     let textField = UITextField()
@@ -32,11 +34,16 @@ final class CommentViewController: BaseViewController {
 
     var dataSource: UICollectionViewDiffableDataSource<Int, Comments>?
 
-    init(viewModel: CommentViewModel) {
+    init(viewModel: CommentViewModel, delegate: CommentViewDismissDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
-    
+
+    deinit {
+        delegate?.viewDismissed()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -156,6 +163,11 @@ extension CommentViewController {
     func configureDataSource() {
         let cellRegistration = UICollectionView
             .CellRegistration<CommentCollectionViewCell, Comments> { cell, indexPath, itemIdentifier in
+
+                cell.profileImageView.kf.setImage(
+                    with: itemIdentifier.creator.profile,
+                    options: [.requestModifier(APIManager.shared.imageDownloadRequest)]
+                )
                 cell.nicknameLabel.text = itemIdentifier.creator.nick
                 cell.commentLabel.text = itemIdentifier.content
         }

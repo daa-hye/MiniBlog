@@ -368,6 +368,11 @@ class APIManager {
             .map { $0.comments }
     }
 
+    func getLikes(_ id: String) -> Single<Int> {
+        self.read(id: id)
+            .map { $0.likes.count }
+    }
+
     let imageDownloadRequest = AnyModifier { request in
         var requestBody = request
         requestBody.setValue(LoginInfo.token, forHTTPHeaderField: "Authorization")
