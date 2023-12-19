@@ -54,10 +54,17 @@ final class TabBarController: UITabBarController {
 extension TabBarController {
 
     private func getProfile(completion: @escaping (UIImage) -> Void ) {
-        KingfisherManager.shared.retrieveImage(with: URL(string: LoginInfo.profile)!, options: [.requestModifier(APIManager.shared.imageDownloadRequest)]) { result in
+        let targetSize = CGSize(width: 24.0, height: 24.0)
+        let resize = ResizingImageProcessor(referenceSize: targetSize, mode: .aspectFill)
+        let crop = CroppingImageProcessor(size: targetSize)
+        let border = BorderImageProcessor(border: Border(color: .main, lineWidth: 1, radius: .widthFraction(targetSize.height / 2), roundingCorners: .all))
+
+        let processor = ((resize |> crop) |> border)
+
+        KingfisherManager.shared.retrieveImage(with: URL(string: LoginInfo.profile)!, options: [ .processor(processor),.requestModifier(APIManager.shared.imageDownloadRequest)]) { result in
             switch result {
             case .success(let result):
-                completion(result.image.resized(to: CGSize(width: 25, height: 25)))
+                completion(result.image)
             case .failure(_):
                 completion(UIImage(systemName: "person.fill")!)
             }
