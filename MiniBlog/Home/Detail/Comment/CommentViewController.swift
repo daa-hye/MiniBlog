@@ -119,7 +119,7 @@ final class CommentViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
 
-    func configure() {
+    private func configure() {
         textField.borderStyle = .roundedRect
         textField.placeholder = String(localized: "당신의 생각을 남겨주세요")
         textField.rightView = confirmButton

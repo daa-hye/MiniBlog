@@ -42,7 +42,6 @@
 		53C49C7F2B010A5500FB9CE3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 53C49C7E2B010A5500FB9CE3 /* RxSwift */; };
 		53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C802B019CD600FB9CE3 /* SignUpViewModel.swift */; };
 		53C49C842B01A2FB00FB9CE3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C832B01A2FB00FB9CE3 /* APIManager.swift */; };
-		53C49C872B01A32800FB9CE3 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 53C49C862B01A32800FB9CE3 /* Moya */; };
 		53C49CA92B01E60E00FB9CE3 /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49CA82B01E60E00FB9CE3 /* APIModel.swift */; };
 		53C49CAB2B01EB1D00FB9CE3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49CAA2B01EB1D00FB9CE3 /* Network.swift */; };
 		53C49CAF2B01F16200FB9CE3 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53C49CAE2B01F16200FB9CE3 /* .gitignore */; };
@@ -50,6 +49,9 @@
 		53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49CB42B023D3400FB9CE3 /* ViewModelType.swift */; };
 		53C87EDE2B3073A900886E22 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C87EDD2B3073A900886E22 /* ProfileViewController.swift */; };
 		53C87EE02B3073B300886E22 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C87EDF2B3073B300886E22 /* ProfileViewModel.swift */; };
+		53C87F302B33C8BD00886E22 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 53C87F2F2B33C8BD00886E22 /* Moya */; };
+		53C87F3C2B39C1BB00886E22 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 53C87F3B2B39C1BB00886E22 /* Moya */; };
+		53C87F3E2B39C1BB00886E22 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 53C87F3D2B39C1BB00886E22 /* RxMoya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,8 +104,10 @@
 			files = (
 				53C49C7F2B010A5500FB9CE3 /* RxSwift in Frameworks */,
 				53C49C7D2B010A5500FB9CE3 /* RxCocoa in Frameworks */,
-				53C49C872B01A32800FB9CE3 /* Moya in Frameworks */,
+				53C87F3C2B39C1BB00886E22 /* Moya in Frameworks */,
 				53C49C752B00F10500FB9CE3 /* SnapKit in Frameworks */,
+				53C87F3E2B39C1BB00886E22 /* RxMoya in Frameworks */,
+				53C87F302B33C8BD00886E22 /* Moya in Frameworks */,
 				5320B02F2B1F142200B25680 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,8 +293,10 @@
 				53C49C742B00F10500FB9CE3 /* SnapKit */,
 				53C49C7C2B010A5500FB9CE3 /* RxCocoa */,
 				53C49C7E2B010A5500FB9CE3 /* RxSwift */,
-				53C49C862B01A32800FB9CE3 /* Moya */,
 				5320B02E2B1F142200B25680 /* Kingfisher */,
+				53C87F2F2B33C8BD00886E22 /* Moya */,
+				53C87F3B2B39C1BB00886E22 /* Moya */,
+				53C87F3D2B39C1BB00886E22 /* RxMoya */,
 			);
 			productName = MiniBlog;
 			productReference = 53C49C532B00E54D00FB9CE3 /* MiniBlog.app */;
@@ -324,8 +330,8 @@
 			packageReferences = (
 				53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				53C49C7B2B010A5500FB9CE3 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				53C49C852B01A32800FB9CE3 /* XCRemoteSwiftPackageReference "Moya" */,
 				5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 53C49C542B00E54D00FB9CE3 /* Products */;
 			projectDirPath = "";
@@ -635,7 +641,7 @@
 				minimumVersion = 6.6.0;
 			};
 		};
-		53C49C852B01A32800FB9CE3 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
 			requirement = {
@@ -666,10 +672,20 @@
 			package = 53C49C7B2B010A5500FB9CE3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		53C49C862B01A32800FB9CE3 /* Moya */ = {
+		53C87F2F2B33C8BD00886E22 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 53C49C852B01A32800FB9CE3 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = 53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		53C87F3B2B39C1BB00886E22 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		53C87F3D2B39C1BB00886E22 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

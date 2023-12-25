@@ -15,7 +15,7 @@ final class HomeViewController: BaseViewController {
 
     let viewModel = HomeViewModel()
 
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureTagLayout())
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
 
     var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
 
@@ -29,14 +29,7 @@ final class HomeViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let viewWillAppearObservable = Observable<Void>.create { observer in
-            observer.onNext(())
-            return Disposables.create()
-        }
-
-        viewWillAppearObservable
-            .bind(to: viewModel.input.viewWillAppear)
-            .disposed(by: disposeBag)
+        viewModel.input.viewWillAppear.onNext(())
     }
 
     override func configHierarchy() {
@@ -88,38 +81,13 @@ extension HomeViewController {
         let cellRegistration = UICollectionView
             .CellRegistration<HomeCollectionViewCell, ReadData> { cell, indexPath, itemIdentifier in
                 cell.imageView.kf.setImage(with: itemIdentifier.image, options: [.requestModifier(APIManager.shared.imageDownloadRequest)])
-        }
+            }
 
         dataSource = UICollectionViewDiffableDataSource(
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            return cell
-        })
+                let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+                return cell
+            })
     }
-
-    func configureTagLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .estimated(150))
-
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
-
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
-
-        group.interItemSpacing = .fixed(10)
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        section.interGroupSpacing = 10
-
-        let configure = UICollectionViewCompositionalLayoutConfiguration()
-        configure.scrollDirection = .vertical
-
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        layout.configuration = configure
-
-        return layout
-    }
-
 }
