@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommentCollectionViewCell: UICollectionViewCell {
+final class CommentCollectionViewCell: UICollectionViewCell {
 
     let profileImageView = UIImageView()
     let nicknameLabel = UILabel()

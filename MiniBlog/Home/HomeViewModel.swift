@@ -25,7 +25,6 @@ final class HomeViewModel: ViewModelType {
 
     struct Output {
         let data: Observable<[ReadData]>
-        let cursor: Observable<String>
     }
 
     init() {
@@ -34,8 +33,7 @@ final class HomeViewModel: ViewModelType {
         )
 
         output = .init(
-            data: data.observe(on: MainScheduler.instance).asObservable(),
-            cursor: cursor.observe(on: MainScheduler.instance).asObservable()
+            data: data.observe(on: MainScheduler.instance)
         )
 
         viewWillAppear

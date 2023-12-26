@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class DetailViewModel: ViewModelType {
+final class DetailViewModel: ViewModelType {
 
     let input: Input
     let output: Output
@@ -57,7 +57,7 @@ class DetailViewModel: ViewModelType {
             nickname: data.map { $0.creator.nick}.observe(on: MainScheduler.instance),
             image: data.map { $0.image }.observe(on: MainScheduler.instance),
             profile: data.map { $0.creator.profile }.observe(on: MainScheduler.instance),
-            liked: liked.observe(on: MainScheduler.instance).asObservable(),
+            liked: liked.observe(on: MainScheduler.instance),
             likeCount: likeCount.map {
                 if $0 > 0 {
                     "좋아요 \($0)개"

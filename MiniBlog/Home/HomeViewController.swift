@@ -17,7 +17,7 @@ final class HomeViewController: BaseViewController {
 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
 
-    var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
+    private var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
 
     override func viewDidLoad() {
         super.viewDidLoad()

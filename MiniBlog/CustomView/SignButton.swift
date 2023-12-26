@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignButton: UIButton {
+final class SignButton: UIButton {
 
     init(title: String) {
         super.init(frame: .zero)

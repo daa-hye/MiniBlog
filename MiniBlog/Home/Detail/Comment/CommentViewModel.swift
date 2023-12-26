@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class CommentViewModel: ViewModelType {
+final class CommentViewModel: ViewModelType {
     
     var disposeBag = DisposeBag()
 

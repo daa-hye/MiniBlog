@@ -43,14 +43,7 @@ final class DetailViewController: BaseViewController {
         bind()
         configure()
 
-        let viewDidLoadObservable = Observable<Void>.create { observer in
-            observer.onNext(())
-            return Disposables.create()
-        }
-
-        viewDidLoadObservable
-            .bind(to: viewModel.input.viewDidLoad)
-            .disposed(by: disposeBag)
+        viewModel.input.viewDidLoad.onNext(())
     }
 
     override func configHierarchy() {

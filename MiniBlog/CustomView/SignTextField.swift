@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignTextField: UITextField {
+final class SignTextField: UITextField {
 
     init(placeholderText: String) {
         super.init(frame: .zero)
