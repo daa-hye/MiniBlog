@@ -5,7 +5,7 @@
 //  Created by 박다혜 on 11/13/23.
 //
 
-import Foundation
+import UIKit
 
 import Moya
 import RxSwift
@@ -132,8 +132,19 @@ class APIManager {
                 switch result {
                 case.success(let value):
                     switch value.statusCode {
-                    case 200, 409:
+                    case 200:
+                        if let token = try? JSONDecoder().decode(TokenResponse.self, from: value.data).token {
+                            LoginInfo.token = token
+                        }
                         observer(.success(()))
+                    case 409:
+                        observer(.success(()))
+                    case 418:
+                        let vc = SignInViewController()
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                        guard let sceneDelegate else { return }
+
+                        sceneDelegate.window?.rootViewController = vc
                     default:
                         observer(.failure(MoyaError.statusCode(value)))
                     }
@@ -296,6 +307,45 @@ class APIManager {
                         observer(.failure(MoyaError.statusCode(value)))
                     }
                 case.failure(let error):
+                    print(error.localizedDescription)
+                    observer(.failure(error))
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
+    func readUser(id:String, cursor: String) -> Single<ReadResponse> {
+        return Single.create { observer in
+            let disposeBag = DisposeBag()
+            let request = self.provider.request(.readUser(id: id, cursor: cursor)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(ReadResponse.self, from: value.data)
+                            observer(.success(data))
+                        } catch {
+                            print(error)
+                            observer(.failure(MoyaError.statusCode(value)))
+                        }
+                    case 419:
+                        self.refreshToken()
+                            .catch { _ in .error(MoyaError.statusCode(value))  }
+                            .flatMap { _ in
+                                self.read(cursor: cursor)
+                            }
+                            .subscribe(observer)
+                            .disposed(by: disposeBag)
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case .failure(let error):
                     print(error.localizedDescription)
                     observer(.failure(error))
                 }

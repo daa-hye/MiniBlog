@@ -230,6 +230,10 @@ struct LikeResponse: Decodable {
     }
 }
 
+struct TokenResponse: Decodable {
+    let token: String
+}
+
 struct MessageResponse: Decodable {
     let message: String
 }
