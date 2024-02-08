@@ -112,23 +112,27 @@ extension TabBarController: PHPickerViewControllerDelegate {
                     forTypeIdentifier: UTType.image.identifier,
                     completionHandler: { [weak self] data, error in
                         guard let data,
-                              let image = UIImage(data: data),
-                              let jpegData = image.jpegData(compressionQuality: 0.1)
-                            //.compressImage()
+                              let image = UIImage(data: data)
                         else { return }
 
-                        DispatchQueue.main.async {
-                            let vc = PostViewController(viewModel: .init(data: jpegData, size: image.size))
-                            let view = UINavigationController(rootViewController: vc)
-                            view.modalPresentationStyle = .fullScreen
+                        image.resizeImage(toTargetSizeMB: 1) { image in
+                            guard let image = image, let data = image.jpegData(compressionQuality: 1) else { return }
 
-                            picker.dismiss(animated: true) {
-                                self?.present(view, animated: true)
+                            DispatchQueue.main.async {
+                                let vc = PostViewController(viewModel: .init(data: data, size: image.size))
+                                let view = UINavigationController(rootViewController: vc)
+                                view.modalPresentationStyle = .fullScreen
+
+                                picker.dismiss(animated: true) {
+                                    self?.present(view, animated: true)
+                                }
                             }
                         }
+
                     })
         }
     }
+    
 }
 
 extension TabBarController: UITabBarControllerDelegate {

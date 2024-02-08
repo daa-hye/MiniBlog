@@ -9,38 +9,29 @@ import UIKit
 
 extension UIImage {
 
-    func resized(to size: CGSize) -> UIImage {
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            draw(in: CGRect(origin: .zero, size: size))
-        }
+    func estimateNewSize(targetSizeMB: Int) -> CGSize {
+
+        let imageSizeBytesWhenItHas3channels = (self.pngData()?.count ?? 0) / 4 * 3
+        let imageSizeMB = Double(imageSizeBytesWhenItHas3channels) / 1024.0 / 1024.0
+
+        let targetSizeMBDouble = Double(targetSizeMB)
+        let scaleFactor = sqrt(targetSizeMBDouble / imageSizeMB)
+
+        let newSize = CGSize(width: self.size.width * scaleFactor, height: self.size.height * scaleFactor)
+
+        return newSize
     }
 
-    func compressImage() -> Data? {
-        var newSize = CGSize(width: size.width, height: size.height)
-        var newData = self.jpegData(compressionQuality: 1.0) ?? Data()
-        let targetSizeInBytes = 10 * 1024 * 1024
+    func resizeImage(toTargetSizeMB targetSizeMB: Int, completion: @escaping (UIImage?) -> Void) {
+        guard let data = self.jpegData(compressionQuality: 1.0) else { return completion(nil) }
+        guard data.count > targetSizeMB else { return completion(nil) }
 
-        if let data = self.jpegData(compressionQuality: 1.0),
-              data.count <= targetSizeInBytes {
-            return data
+        let newSize = estimateNewSize(targetSizeMB: targetSizeMB)
+
+        self.prepareThumbnail(of: newSize) { image in
+            completion(image)
         }
 
-        while let data = self.jpegData(compressionQuality: 1.0), data.count > targetSizeInBytes {
-            newSize = CGSize(width: newSize.width * 0.9, height: newSize.height * 0.9)
-            UIGraphicsBeginImageContextWithOptions(newSize, true, 1.0)
-            self.draw(in: CGRect(origin: .zero, size: newSize))
-            let newImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-
-            if let compressedData = newImage?.jpegData(compressionQuality: 1.0) {
-                newData = compressedData
-                if newData.count <= targetSizeInBytes {
-                    return newData
-                }
-            }
-        }
-
-        return nil
     }
 
 }
