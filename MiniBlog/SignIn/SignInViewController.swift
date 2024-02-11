@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
 
 final class SignInViewController: BaseViewController {
 
@@ -19,7 +20,7 @@ final class SignInViewController: BaseViewController {
     private let idTextField = SignTextField(placeholderText: String(localized: "이메일을 입력해주세요"))
     private let passwordTextField = SignTextField(placeholderText: String(localized: "비밀번호를 입력해주세요"))
     private let signInButton = SignButton(title: String(localized: "로그인"))
-
+    private let signUpLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,7 @@ final class SignInViewController: BaseViewController {
         view.addSubview(idTextField)
         view.addSubview(passwordTextField)
         view.addSubview(signInButton)
+        view.addSubview(signUpLabel)
     }
 
     override func setLayout() {
@@ -50,14 +52,19 @@ final class SignInViewController: BaseViewController {
 
         passwordTextField.snp.makeConstraints {
             $0.height.equalTo(50)
-            $0.top.equalTo(idTextField.snp.bottom).offset(30)
+            $0.top.equalTo(idTextField.snp.bottom).offset(20)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
 
         signInButton.snp.makeConstraints {
             $0.height.equalTo(50)
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(20)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+
+        signUpLabel.snp.makeConstraints {
+            $0.top.equalTo(signInButton.snp.bottom).offset(10)
+            $0.centerX.equalToSuperview()
         }
     }
 
@@ -77,9 +84,17 @@ final class SignInViewController: BaseViewController {
             .bind(to: viewModel.input.signInButtonTap)
             .disposed(by: disposeBag)
 
+        signUpLabel.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                let vc = SignUpViewController()
+                owner.present(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+
         viewModel.output.signInResult
             .observe(on: MainScheduler.instance)
-            .subscribe(with: self) { owner, value in
+            .bind(with: self) { owner, value in
                 if value.isSuccess {
                     let vc = TabBarController()
                     
@@ -103,6 +118,15 @@ final class SignInViewController: BaseViewController {
         titleLable.text = String(localized: "시작해볼까요?")
         titleLable.font = UIFont.boldSystemFont(ofSize: 30)
         passwordTextField.isSecureTextEntry = true
+
+        let text = String(localized: "또는 계정 만들기")
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: .init(location: 0, length: 2))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.main, range: .init(location: 2, length: text.count - 2))
+        signUpLabel.attributedText = attributedString
+        signUpLabel.textAlignment = .center
+
+        signUpLabel.isUserInteractionEnabled = true
     }
 
 }
