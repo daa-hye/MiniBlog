@@ -40,8 +40,9 @@ final class CommentViewModel: ViewModelType {
             content: content.asObserver(),
             writeComment: writeComment.asObserver()
         )
+        
         self.output = .init(
-            comments: comments.observe(on: MainScheduler.instance).asObservable()
+            comments: comments.observe(on: MainScheduler.instance)
         )
 
         viewDidLoad

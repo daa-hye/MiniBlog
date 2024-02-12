@@ -17,7 +17,11 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         configureHierarchy()
         setLayout()
     }
-    
+
+    override func prepareForReuse() {
+        imageView.image = nil
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -15,7 +15,7 @@ final class SignButton: UIButton {
         setTitle(title, for: .normal)
         setTitleColor(.white, for: .normal)
         backgroundColor = .main
-        layer.cornerRadius = 20
+        layer.cornerRadius = 10
     }
 
     @available(*, unavailable)

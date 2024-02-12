@@ -45,7 +45,7 @@ final class HomeViewController: BaseViewController {
     func bind() {
 
         collectionView.rx.itemSelected
-            .subscribe(with: self) { owner, indexPath in
+            .bind(with: self) { owner, indexPath in
                 if let data = owner.dataSource?.itemIdentifier(for: indexPath) {
                     let vc = DetailViewController(viewModel: .init(id: data.id))
                     let nav = UINavigationController(rootViewController: vc)
@@ -56,8 +56,14 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
+        collectionView.rx.prefetchItems
+            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .bind(to: viewModel.input.prefetchItems)
+            .disposed(by: disposeBag)
+
+
         viewModel.output.data
-            .subscribe(with: self) { owner, data in
+            .bind(with: self) { owner, data in
 
                 let ratios = data.map{ Ratio(ratio: CGFloat(($0.width! as NSString).floatValue)/CGFloat(($0.height! as NSString).floatValue)) }
 

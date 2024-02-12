@@ -14,6 +14,7 @@
 		53381DCE2B2D1DAC00440FC7 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381DCD2B2D1DAC00440FC7 /* CommentViewController.swift */; };
 		53381DD02B2D8E1C00440FC7 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381DCF2B2D8E1C00440FC7 /* CommentViewModel.swift */; };
 		53381DD22B2D8EF700440FC7 /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381DD12B2D8EF700440FC7 /* CommentCollectionViewCell.swift */; };
+		5339483A2B42DCC900BA131F /* ReferencedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533948392B42DCC900BA131F /* ReferencedList.swift */; };
 		534CFACD2B26D1C200619EF2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACC2B26D1C200619EF2 /* DetailViewController.swift */; };
 		534CFACF2B26D8FD00619EF2 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */; };
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
@@ -27,6 +28,7 @@
 		5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C9212B184DD90039DB75 /* PostViewModel.swift */; };
 		539C724D2B1DC0A500B58103 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */; };
 		539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539C724F2B1EC89300B58103 /* LikeViewController.swift */; };
+		53BC61522B79C74100EDE938 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 53BC61512B79C74100EDE938 /* RxGesture */; };
 		53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */; };
 		53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */; };
 		53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C49C5A2B00E54D00FB9CE3 /* SignInViewController.swift */; };
@@ -61,6 +63,7 @@
 		53381DCD2B2D1DAC00440FC7 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		53381DCF2B2D8E1C00440FC7 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		53381DD12B2D8EF700440FC7 /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
+		533948392B42DCC900BA131F /* ReferencedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencedList.swift; sourceTree = "<group>"; };
 		534CFACC2B26D1C200619EF2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 			files = (
 				53C49C7F2B010A5500FB9CE3 /* RxSwift in Frameworks */,
 				53C49C7D2B010A5500FB9CE3 /* RxCocoa in Frameworks */,
+				53BC61522B79C74100EDE938 /* RxGesture in Frameworks */,
 				53C87F3C2B39C1BB00886E22 /* Moya in Frameworks */,
 				53C49C752B00F10500FB9CE3 /* SnapKit in Frameworks */,
 				53C87F3E2B39C1BB00886E22 /* RxMoya in Frameworks */,
@@ -163,6 +167,7 @@
 				5375C8E02B15825B0039DB75 /* PermissionManager.swift */,
 				5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */,
 				539C724C2B1DC0A500B58103 /* UIImage + Extension.swift */,
+				533948392B42DCC900BA131F /* ReferencedList.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 				53C87F2F2B33C8BD00886E22 /* Moya */,
 				53C87F3B2B39C1BB00886E22 /* Moya */,
 				53C87F3D2B39C1BB00886E22 /* RxMoya */,
+				53BC61512B79C74100EDE938 /* RxGesture */,
 			);
 			productName = MiniBlog;
 			productReference = 53C49C532B00E54D00FB9CE3 /* MiniBlog.app */;
@@ -332,6 +338,7 @@
 				53C49C7B2B010A5500FB9CE3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				53C87F2E2B33C8BD00886E22 /* XCRemoteSwiftPackageReference "Moya" */,
+				53BC61502B79C74100EDE938 /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = 53C49C542B00E54D00FB9CE3 /* Products */;
 			projectDirPath = "";
@@ -391,6 +398,7 @@
 				5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */,
 				5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */,
 				53C49C592B00E54D00FB9CE3 /* SceneDelegate.swift in Sources */,
+				5339483A2B42DCC900BA131F /* ReferencedList.swift in Sources */,
 				53C87EE02B3073B300886E22 /* ProfileViewModel.swift in Sources */,
 				53C49CB52B023D3400FB9CE3 /* ViewModelType.swift in Sources */,
 				539C72502B1EC89300B58103 /* LikeViewController.swift in Sources */,
@@ -625,6 +633,14 @@
 				minimumVersion = 7.10.0;
 			};
 		};
+		53BC61502B79C74100EDE938 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 		53C49C732B00F10500FB9CE3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -656,6 +672,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5320B02D2B1F142200B25680 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		53BC61512B79C74100EDE938 /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53BC61502B79C74100EDE938 /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 		53C49C742B00F10500FB9CE3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
