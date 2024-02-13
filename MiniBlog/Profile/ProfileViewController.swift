@@ -18,7 +18,8 @@ final class ProfileViewController: BaseViewController {
 
     private let profileImageView = UIImageView()
     private let emailLabel = UILabel()
-    private let profileButton = UIButton()
+    private let nicknameLabel = UILabel()
+    private let editButton = UIButton()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
 
     override func viewDidLoad() {
@@ -39,6 +40,10 @@ final class ProfileViewController: BaseViewController {
             .subscribe(with: self) { owner, url in
                 owner.profileImageView.kf.setImage(with: url)
             }
+            .disposed(by: disposeBag)
+
+        viewModel.output.nickname
+            .bind(to: nicknameLabel.rx.text)
             .disposed(by: disposeBag)
 
         viewModel.output.email
@@ -64,7 +69,8 @@ final class ProfileViewController: BaseViewController {
     override func configHierarchy() {
         view.addSubview(profileImageView)
         view.addSubview(emailLabel)
-        view.addSubview(profileButton)
+        view.addSubview(nicknameLabel)
+        view.addSubview(editButton)
         view.addSubview(collectionView)
     }
 
@@ -76,12 +82,17 @@ final class ProfileViewController: BaseViewController {
             $0.size.equalTo(70)
         }
 
-        emailLabel.snp.makeConstraints {
+        nicknameLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(profileImageView.snp.bottom).offset(10)
         }
 
-        profileButton.snp.makeConstraints {
+        emailLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(nicknameLabel.snp.bottom).offset(7)
+        }
+
+        editButton.snp.makeConstraints {
             $0.top.equalTo(emailLabel.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(30)
@@ -89,7 +100,7 @@ final class ProfileViewController: BaseViewController {
         }
 
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(profileButton.snp.bottom).offset(30)
+            $0.top.equalTo(editButton.snp.bottom).offset(30)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
         }
@@ -97,9 +108,12 @@ final class ProfileViewController: BaseViewController {
 
     private func configure() {
         profileImageView.layer.cornerRadius = 35
-        emailLabel.font = .boldSystemFont(ofSize: 20)
-        profileButton.backgroundColor = .main
-        profileButton.setTitleColor(.white, for: .normal)
+        nicknameLabel.font = .boldSystemFont(ofSize: 20)
+        emailLabel.textColor = .gray
+        editButton.backgroundColor = .main
+        editButton.layer.cornerRadius = 10
+        editButton.setTitleColor(.white, for: .normal)
+        editButton.setTitle(String(localized: "프로필 편집"), for: .normal)
     }
 
 }

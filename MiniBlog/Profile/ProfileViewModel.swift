@@ -27,6 +27,7 @@ final class ProfileViewModel: ViewModelType {
     struct Output {
         let profileImage: Observable<URL>
         let email: Observable<String>
+        let nickname: Observable<String>
         let posts: Observable<[ReadData]>
     }
 
@@ -37,7 +38,8 @@ final class ProfileViewModel: ViewModelType {
         
         output = .init(
             profileImage: profile.map { $0.profile! }.observe(on: MainScheduler.instance),
-            email: profile.map { $0.email }.observe(on: MainScheduler.instance),
+            email: profile.map { $0.email }.observe(on: MainScheduler.instance), 
+            nickname: profile.map { $0.nick }.observe(on: MainScheduler.instance),
             posts: posts.observe(on: MainScheduler.instance)
         )
 

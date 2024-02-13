@@ -61,7 +61,6 @@ final class HomeViewController: BaseViewController {
             .bind(to: viewModel.input.prefetchItems)
             .disposed(by: disposeBag)
 
-
         viewModel.output.data
             .bind(with: self) { owner, data in
 

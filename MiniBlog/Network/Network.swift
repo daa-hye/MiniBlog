@@ -20,6 +20,7 @@ enum LslpAPI {
     case readUser(id: String, cursor: String)
     case comment(id: String, model: Comment)
     case like(id: String)
+    case myLikeList(cursor: String)
     case profile
 }
 
@@ -50,6 +51,8 @@ extension LslpAPI: TargetType {
             return "post/\(id)/comment"
         case .like(let id):
             return "post/like/\(id)"
+        case .myLikeList:
+            return "post/like/me"
         case .profile:
             return "profile/me"
         }
@@ -59,7 +62,7 @@ extension LslpAPI: TargetType {
         switch self {
         case .join, .email, .login, .post, .comment, .like:
             return .post
-        case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile:
+        case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile, .myLikeList:
             return .get
         }
     }
@@ -90,7 +93,7 @@ extension LslpAPI: TargetType {
 
             return .uploadMultipart([imageData, title, productId, width, height])
 
-        case .read(let cursor), .readUser(_, let cursor):
+        case .read(let cursor), .readUser(_, let cursor), .myLikeList(let cursor):
             return .requestParameters(
                 parameters: ["next" : cursor,
                              "limit" : 15,
@@ -118,7 +121,7 @@ extension LslpAPI: TargetType {
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
 
-        case .withdraw, .read, .readDetail, .readUser, .like, .profile:
+        case .withdraw, .read, .readDetail, .readUser, .like, .profile, .myLikeList:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]

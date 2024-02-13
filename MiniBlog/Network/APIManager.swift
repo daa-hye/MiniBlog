@@ -425,6 +425,35 @@ class APIManager {
             .map { $0.likes.count }
     }
 
+    func getMyLikeList(cursor: String) -> Single<ReadResponse> {
+        Single.create { observer in
+            let request = self.provider.request(.myLikeList(cursor: cursor)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(ReadResponse.self, from: value.data)
+                            observer(.success(data))
+                        } catch {
+                            print(error)
+                            observer(.failure(MoyaError.statusCode(value)))
+                        }
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case .failure(let error):
+                    observer(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
     func profile() -> Single<Profile> {
         Single.create { observer in
             let disposeBag = DisposeBag()
