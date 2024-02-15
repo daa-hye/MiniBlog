@@ -27,6 +27,7 @@ struct Post: Encodable {
     let file: Data
     let width: String
     let height: String
+    let hashtag: String
 }
 
 struct Comment: Encodable {
@@ -93,7 +94,7 @@ struct ReadDetail: Decodable, Hashable {
     let likes: [String]
     let image: URL
     let comments: [Comments]
-    //let hashTags: [String]
+    let hashTags: [String]
     let creator: Creator
     let time: String
     let title: String
@@ -106,6 +107,7 @@ struct ReadDetail: Decodable, Hashable {
         case image
         case creator
         case comments
+        case hashTags
         case time
         case title
         case width = "content1"
@@ -119,6 +121,7 @@ struct ReadDetail: Decodable, Hashable {
         self.likes = try container.decode([String].self, forKey: .likes)
         self.creator = try container.decode(Creator.self, forKey: .creator)
         self.comments = try container.decode([Comments].self, forKey: .comments)
+        self.hashTags = try container.decode([String].self, forKey: .hashTags)
         self.time = try container.decode(String.self, forKey: .time)
         self.title = try container.decode(String.self, forKey: .title)
         self.width = try container.decodeIfPresent(String.self, forKey: .width)

@@ -33,7 +33,7 @@ class APIManager {
                                 observer(.success(Response(message: message, isSuccess: false)))
                             }
                         } else {
-                            //observer(.faliure())
+                            observer(.failure(MoyaError.statusCode(value)))
                         }
                     }
 
@@ -199,7 +199,6 @@ class APIManager {
         let disposeBag = DisposeBag()
 
         return Single.create { observer in
-            print("#111",data)
             let request = self.provider.request(.post(model: data)) { result in
                 switch result {
                 case .success(let value):

@@ -23,6 +23,7 @@ final class DetailViewController: BaseViewController {
     private let likedButton = UIImageView(image: UIImage(systemName: "heart.fill"))
     private let likeLabel = UILabel()
     private let commentLabel = UILabel()
+    private let hashtagStackView = UIStackView()
 
     private let likeButtonDidTap = UITapGestureRecognizer()
     private let commentDidTap = UITapGestureRecognizer()
@@ -55,6 +56,7 @@ final class DetailViewController: BaseViewController {
         view.addSubview(likedButton)
         view.addSubview(likeLabel)
         view.addSubview(commentLabel)
+        view.addSubview(hashtagStackView)
     }
 
     override func setLayout() {
@@ -70,14 +72,20 @@ final class DetailViewController: BaseViewController {
             $0.height.equalToSuperview().multipliedBy(0.6)
         }
 
+        hashtagStackView.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(10)
+            $0.height.equalTo(30)
+            $0.leading.equalToSuperview().inset(8)
+        }
+
         likedButton.snp.makeConstraints {
             $0.size.equalTo(30)
-            $0.top.equalTo(imageView.snp.bottom).offset(10)
+            $0.top.equalTo(hashtagStackView.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(8)
         }
 
         likeLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(10)
+            $0.top.equalTo(hashtagStackView.snp.bottom).offset(5)
             $0.trailing.equalToSuperview().inset(8)
         }
 
@@ -153,6 +161,12 @@ final class DetailViewController: BaseViewController {
         viewModel.output.commentCount
             .bind(to: commentLabel.rx.text)
             .disposed(by: disposeBag)
+
+        viewModel.output.hashtags
+            .bind(with: self) { owner, list in
+                owner.setHashtag(list)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func configure() {
@@ -170,11 +184,27 @@ final class DetailViewController: BaseViewController {
         commentLabel.textColor = .gray
         commentLabel.isUserInteractionEnabled = true
         commentLabel.addGestureRecognizer(commentDidTap)
+        hashtagStackView.axis = .horizontal
+        hashtagStackView.alignment = .leading
+        hashtagStackView.spacing = 4
 
         let backBarButton = UIBarButtonItem(image: UIImage(systemName: "multiply"), style: .plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backBarButton
 
         navigationController?.navigationBar.tintColor = .main
+    }
+
+    private func setHashtag(_ list: [String]) {
+        for item in list {
+            let label = UILabel()
+            label.text = item
+            label.backgroundColor = .main
+            label.layer.cornerRadius = 7
+            label.textColor = .white
+            label.sizeToFit()
+            label.clipsToBounds = true
+            hashtagStackView.addArrangedSubview(label)
+        }
     }
 
     @objc

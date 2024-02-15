@@ -90,8 +90,9 @@ extension LslpAPI: TargetType {
             let productId = MultipartFormData(provider: .data(Data("dahye2".utf8)), name: "product_id")
             let width = MultipartFormData(provider: .data(Data(data.width.utf8)), name: "content1")
             let height = MultipartFormData(provider: .data(Data(data.height.utf8)), name: "content2")
+            let hashtag = MultipartFormData(provider: .data(Data(data.hashtag.utf8)), name: "content")
 
-            return .uploadMultipart([imageData, title, productId, width, height])
+            return .uploadMultipart([imageData, title, productId, width, height, hashtag])
 
         case .read(let cursor), .readUser(_, let cursor), .myLikeList(let cursor):
             return .requestParameters(

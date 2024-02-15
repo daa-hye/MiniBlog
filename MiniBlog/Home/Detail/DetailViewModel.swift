@@ -40,6 +40,7 @@ final class DetailViewModel: ViewModelType {
         let liked: Observable<Bool>
         let likeCount: Observable<String>
         let commentCount: Observable<String>
+        let hashtags: Observable<[String]>
     }
 
     init(id: String) {
@@ -71,7 +72,8 @@ final class DetailViewModel: ViewModelType {
                 } else {
                     "댓글이 아직 없습니다"
                 }
-            }.observe(on: MainScheduler.instance)
+            }.observe(on: MainScheduler.instance),
+            hashtags: data.map { $0.hashTags }.observe(on: MainScheduler.instance)
         )
 
         viewDidLoad
@@ -83,6 +85,7 @@ final class DetailViewModel: ViewModelType {
                 owner.liked.onNext(data.likes.contains(LoginInfo.id))
                 owner.likeCount.onNext(data.likes.count)
                 owner.commentCount.onNext(data.comments.count)
+                print(data.hashTags)
             }
             .disposed(by: disposeBag)
 

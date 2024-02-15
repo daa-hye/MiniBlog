@@ -18,6 +18,8 @@
 		534CFACD2B26D1C200619EF2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACC2B26D1C200619EF2 /* DetailViewController.swift */; };
 		534CFACF2B26D8FD00619EF2 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */; };
 		536DE85B2B7B9C1F00616E7B /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE85A2B7B9C1F00616E7B /* LikeViewModel.swift */; };
+		536DE8682B7DE3EB00616E7B /* yolov8m-cls.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 536DE8672B7DE3EB00616E7B /* yolov8m-cls.mlpackage */; };
+		536DE86A2B7DF10500616E7B /* ModelDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE8692B7DF10500616E7B /* ModelDictionary.swift */; };
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
 		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
@@ -68,6 +70,8 @@
 		534CFACC2B26D1C200619EF2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		536DE85A2B7B9C1F00616E7B /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
+		536DE8672B7DE3EB00616E7B /* yolov8m-cls.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = "yolov8m-cls.mlpackage"; sourceTree = "<group>"; };
+		536DE8692B7DF10500616E7B /* ModelDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDictionary.swift; sourceTree = "<group>"; };
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -139,6 +143,15 @@
 				534CFACE2B26D8FD00619EF2 /* DetailViewModel.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		536DE85C2B7CB1C500616E7B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				536DE8672B7DE3EB00616E7B /* yolov8m-cls.mlpackage */,
+				536DE8692B7DF10500616E7B /* ModelDictionary.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		5375C8C32B12E1D60039DB75 /* Home */ = {
@@ -214,6 +227,7 @@
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
 				53C49C762B00F3A400FB9CE3 /* CustomView */,
+				536DE85C2B7CB1C500616E7B /* Resources */,
 				53C49C5F2B00E54E00FB9CE3 /* Assets.xcassets */,
 				53C49C712B00EB1C00FB9CE3 /* Localizable.xcstrings */,
 				53C49C612B00E54E00FB9CE3 /* LaunchScreen.storyboard */,
@@ -372,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53C49C5B2B00E54D00FB9CE3 /* SignInViewController.swift in Sources */,
+				536DE8682B7DE3EB00616E7B /* yolov8m-cls.mlpackage in Sources */,
 				53C49C7A2B00F9DD00FB9CE3 /* SignUpViewController.swift in Sources */,
 				534CFACF2B26D8FD00619EF2 /* DetailViewModel.swift in Sources */,
 				53C49C812B019CD600FB9CE3 /* SignUpViewModel.swift in Sources */,
@@ -398,6 +413,7 @@
 				53381DCE2B2D1DAC00440FC7 /* CommentViewController.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
 				5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */,
+				536DE86A2B7DF10500616E7B /* ModelDictionary.swift in Sources */,
 				53C49C572B00E54D00FB9CE3 /* AppDelegate.swift in Sources */,
 				5375C9222B184DD90039DB75 /* PostViewModel.swift in Sources */,
 				5375C8C22B12B7830039DB75 /* UIViewController + Extension.swift in Sources */,
