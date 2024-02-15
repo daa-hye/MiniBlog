@@ -317,6 +317,39 @@ class APIManager {
         }
     }
 
+    func search(query: String) -> Single<ReadResponse> {
+        return Single.create { observer in
+            let disposeBag = DisposeBag()
+
+            let request = self.provider.request(.search(query: query)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(ReadResponse.self, from: value.data)
+
+                            observer(.success(data))
+                        } catch {
+                            print(error)
+                            observer(.failure(error))
+                        }
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case.failure(let error):
+                    print(error.localizedDescription)
+                    observer(.failure(error))
+                }
+            }
+
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
     func readUser(id:String, cursor: String) -> Single<ReadResponse> {
         return Single.create { observer in
             let disposeBag = DisposeBag()

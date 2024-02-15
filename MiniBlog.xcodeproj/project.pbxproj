@@ -20,6 +20,8 @@
 		536DE85B2B7B9C1F00616E7B /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE85A2B7B9C1F00616E7B /* LikeViewModel.swift */; };
 		536DE8682B7DE3EB00616E7B /* yolov8m-cls.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 536DE8672B7DE3EB00616E7B /* yolov8m-cls.mlpackage */; };
 		536DE86A2B7DF10500616E7B /* ModelDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE8692B7DF10500616E7B /* ModelDictionary.swift */; };
+		536DE86D2B7E011E00616E7B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE86C2B7E011E00616E7B /* SearchViewController.swift */; };
+		536DE86F2B7E274400616E7B /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE86E2B7E274400616E7B /* SearchViewModel.swift */; };
 		5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */; };
 		5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */; };
 		5375C8BA2B0F1E9E0039DB75 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */; };
@@ -72,6 +74,8 @@
 		536DE85A2B7B9C1F00616E7B /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		536DE8672B7DE3EB00616E7B /* yolov8m-cls.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = "yolov8m-cls.mlpackage"; sourceTree = "<group>"; };
 		536DE8692B7DF10500616E7B /* ModelDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDictionary.swift; sourceTree = "<group>"; };
+		536DE86C2B7E011E00616E7B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		536DE86E2B7E274400616E7B /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		5375C8752B0D6AED0039DB75 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		5375C8772B0D6B0B0039DB75 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		5375C8B92B0F1E9E0039DB75 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -154,6 +158,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		536DE86B2B7E010700616E7B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				536DE86C2B7E011E00616E7B /* SearchViewController.swift */,
+				536DE86E2B7E274400616E7B /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		5375C8C32B12E1D60039DB75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +237,7 @@
 				53C87EDC2B30739200886E22 /* Profile */,
 				5375C8C32B12E1D60039DB75 /* Home */,
 				539C724E2B1EC88000B58103 /* Like */,
+				536DE86B2B7E010700616E7B /* Search */,
 				53C49C562B00E54D00FB9CE3 /* AppDelegate.swift */,
 				53C49C582B00E54D00FB9CE3 /* SceneDelegate.swift */,
 				53C49C762B00F3A400FB9CE3 /* CustomView */,
@@ -406,10 +420,12 @@
 				53C49CAB2B01EB1D00FB9CE3 /* Network.swift in Sources */,
 				53C49C702B00E89700FB9CE3 /* SignTextField.swift in Sources */,
 				5375C8E12B15825B0039DB75 /* PermissionManager.swift in Sources */,
+				536DE86D2B7E011E00616E7B /* SearchViewController.swift in Sources */,
 				5375C8D72B1460920039DB75 /* TabBarController.swift in Sources */,
 				53C49C782B00F42000FB9CE3 /* SignButton.swift in Sources */,
 				5375C8782B0D6B0B0039DB75 /* LoginInfo.swift in Sources */,
 				539C724D2B1DC0A500B58103 /* UIImage + Extension.swift in Sources */,
+				536DE86F2B7E274400616E7B /* SearchViewModel.swift in Sources */,
 				53381DCE2B2D1DAC00440FC7 /* CommentViewController.swift in Sources */,
 				53C49C6E2B00E69D00FB9CE3 /* BaseViewController.swift in Sources */,
 				5375C8762B0D6AED0039DB75 /* UserDefaultsManager.swift in Sources */,

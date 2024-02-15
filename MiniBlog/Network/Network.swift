@@ -22,6 +22,7 @@ enum LslpAPI {
     case like(id: String)
     case myLikeList(cursor: String)
     case profile
+    case search(query: String)
 }
 
 extension LslpAPI: TargetType {
@@ -55,6 +56,8 @@ extension LslpAPI: TargetType {
             return "post/like/me"
         case .profile:
             return "profile/me"
+        case .search:
+            return "post/hashtag"
         }
     }
     
@@ -62,7 +65,7 @@ extension LslpAPI: TargetType {
         switch self {
         case .join, .email, .login, .post, .comment, .like:
             return .post
-        case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile, .myLikeList:
+        case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile, .myLikeList, .search:
             return .get
         }
     }
@@ -105,6 +108,15 @@ extension LslpAPI: TargetType {
         case .comment(_, let data):
             let data = Comment(content: data.content)
             return .requestJSONEncodable(data)
+
+        case .search(let query):
+            return .requestParameters(
+                parameters: ["next" : "",
+                             "limit" : 15,
+                             "product_id" : "dahye2",
+                             "hashTag" : query],
+                encoding: URLEncoding.queryString
+            )
         }
 
     }
@@ -122,7 +134,7 @@ extension LslpAPI: TargetType {
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
 
-        case .withdraw, .read, .readDetail, .readUser, .like, .profile, .myLikeList:
+        case .withdraw, .read, .readDetail, .readUser, .like, .profile, .myLikeList, .search:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]

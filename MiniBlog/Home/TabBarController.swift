@@ -31,6 +31,12 @@ final class TabBarController: UITabBarController {
             return view
         }()
 
+        let searchView = {
+            let view = SearchViewController()
+            view.tabBarItem.image = UIImage(systemName: "magnifyingglass")
+            return view
+        }()
+
         let likeView = {
             let view = LikeViewController()
             view.tabBarItem.image = UIImage(systemName: "heart")
@@ -45,7 +51,7 @@ final class TabBarController: UITabBarController {
             return view
         }()
 
-        setViewControllers([homeView, postView, likeView, profileView], animated: true)
+        setViewControllers([homeView, postView, searchView, likeView, profileView], animated: true)
 
     }
 

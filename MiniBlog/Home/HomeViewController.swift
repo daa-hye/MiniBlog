@@ -15,7 +15,7 @@ final class HomeViewController: BaseViewController {
 
     let viewModel = HomeViewModel()
 
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
 
