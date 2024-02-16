@@ -51,7 +51,7 @@ final class TabBarController: UITabBarController {
             return view
         }()
 
-        setViewControllers([homeView, postView, searchView, likeView, profileView], animated: true)
+        setViewControllers([homeView, searchView, postView, likeView, profileView], animated: true)
 
     }
 

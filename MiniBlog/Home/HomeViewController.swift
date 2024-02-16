@@ -16,6 +16,7 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
 
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
+    private let refreshController = UIRefreshControl()
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, ReadData>?
 
@@ -24,6 +25,7 @@ final class HomeViewController: BaseViewController {
 
         configureDataSource()
         bind()
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +42,11 @@ final class HomeViewController: BaseViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+
+    private func configure() {
+        refreshController.endRefreshing()
+        collectionView.refreshControl = refreshController
     }
 
     func bind() {
@@ -61,6 +68,12 @@ final class HomeViewController: BaseViewController {
             .bind(to: viewModel.input.prefetchItems)
             .disposed(by: disposeBag)
 
+        refreshController.rx.controlEvent(.valueChanged)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.input.refreshView.onNext(())
+            }
+            .disposed(by: disposeBag)
+
         viewModel.output.data
             .bind(with: self) { owner, data in
 
@@ -76,6 +89,11 @@ final class HomeViewController: BaseViewController {
                 owner.dataSource?.apply(snapshot, animatingDifferences: true)
             }
             .disposed(by: disposeBag)
+
+        viewModel.output.refreshLoading
+            .bind(to: refreshController.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
     }
 
 }

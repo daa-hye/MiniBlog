@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 final class HomeViewModel: ViewModelType {
 
@@ -17,26 +18,32 @@ final class HomeViewModel: ViewModelType {
 
     private let viewWillAppear = PublishSubject<Void>()
     private let prefetchItems = PublishSubject<[IndexPath]>()
+    private let refreshView = PublishSubject<Void>()
     private let data: BehaviorSubject<ReferencedList<ReadData>> = BehaviorSubject(value: .init(list: []))
     private let cursor = BehaviorSubject(value: "")
+    private let refreshLoading = PublishRelay<Bool>()
 
     struct Input {
         let viewWillAppear: AnyObserver<Void>
         let prefetchItems: AnyObserver<[IndexPath]>
+        let refreshView: AnyObserver<Void>
     }
 
     struct Output {
         let data: Observable<[ReadData]>
+        let refreshLoading: Observable<Bool>
     }
 
     init() {
         input = .init(
             viewWillAppear: viewWillAppear.asObserver(), 
-            prefetchItems: prefetchItems.asObserver()
+            prefetchItems: prefetchItems.asObserver(),
+            refreshView: refreshView.asObserver()
         )
 
         output = .init(
-            data: data.map { $0.list }.observe(on: MainScheduler.instance)
+            data: data.map { $0.list }.observe(on: MainScheduler.instance),
+            refreshLoading: refreshLoading.observe(on: MainScheduler.instance)
         )
 
         viewWillAppear
@@ -70,6 +77,21 @@ final class HomeViewModel: ViewModelType {
 
                 self?.data.onNext(data)
                 self?.cursor.onNext(response.nextCursor)
+            }
+            .disposed(by: disposeBag)
+
+        refreshView
+            .flatMap { _ in
+                APIManager.shared.read(cursor: "")
+                .catchAndReturn(ReadResponse(data: [], nextCursor: "0"))
+            }
+            .subscribe(with: self) { owner, response in
+                owner.refreshLoading.accept(true)
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                    owner.refreshLoading.accept(false)
+                }
+                owner.data.onNext(.init(list: response.data))
+                owner.cursor.onNext(response.nextCursor)
             }
             .disposed(by: disposeBag)
 
