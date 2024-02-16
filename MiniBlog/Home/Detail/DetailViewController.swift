@@ -74,7 +74,7 @@ final class DetailViewController: BaseViewController {
 
         hashtagStackView.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(10)
-            $0.height.equalTo(30)
+            //$0.height.equalTo(30)
             $0.leading.equalToSuperview().inset(8)
         }
 
@@ -173,11 +173,13 @@ final class DetailViewController: BaseViewController {
         profileStackView.axis = .horizontal
         profileStackView.alignment = .center
         profileStackView.distribution = .fill
-        profileStackView.spacing = 16
+        profileStackView.spacing = 8
         profileImageView.layer.cornerRadius = 20
+        profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor.main.cgColor
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         likedButton.isUserInteractionEnabled = true
         likedButton.addGestureRecognizer(likeButtonDidTap)
         titleLabel.font = .boldSystemFont(ofSize: 17)
@@ -197,7 +199,7 @@ final class DetailViewController: BaseViewController {
     private func setHashtag(_ list: [String]) {
         for item in list {
             let label = UILabel()
-            label.text = item
+            label.text = " \(item) "
             label.backgroundColor = .main
             label.layer.cornerRadius = 7
             label.textColor = .white

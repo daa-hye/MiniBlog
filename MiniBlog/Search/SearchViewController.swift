@@ -31,9 +31,16 @@ final class SearchViewController: BaseViewController {
 
         searchBar.rx.text
             .compactMap { $0 }
-            .debounce(.seconds(2), scheduler: MainScheduler.instance)
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .bind(to: viewModel.input.searchWord)
             .disposed(by: disposeBag)
+
+        searchBar.rx.searchButtonClicked
+            .bind(with: self) { owner, _ in
+                owner.searchBar.resignFirstResponder()
+            }
+            .disposed(by: disposeBag)
+
 
         viewModel.output.data
             .bind(with: self) { owner, data in

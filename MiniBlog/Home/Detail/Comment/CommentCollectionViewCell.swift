@@ -50,6 +50,7 @@ final class CommentCollectionViewCell: UICollectionViewCell {
 
     func configure() {
         profileImageView.layer.cornerRadius = 20
+        profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor.main.cgColor
         nicknameLabel.font = .boldSystemFont(ofSize: 15)

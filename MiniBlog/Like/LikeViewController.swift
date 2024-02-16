@@ -23,7 +23,12 @@ class LikeViewController: BaseViewController {
 
         bind()
         configureDataSource()
-        viewModel.input.viewDidLoad.onNext(())
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.input.viewDidAppear.onNext(())
+
     }
 
     func bind() {

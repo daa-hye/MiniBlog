@@ -57,7 +57,6 @@ final class PostViewModel: ViewModelType {
         picture
             .subscribe(with: self) { owner, data in
                 guard let image = CIImage(data: data) else {
-                    print("nooooooo")
                     return
                 }
                 owner.detect(image)

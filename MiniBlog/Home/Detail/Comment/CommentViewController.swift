@@ -143,7 +143,13 @@ extension CommentViewController {
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50))
 
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+        let group: NSCollectionLayoutGroup
+
+        if #available(iOS 16.0, *) {
+            group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+        } else {
+            group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        }
 
         group.interItemSpacing = .fixed(5)
 

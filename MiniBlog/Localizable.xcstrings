@@ -67,6 +67,9 @@
     "시작해볼까요?" : {
       "extractionState" : "manual"
     },
+    "완료" : {
+
+    },
     "이메일" : {
       "extractionState" : "manual"
     },

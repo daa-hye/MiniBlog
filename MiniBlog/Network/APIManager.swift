@@ -532,6 +532,36 @@ class APIManager {
         }
     }
 
+    func editProfile(nick: String, image: Data?) -> Single<Void> {
+        Single.create { observer in
+            let request = self.provider.request(.editProfile(nickname: nick, profile: image)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(Profile.self, from: value.data)
+                            LoginInfo.profile = data.profile?.absoluteString ?? Lslp.profile
+                            observer(.success(()))
+                        } catch {
+                            print(error)
+                            observer(.failure(error))
+                        }
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case .failure(let error):
+                    observer(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
     let imageDownloadRequest = AnyModifier { request in
         var requestBody = request
         requestBody.setValue(LoginInfo.token, forHTTPHeaderField: "Authorization")

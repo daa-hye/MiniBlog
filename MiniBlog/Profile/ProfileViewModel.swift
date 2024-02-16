@@ -16,7 +16,9 @@ final class ProfileViewModel: ViewModelType {
     let output: Output
 
     private let viewWillAppear = PublishSubject<Void>()
-    private let profile = PublishSubject<Profile>()
+
+    private let editButtonDidTap = PublishSubject<Void>()
+    private let profile = ReplaySubject<Profile>.create(bufferSize: 1)
     private let posts: BehaviorSubject<[ReadData]> = BehaviorSubject(value: [])
     private let cursor = BehaviorSubject(value: "")
 
@@ -38,7 +40,7 @@ final class ProfileViewModel: ViewModelType {
         
         output = .init(
             profileImage: profile.map { $0.profile! }.observe(on: MainScheduler.instance),
-            email: profile.map { $0.email }.observe(on: MainScheduler.instance), 
+            email: profile.map { "✉️ \($0.email)" }.observe(on: MainScheduler.instance), 
             nickname: profile.map { $0.nick }.observe(on: MainScheduler.instance),
             posts: posts.observe(on: MainScheduler.instance)
         )

@@ -22,6 +22,7 @@ enum LslpAPI {
     case like(id: String)
     case myLikeList(cursor: String)
     case profile
+    case editProfile(nickname: String, profile: Data?)
     case search(query: String)
 }
 
@@ -54,7 +55,7 @@ extension LslpAPI: TargetType {
             return "post/like/\(id)"
         case .myLikeList:
             return "post/like/me"
-        case .profile:
+        case .profile, .editProfile:
             return "profile/me"
         case .search:
             return "post/hashtag"
@@ -67,6 +68,8 @@ extension LslpAPI: TargetType {
             return .post
         case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile, .myLikeList, .search:
             return .get
+        case .editProfile:
+            return .put
         }
     }
     
@@ -86,6 +89,16 @@ extension LslpAPI: TargetType {
 
         case .refreshToken, .withdraw, .readDetail, .like, .profile:
             return .requestPlain
+
+        case .editProfile(let nickname, let profile):
+            if let profile = profile {
+                let imageData = MultipartFormData(provider: .data(profile), name: "profile", fileName: "\(Date()).jpeg", mimeType: "image/jpeg")
+                let nickname = MultipartFormData(provider: .data(Data(nickname.utf8)), name: "nick")
+                return .uploadMultipart([imageData, nickname])
+            } else {
+                let nickname = MultipartFormData(provider: .data(Data(nickname.utf8)), name: "nick")
+                return .uploadMultipart([nickname])
+            }
 
         case .post(let data):
             let imageData = MultipartFormData(provider: .data(data.file), name: "file", fileName: "\(Date()).jpeg", mimeType: "image/jpeg")
@@ -139,7 +152,7 @@ extension LslpAPI: TargetType {
                      "SesacKey" : "\(Lslp.key)"
                     ]
 
-        case .post:
+        case .post, .editProfile:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "Content-Type" : "multipart/form-data",
                      "SesacKey" : "\(Lslp.key)"

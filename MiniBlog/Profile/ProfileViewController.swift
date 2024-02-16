@@ -20,6 +20,7 @@ final class ProfileViewController: BaseViewController {
     private let emailLabel = UILabel()
     private let nicknameLabel = UILabel()
     private let editButton = UIButton()
+    private let followLabel = UILabel()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
 
     override func viewDidLoad() {
@@ -36,9 +37,19 @@ final class ProfileViewController: BaseViewController {
 
     func bind() {
 
+        editButton.rx.tap
+            .withLatestFrom(Observable.combineLatest(viewModel.output.nickname, viewModel.output.profileImage))
+            .bind { [weak self] (nickname, profile) in
+                let model = ProfileEditViewModel(nickname: nickname, profile: profile)
+                let vc = ProfileEditViewController(viewModel: model)
+                let nav = UINavigationController(rootViewController: vc)
+                self?.present(nav, animated: true)
+            }
+            .disposed(by: disposeBag)
+
         viewModel.output.profileImage
             .subscribe(with: self) { owner, url in
-                owner.profileImageView.kf.setImage(with: url)
+                owner.profileImageView.kf.setImage(with: url, options: [.requestModifier(APIManager.shared.imageDownloadRequest)])
             }
             .disposed(by: disposeBag)
 
@@ -71,6 +82,7 @@ final class ProfileViewController: BaseViewController {
         view.addSubview(emailLabel)
         view.addSubview(nicknameLabel)
         view.addSubview(editButton)
+        view.addSubview(followLabel)
         view.addSubview(collectionView)
     }
 
@@ -79,7 +91,7 @@ final class ProfileViewController: BaseViewController {
         profileImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
-            $0.size.equalTo(70)
+            $0.size.equalTo(100)
         }
 
         nicknameLabel.snp.makeConstraints {
@@ -89,14 +101,19 @@ final class ProfileViewController: BaseViewController {
 
         emailLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(7)
+            $0.top.equalTo(nicknameLabel.snp.bottom).offset(4)
+        }
+
+        followLabel.snp.makeConstraints {
+            $0.top.equalTo(emailLabel.snp.bottom).offset(10)
+            $0.centerX.equalToSuperview()
         }
 
         editButton.snp.makeConstraints {
-            $0.top.equalTo(emailLabel.snp.bottom).offset(20)
+            $0.top.equalTo(followLabel.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(30)
-            $0.width.equalTo(100)
+            $0.width.equalTo(80)
         }
 
         collectionView.snp.makeConstraints {
@@ -107,13 +124,19 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func configure() {
-        profileImageView.layer.cornerRadius = 35
+        profileImageView.layer.cornerRadius = 50
+        profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
         nicknameLabel.font = .boldSystemFont(ofSize: 20)
         emailLabel.textColor = .gray
-        editButton.backgroundColor = .main
+        emailLabel.font = .systemFont(ofSize: 15)
+        editButton.backgroundColor = .edit
         editButton.layer.cornerRadius = 10
-        editButton.setTitleColor(.white, for: .normal)
+        editButton.setTitleColor(.black, for: .normal)
         editButton.setTitle(String(localized: "프로필 편집"), for: .normal)
+        editButton.titleLabel?.font = .systemFont(ofSize: 13)
+        followLabel.text = "팔로워 9명 · 팔로잉 2명"
+        followLabel.font = .systemFont(ofSize: 15)
     }
 
 }

@@ -15,14 +15,14 @@ final class LikeViewModel: ViewModelType {
     let input: Input
     let output: Output
 
-    private let viewDidLoad = PublishSubject<Void>()
+    private let viewDidAppear = PublishSubject<Void>()
     private let prefetchItems = PublishSubject<[IndexPath]>()
 
     private let data: BehaviorSubject<ReferencedList<ReadData>> = BehaviorSubject(value: .init(list: []))
     private let cursor = BehaviorSubject(value: "")
 
     struct Input {
-        let viewDidLoad: AnyObserver<Void>
+        let viewDidAppear: AnyObserver<Void>
         let prefetchItems: AnyObserver<[IndexPath]>
     }
 
@@ -32,14 +32,14 @@ final class LikeViewModel: ViewModelType {
 
     init() {
         input = .init(
-            viewDidLoad: viewDidLoad.asObserver(),
+            viewDidAppear: viewDidAppear.asObserver(),
             prefetchItems: prefetchItems.asObserver()
         )
         output = .init(
             data: data.map { $0.list }.observe(on: MainScheduler.instance)
         )
 
-        viewDidLoad
+        viewDidAppear
             .flatMap { _ in
                 APIManager.shared.getMyLikeList(cursor: "")
                 .catchAndReturn(ReadResponse(data: [], nextCursor: "0"))

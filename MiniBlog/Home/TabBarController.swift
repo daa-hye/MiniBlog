@@ -62,10 +62,11 @@ extension TabBarController {
     private func getProfile(completion: @escaping (UIImage) -> Void ) {
         let targetSize = CGSize(width: 24.0, height: 24.0)
         let resize = ResizingImageProcessor(referenceSize: targetSize, mode: .aspectFill)
+        let round = RoundCornerImageProcessor(cornerRadius: 12.0)
         let crop = CroppingImageProcessor(size: targetSize)
         let border = BorderImageProcessor(border: Border(color: .main, lineWidth: 1, radius: .widthFraction(targetSize.height / 2), roundingCorners: .all))
 
-        let processor = ((resize |> crop) |> border)
+        let processor = ((resize |> crop |> round) |> border)
 
         KingfisherManager.shared.retrieveImage(with: URL(string: LoginInfo.profile)!, options: [ .processor(processor),.requestModifier(APIManager.shared.imageDownloadRequest)]) { result in
             switch result {
