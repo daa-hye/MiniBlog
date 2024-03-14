@@ -24,6 +24,7 @@ enum LslpAPI {
     case profile
     case editProfile(nickname: String, profile: Data?)
     case search(query: String)
+    case follow(id: String)
 }
 
 extension LslpAPI: TargetType {
@@ -59,12 +60,14 @@ extension LslpAPI: TargetType {
             return "profile/me"
         case .search:
             return "post/hashtag"
+        case .follow(let id):
+            return "follow/\(id)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .join, .email, .login, .post, .comment, .like:
+        case .join, .email, .login, .post, .comment, .like, .follow:
             return .post
         case .refreshToken, .withdraw, .read, .readDetail, .readUser,.profile, .myLikeList, .search:
             return .get
@@ -87,7 +90,7 @@ extension LslpAPI: TargetType {
             let data = Login(email: data.email, password: data.password)
             return .requestJSONEncodable(data)
 
-        case .refreshToken, .withdraw, .readDetail, .like, .profile:
+        case .refreshToken, .withdraw, .readDetail, .like, .profile, .follow:
             return .requestPlain
 
         case .editProfile(let nickname, let profile):
@@ -147,7 +150,7 @@ extension LslpAPI: TargetType {
                      "Refresh" : "\(LoginInfo.refreshToken)"
                    ]
 
-        case .withdraw, .read, .readDetail, .readUser, .like, .profile, .myLikeList, .search:
+        case .withdraw, .read, .readDetail, .readUser, .like, .profile, .myLikeList, .search, .follow:
             return [ "Authorization" : "\(LoginInfo.token)",
                      "SesacKey" : "\(Lslp.key)"
                     ]

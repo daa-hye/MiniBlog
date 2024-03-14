@@ -562,6 +562,35 @@ class APIManager {
         }
     }
 
+    func follow(id: String) -> Single<Bool> {
+        Single.create { observer in
+            let request = self.provider.request(.follow(id: id)) { result in
+                switch result {
+                case .success(let value):
+                    switch value.statusCode {
+                    case 200:
+                        do {
+                            let data = try JSONDecoder()
+                                .decode(FollowResponse.self, from: value.data)
+                            observer(.success(data.followingStatus))
+                        } catch {
+                            print(error)
+                            observer(.failure(error))
+                        }
+                    default:
+                        observer(.failure(MoyaError.statusCode(value)))
+                    }
+                case .failure(let error):
+                    observer(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+
     let imageDownloadRequest = AnyModifier { request in
         var requestBody = request
         requestBody.setValue(LoginInfo.token, forHTTPHeaderField: "Authorization")

@@ -241,6 +241,18 @@ struct MessageResponse: Decodable {
     let message: String
 }
 
+struct FollowResponse: Decodable {
+    let user: String
+    let following: String
+    let followingStatus: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case user
+        case following
+        case followingStatus = "following_status"
+    }
+}
+
 struct Response {
     let message: String
     let isSuccess: Bool

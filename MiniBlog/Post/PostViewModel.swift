@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreML
-import Vision
 import CoreImage
 import RxSwift
 
